@@ -1,82 +1,90 @@
+
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
-import { db } from '@/lib/firebase';
-import { doc, getDoc, setDoc, collection, query, where, getDocs, orderBy, Timestamp } from 'firebase/firestore';
+import { useFirestore, useDoc, useCollection } from '@/firebase';
+import { doc, setDoc, collection, query, where, orderBy } from 'firebase/firestore';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LogOut, Save, History, Settings, User as UserIcon, Loader2, ChevronRight, Apple } from 'lucide-react';
+import { LogOut, Save, History, Settings, Loader2, ChevronRight, Apple } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
   const { toast } = useToast();
+  const db = useFirestore();
   const [saving, setSaving] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [history, setHistory] = useState<any[]>([]);
-  const [profile, setProfile] = useState({
+
+  const profileRef = useMemo(() => user && db ? doc(db, 'profiles', user.uid) : null, [db, user]);
+  const { data: profileData, loading: profileLoading } = useDoc(profileRef);
+
+  const historyQuery = useMemo(() => {
+    if (!db || !user) return null;
+    return query(
+      collection(db, 'scans'),
+      where('userId', '==', user.uid),
+      orderBy('scannedAt', 'desc')
+    );
+  }, [db, user]);
+  const { data: history, loading: historyLoading } = useCollection(historyQuery);
+
+  const [formState, setFormState] = useState({
     age: '',
     sex: 'male',
     activityLevel: 'sédentaire',
     healthGoals: [] as string[],
-    allergies: [] as string[],
-    dietaryPreferences: [] as string[],
   });
 
-  useEffect(() => {
-    if (!user) return;
+  // Update form state when profile data is loaded
+  useState(() => {
+    if (profileData) {
+      setFormState({
+        age: profileData.age?.toString() || '',
+        sex: profileData.sex || 'male',
+        activityLevel: profileData.activityLevel || 'sédentaire',
+        healthGoals: profileData.healthGoals || [],
+      });
+    }
+  });
 
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        // Fetch Profile
-        const profileDoc = await getDoc(doc(db, 'profiles', user.uid));
-        if (profileDoc.exists()) {
-          setProfile(profileDoc.data() as any);
-        }
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || !db || !profileRef) return;
+    setSaving(true);
 
-        // Fetch History
-        const q = query(
-          collection(db, 'scans'),
-          where('userId', '==', user.uid),
-          orderBy('scannedAt', 'desc')
-        );
-        const snapshot = await getDocs(q);
-        setHistory(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+    const data = {
+      ...formState,
+      age: parseInt(formState.age) || 0,
     };
 
-    fetchData();
-  }, [user]);
-
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) return;
-    setSaving(true);
-    try {
-      await setDoc(doc(db, 'profiles', user.uid), profile);
-      toast({ title: "Profil mis à jour", description: "Vos informations ont été enregistrées avec succès." });
-    } catch (error) {
-      toast({ variant: "destructive", title: "Erreur", description: "Impossible d'enregistrer le profil." });
-    } finally {
-      setSaving(false);
-    }
+    setDoc(profileRef, data, { merge: true })
+      .then(() => {
+        toast({ title: "Profil mis à jour", description: "Vos informations ont été enregistrées avec succès." });
+      })
+      .catch(async (error) => {
+        const permissionError = new FirestorePermissionError({
+          path: profileRef.path,
+          operation: 'update',
+          requestResourceData: data,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+      })
+      .finally(() => setSaving(false));
   };
 
-  if (loading) return (
+  if (profileLoading || historyLoading) return (
     <div className="flex items-center justify-center min-h-[50vh]">
       <Loader2 className="w-10 h-10 animate-spin text-primary" />
     </div>
@@ -102,7 +110,6 @@ export default function ProfilePage() {
       </header>
 
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Profile Settings */}
         <section className="space-y-6">
           <div className="flex items-center gap-2 px-2">
             <Settings className="text-primary w-5 h-5" />
@@ -117,14 +124,14 @@ export default function ProfilePage() {
                     <Input 
                       id="age" 
                       type="number" 
-                      value={profile.age} 
-                      onChange={(e) => setProfile({...profile, age: e.target.value})}
+                      value={formState.age} 
+                      onChange={(e) => setFormState({...formState, age: e.target.value})}
                       className="rounded-xl"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="sex">Sexe</Label>
-                    <Select value={profile.sex} onValueChange={(val) => setProfile({...profile, sex: val})}>
+                    <Select value={formState.sex} onValueChange={(val) => setFormState({...formState, sex: val})}>
                       <SelectTrigger className="rounded-xl">
                         <SelectValue placeholder="Choisir" />
                       </SelectTrigger>
@@ -139,7 +146,7 @@ export default function ProfilePage() {
 
                 <div className="space-y-2">
                   <Label>Niveau d'activité</Label>
-                  <Select value={profile.activityLevel} onValueChange={(val) => setProfile({...profile, activityLevel: val})}>
+                  <Select value={formState.activityLevel} onValueChange={(val) => setFormState({...formState, activityLevel: val})}>
                     <SelectTrigger className="rounded-xl">
                       <SelectValue />
                     </SelectTrigger>
@@ -159,12 +166,12 @@ export default function ProfilePage() {
                       <div key={goal} className="flex items-center space-x-2 bg-background p-2 rounded-lg border">
                         <Checkbox 
                           id={goal} 
-                          checked={profile.healthGoals.includes(goal)}
+                          checked={formState.healthGoals.includes(goal)}
                           onCheckedChange={(checked) => {
                             const newGoals = checked 
-                              ? [...profile.healthGoals, goal]
-                              : profile.healthGoals.filter(g => g !== goal);
-                            setProfile({...profile, healthGoals: newGoals});
+                              ? [...formState.healthGoals, goal]
+                              : formState.healthGoals.filter(g => g !== goal);
+                            setFormState({...formState, healthGoals: newGoals});
                           }}
                         />
                         <label htmlFor={goal} className="text-xs font-medium cursor-pointer">{goal}</label>
@@ -182,14 +189,13 @@ export default function ProfilePage() {
           </Card>
         </section>
 
-        {/* History Section */}
         <section className="space-y-6">
           <div className="flex items-center gap-2 px-2">
             <History className="text-primary w-5 h-5" />
             <h2 className="text-2xl font-headline font-bold">Historique</h2>
           </div>
           <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin">
-            {history.length === 0 ? (
+            {!history || history.length === 0 ? (
               <div className="text-center py-12 bg-white rounded-[2.5rem] border border-dashed">
                 <Apple className="w-12 h-12 text-muted mx-auto mb-4" />
                 <p className="text-muted-foreground">Aucun scan récent.</p>

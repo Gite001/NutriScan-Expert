@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Informations de profil utilisateur pour l'analyse nutritionnelle personnalisée.",
+      "type": "object",
+      "properties": {
+        "age": { "type": "number" },
+        "sex": { "type": "string", "enum": ["male", "female", "other"] },
+        "activityLevel": { "type": "string", "enum": ["sédentaire", "peu actif", "actif", "sportif"] },
+        "healthGoals": { "type": "array", "items": { "type": "string" } },
+        "allergies": { "type": "array", "items": { "type": "string" } },
+        "dietaryPreferences": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Scan": {
+      "title": "Scan",
+      "description": "Informations sur un produit alimentaire scanné et son analyse par l'IA.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "productName": { "type": "string" },
+        "nutriScore": { "type": "string", "enum": ["A", "B", "C", "D", "E"] },
+        "globalScore": { "type": "number" },
+        "scannedAt": { "type": "string", "format": "date-time" },
+        "result": { "type": "string", "description": "Chaîne JSON de l'objet NutriScanExpertOutput complet." }
+      },
+      "required": ["userId", "productName", "nutriScore", "globalScore", "scannedAt", "result"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com"]
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Paramètres personnels et données de santé de l'utilisateur."
+    },
+    "/scans/{scanId}": {
+      "schema": { "$ref": "#/entities/Scan" },
+      "description": "Historique des scans alimentaires effectués par les utilisateurs."
+    }
+  }
+}

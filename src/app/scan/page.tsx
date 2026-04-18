@@ -1,54 +1,65 @@
+
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Camera, Upload, Image as ImageIcon, Loader2, Info } from 'lucide-react';
+import { Camera, Upload, Loader2, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { nutriScanExpert } from '@/ai/flows/ai-food-recognition-and-nutrition-report-flow';
 import { useAuth } from '@/context/auth-context';
-import { doc, getDoc, setDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useFirestore, useDoc } from '@/firebase';
+import { doc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ScanPage() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
+  const db = useFirestore();
   const { toast } = useToast();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const profileRef = useMemo(() => user && db ? doc(db, 'profiles', user.uid) : null, [db, user]);
+  const { data: profile } = useDoc(profileRef);
+
   const handleAnalysis = async (dataUri: string) => {
-    if (!user) return;
+    if (!user || !db) return;
     setLoading(true);
     try {
-      // Fetch user profile for personalization
-      const profileDoc = await getDoc(doc(db, 'profiles', user.uid));
-      const userProfile = profileDoc.exists() ? profileDoc.data() : undefined;
-
       const result = await nutriScanExpert({
         photoDataUri: dataUri,
-        userProfile: userProfile ? {
-          age: userProfile.age,
-          sex: userProfile.sex,
-          activityLevel: userProfile.activityLevel,
-          healthGoals: userProfile.healthGoals,
-          allergies: userProfile.allergies,
-          dietaryPreferences: userProfile.dietaryPreferences,
+        userProfile: profile ? {
+          age: profile.age,
+          sex: profile.sex,
+          activityLevel: profile.activityLevel,
+          healthGoals: profile.healthGoals,
+          allergies: profile.allergies,
+          dietaryPreferences: profile.dietaryPreferences,
         } : undefined
       });
 
-      // Save to scan history
-      await addDoc(collection(db, 'scans'), {
+      const scanData = {
         userId: user.uid,
         productName: result.productName,
         nutriScore: result.nutriScore,
         globalScore: result.globalScore,
         scannedAt: serverTimestamp(),
         result: JSON.stringify(result)
-      });
+      };
 
-      // Redirect to results with the data
+      addDoc(collection(db, 'scans'), scanData)
+        .catch(async (error) => {
+          const permissionError = new FirestorePermissionError({
+            path: 'scans',
+            operation: 'create',
+            requestResourceData: scanData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+        });
+
       localStorage.setItem('lastScanResult', JSON.stringify(result));
       router.push('/scan/results');
     } catch (error) {

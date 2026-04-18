@@ -1,9 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, User, signInWithPopup, signOut } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import React, { createContext, useContext } from 'react';
+import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { useAuth as useFirebaseAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
+import { User } from 'firebase/auth';
 
 interface AuthContextType {
   user: User | null;
@@ -15,21 +16,15 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useUser();
+  const auth = useFirebaseAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
   const login = async () => {
+    if (!auth) return;
     try {
-      await signInWithPopup(auth, googleProvider);
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
       router.push('/');
     } catch (error) {
       console.error("Login failed", error);
@@ -37,6 +32,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
+    if (!auth) return;
     try {
       await signOut(auth);
       router.push('/login');
