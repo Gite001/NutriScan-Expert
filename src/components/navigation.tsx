@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Scan, User, Apple, Activity } from 'lucide-react';
+import { Home, Scan, User, Apple, Activity, MessageSquare } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { cn } from '@/lib/utils';
 
@@ -10,11 +10,12 @@ export const Navigation = () => {
   const pathname = usePathname();
   const { user } = useAuth();
 
-  if (pathname === '/login' || pathname === '/scan') return null;
+  if (pathname === '/login' || pathname === '/scan' || pathname === '/chat') return null;
 
   const navItems = [
     { label: 'Accueil', href: '/', icon: Home },
     { label: 'Scanner', href: '/scan', icon: Scan, primary: true },
+    { label: 'Expert AI', href: '/chat', icon: MessageSquare },
     { label: 'Profil', href: '/profile', icon: User },
   ];
 
@@ -34,7 +35,7 @@ export const Navigation = () => {
               key={item.href}
               href={item.href}
               className={cn(
-                "text-xs font-bold uppercase tracking-widest transition-all hover:text-primary",
+                "text-[10px] font-bold uppercase tracking-widest transition-all hover:text-primary",
                 pathname === item.href ? "text-primary" : "text-muted-foreground"
               )}
             >
@@ -45,7 +46,7 @@ export const Navigation = () => {
       </nav>
 
       {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-4 h-20 w-[90%] flex justify-around items-center border border-white/40 shadow-2xl">
+      <nav className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-4 h-20 w-[94%] flex justify-around items-center border border-white/40 shadow-2xl">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -67,12 +68,12 @@ export const Navigation = () => {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 transition-all px-4",
+                "flex flex-col items-center justify-center gap-1 transition-all px-2 min-w-[60px]",
                 isActive ? "text-primary scale-110" : "text-muted-foreground hover:text-primary"
               )}
             >
-              <Icon className="w-6 h-6" />
-              <span className="text-[8px] font-bold uppercase tracking-tighter">{item.label}</span>
+              <Icon className="w-5 h-5" />
+              <span className="text-[7px] font-bold uppercase tracking-tighter">{item.label}</span>
             </Link>
           );
         })}
