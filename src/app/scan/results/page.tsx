@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -27,7 +26,8 @@ import {
   Fingerprint,
   Leaf,
   DatabaseZap,
-  SearchX
+  SearchX,
+  WifiOff
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -70,6 +70,23 @@ export default function ResultsPage() {
     'Rare': 'bg-primary/20 text-primary border border-primary/30',
     'Légendaire': 'bg-accent/20 text-accent animate-pulse border border-accent/50 shadow-[0_0_15px_rgba(163,230,53,0.3)]',
   };
+
+  // Helper pour les états indisponibles stylisés
+  const UnavailableState = ({ icon: Icon, title, reason }: { icon: any, title: string, reason: string }) => (
+    <div className="glass rounded-[2.5rem] p-12 flex flex-col items-start text-left gap-6 border-dashed border-primary/20 animate-in fade-in duration-700">
+      <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary/30">
+        <Icon size={32} />
+      </div>
+      <div className="space-y-2">
+        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/40">Diagnostic Sensor-X</h4>
+        <p className="text-xl font-headline font-bold text-foreground/60">{title}</p>
+        <div className="flex items-center gap-2 text-[9px] font-bold text-muted-foreground/50 uppercase tracking-widest bg-muted/30 px-3 py-1.5 rounded-full border border-muted/20">
+          <WifiOff size={10} />
+          {reason}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen pb-24 bg-background selection:bg-accent/30">
@@ -195,10 +212,11 @@ export default function ResultsPage() {
                         </div>
                      </div>
                    ) : (
-                     <div className="glass rounded-[2.5rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-primary/20">
-                        <DatabaseZap className="w-12 h-12 text-primary/20 animate-pulse" />
-                        <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Analyse calorique indisponible</p>
-                     </div>
+                     <UnavailableState 
+                        icon={Target} 
+                        title="Analyse Calorique Indisponible" 
+                        reason="Signal Sensor-X insuffisant pour un séquençage complet" 
+                     />
                    )}
                 </Card>
 
@@ -246,10 +264,11 @@ export default function ResultsPage() {
                       </Card>
                     ))
                   ) : (
-                    <div className="glass rounded-[2.5rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-accent/20">
-                        <SearchX className="w-12 h-12 text-accent/20" />
-                        <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Aucun trésor moléculaire détecté</p>
-                    </div>
+                    <UnavailableState 
+                        icon={Gem} 
+                        title="Aucun Trésor Détecté" 
+                        reason="Densité moléculaire standard - Pas de pépite identifiée" 
+                    />
                   )}
                 </div>
               </div>
@@ -326,10 +345,11 @@ export default function ResultsPage() {
                     </div>
                  </Card>
                ) : (
-                 <div className="glass rounded-[3rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-emerald-500/20">
-                    <Globe size={48} className="text-emerald-500/20" />
-                    <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Données environnementales indisponibles</p>
-                 </div>
+                 <UnavailableState 
+                    icon={Globe} 
+                    title="Données Éco-Intelligence Absentes" 
+                    reason="Base de données planétaire non synchronisée pour ce produit" 
+                 />
                )}
             </TabsContent>
 
@@ -360,10 +380,11 @@ export default function ResultsPage() {
                        </div>
                     </Card>
                   ) : (
-                    <div className="glass rounded-[3rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-amber-500/20">
-                      <Utensils size={48} className="text-amber-500/20" />
-                      <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Recette indisponible</p>
-                    </div>
+                    <UnavailableState 
+                        icon={Utensils} 
+                        title="Alchimie Culinaire Bloquée" 
+                        reason="Profil de saveur trop complexe pour une recette express" 
+                    />
                   )}
 
                   <div className="flex flex-col gap-6">

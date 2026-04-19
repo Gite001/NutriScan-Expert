@@ -30,9 +30,9 @@ L'image peut avoir été traitée par des capteurs HEAT (Infra-rouge) ou DARK (B
 3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental (origine, emballage, durabilité). Rappelez que manger propre nécessite un environnement propre.
 4. **BONUS ALCHIMIE** : Proposez une "Recette Alchimique Express" et des astuces de Bio-Hacking (ex: "Consommez à 18°C pour préserver les enzymes").
 
-### EXIGENCE ABSOLUE DE DONNÉES :
-Vous DEVEZ remplir chaque champ du schéma NutriScanExpertOutputSchema, sans exception. 
-- Calculez l'analyse calorique (caloricAnalysis) avec précision : calories pour 100g, portion estimée et calories par portion.
+### EXIGENCE ABSOLUE DE DONNÉES (MANDATOIRE) :
+Vous DEVEZ remplir chaque champ du schéma NutriScanExpertOutputSchema. Si une donnée est incertaine, utilisez votre expertise pour fournir l'estimation la plus scientifiquement probable. Ne laissez AUCUN champ vide ou nul.
+- Calculez l'analyse calorique (caloricAnalysis) avec précision.
 - Déterminez le verdict de qualité (Nutritives, Vides ou Mixte).
 - Fournissez l'ecoIntelligence complète avec le score et le verdict planétaire.
 
