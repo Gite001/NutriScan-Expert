@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Camera, Upload, Loader2, Sparkles, X, Search, ArrowRight, Zap, Eye, Thermometer, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -50,30 +50,34 @@ export default function ScanPage() {
 
   const profile = isGuest ? localProfile : firestoreProfile;
 
-  useEffect(() => {
-    const getCameraPermission = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
-            facingMode: 'environment', 
-            width: { ideal: 1920 }, 
-            height: { ideal: 1080 },
-          } 
-        });
-        streamRef.current = stream;
-        setHasCameraPermission(true);
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          // Force playback to avoid "Play" icon on mobile webviews/APK
-          videoRef.current.play().catch(e => console.warn("Auto-play failed:", e));
+  const startCamera = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: 'environment', 
+          width: { ideal: 1920 }, 
+          height: { ideal: 1080 },
+        } 
+      });
+      streamRef.current = stream;
+      setHasCameraPermission(true);
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        // Optimization for mobile APK/Webview to bypass "Play" button
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(e => console.warn("Auto-play blocked:", e));
         }
-      } catch (error) {
-        setHasCameraPermission(false);
       }
-    };
+    } catch (error) {
+      console.error("Camera error:", error);
+      setHasCameraPermission(false);
+    }
+  }, []);
 
+  useEffect(() => {
     if (activeTab === 'camera') {
-      getCameraPermission();
+      startCamera();
     }
 
     return () => {
@@ -81,7 +85,13 @@ export default function ScanPage() {
         streamRef.current.getTracks().forEach(track => track.stop());
       }
     };
-  }, [activeTab]);
+  }, [activeTab, startCamera]);
+
+  const handleVideoLoad = () => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(e => console.warn("Play on load failed:", e));
+    }
+  };
 
   const toggleTorch = async () => {
     if (!streamRef.current) return;
@@ -273,6 +283,9 @@ export default function ScanPage() {
               autoPlay 
               muted 
               playsInline
+              controls={false}
+              onLoadedMetadata={handleVideoLoad}
+              onCanPlay={handleVideoLoad}
             />
             <canvas ref={canvasRef} className="hidden" />
             

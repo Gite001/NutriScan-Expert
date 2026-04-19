@@ -36,7 +36,7 @@ export default function LoginPage() {
         <Button 
           variant="ghost" 
           onClick={() => router.push('/')}
-          className="rounded-full gap-2 border border-primary-950/20 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all bg-white/40 backdrop-blur-md"
+          className="rounded-full gap-2 border border-primary-950/40 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all bg-white/60 backdrop-blur-md shadow-sm"
         >
           <ArrowLeft size={16} />
           Retour à la base
@@ -68,28 +68,28 @@ export default function LoginPage() {
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Email Radar</Label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/70 w-5 h-5" />
                       <Input 
                         type="email" 
                         placeholder="expert@lab.com" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/40 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Séquence d'Accès</Label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/70 w-5 h-5" />
                       <Input 
                         type="password" 
                         placeholder="••••••••" 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/40 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
@@ -109,41 +109,41 @@ export default function LoginPage() {
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Nom de l'Expert</Label>
                     <div className="relative">
-                      <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
+                      <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/70 w-5 h-5" />
                       <Input 
                         placeholder="Dr. Maurice" 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/40 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Email Radar</Label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/70 w-5 h-5" />
                       <Input 
                         type="email" 
                         placeholder="expert@lab.com" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/40 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Séquence d'Accès</Label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/70 w-5 h-5" />
                       <Input 
                         type="password" 
                         placeholder="••••••••" 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/40 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
