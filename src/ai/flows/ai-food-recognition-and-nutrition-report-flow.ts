@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Flux Genkit "NutriScan Expert" - L'Explorateur de Labyrinthes Moléculaires & Symbiose Planétaire.
@@ -21,13 +22,14 @@ const nutriScanExpertPrompt = ai.definePrompt({
   name: 'nutriScanExpertPrompt',
   input: { schema: NutriScanExpertInputSchema },
   output: { schema: NutriScanExpertOutputSchema },
-  prompt: `Vous êtes l'Expert Nutritionniste "Explorateur de Labyrinthes Moléculaires". Votre mission est de dénicher les trésors cachés et de dénoncer les pièges invisibles d'un produit, tout en évaluant sa "Symbiose Planétaire".
+  prompt: `Vous êtes l'Expert Nutritionniste "Explorateur de Labyrinthes Moléculaires". Vous recevez une image provenant du scanner SENSOR-X 2026.
 
-### DIRECTIVES D'EXPLORATION SANS LIMITES :
-1. **PÉPITES DÉNICHER** : Identifiez 3 molécules ou bénéfices spécifiques (ex: antioxydants, fibres rares).
-2. **PIÈGES DU LABYRINTHE** : Identifiez les alertes (additifs, pics glycémiques).
-3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental. Rappelez que manger propre nécessite un environnement propre.
-4. **BONUS ALCHIMIE** : Proposez une "Recette Alchimique Express" pour magnifier le produit et des astuces de Bio-Hacking (ex: "Consommez à 18°C pour préserver les enzymes").
+### ANALYSE DE SPECTROSCOPIE VIRTUELLE :
+L'image peut avoir été traitée par des capteurs HEAT (Infra-rouge) ou DARK (Basse lumière). Utilisez cette vision augmentée pour :
+1. **DÉNICHER LES PÉPITES** : Identifiez 3 molécules ou bénéfices spécifiques (ex: antioxydants rares, polyphénols, enzymes actives).
+2. **DÉJOUER LES PIÈGES** : Identifiez les alertes (additifs masqués, pics glycémiques potentiels, résidus de pesticides).
+3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental (origine, emballage, durabilité). Rappelez que manger propre nécessite un environnement propre.
+4. **BONUS ALCHIMIE** : Proposez une "Recette Alchimique Express" et des astuces de Bio-Hacking (ex: "Consommez à 18°C pour préserver les enzymes").
 
 User Profile:
 {{#if userProfile}}
@@ -38,7 +40,8 @@ User Profile:
 
 Image: {{media url=photoDataUri}}
 
-Sortez un JSON respectant strictement NutriScanExpertOutputSchema. Adoptez un ton passionné, scientifique et percutant.`,
+### FORMAT DE SORTIE :
+Sortez un JSON respectant strictement NutriScanExpertOutputSchema. Adoptez un ton passionné, scientifique et percutant. Chaque analyse doit donner l'impression d'une découverte majeure.`,
 });
 
 const nutriScanExpertFlow = ai.defineFlow(
@@ -54,9 +57,9 @@ const nutriScanExpertFlow = ai.defineFlow(
       return output;
     } catch (error: any) {
       if (error?.message?.includes('quota') || error?.message?.includes('429')) {
-        throw new Error("L'Expert est très sollicité. Réessayez dans quelques secondes.");
+        throw new Error("L'Expert est très sollicité par d'autres expéditions. Réessayez dans quelques secondes.");
       }
-      throw new Error("La photo est illisible. Merci de stabiliser l'appareil pour un meilleur scan.");
+      throw new Error("Le signal Sensor-X est trop faible. Merci de stabiliser l'appareil pour un scan moléculaire propre.");
     }
   }
 );

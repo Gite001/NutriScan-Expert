@@ -186,11 +186,17 @@ export default function ScanPage() {
       canvas.height = video.videoHeight;
       const context = canvas.getContext('2d');
       if (context) {
-        // Appliquer les mêmes filtres sur le canvas que sur la prévisualisation
-        if (filterMode === 'infrared') context.filter = 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.5) saturate(2)';
-        else if (filterMode === 'lowlight') context.filter = 'brightness(2) contrast(1.3) saturate(0.2) sepia(1) hue-rotate(70deg)';
+        context.save();
+        // Appliquer les mêmes filtres sur le canvas que sur la prévisualisation pour "capturer" la vision augmentée
+        if (filterMode === 'infrared') {
+          context.filter = 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.5) saturate(2)';
+        } else if (filterMode === 'lowlight') {
+          context.filter = 'brightness(2) contrast(1.3) saturate(0.2) sepia(1) hue-rotate(70deg)';
+        }
         
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        context.restore();
+        
         const dataUri = canvas.toDataURL('image/jpeg', 0.8);
         handleAnalysis(dataUri);
       }
@@ -223,7 +229,7 @@ export default function ScanPage() {
           </h1>
           <div className="flex items-center gap-2 text-primary text-[8px] font-bold tracking-[0.3em] uppercase bg-black/40 px-2.5 py-1 rounded-full backdrop-blur-md border border-primary/20 w-fit">
             <div className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-            CAPTEUR: {activeTab === 'camera' ? filterMode.toUpperCase() : 'VIRTUEL'}
+            VISION: {activeTab === 'camera' ? filterMode.toUpperCase() : 'VIRTUEL'}
           </div>
         </div>
         <Button 
@@ -352,7 +358,7 @@ export default function ScanPage() {
             </div>
           </div>
           <p className="font-headline text-3xl font-bold tracking-tighter uppercase mb-2">Décryptage Moléculaire</p>
-          <span className="text-primary/60 text-[9px] font-bold tracking-[0.4em] uppercase">Séquençage en cours...</span>
+          <span className="text-primary/60 text-[9px] font-bold tracking-[0.4em] uppercase">Séquençage Augmenté en cours...</span>
         </div>
       )}
 
