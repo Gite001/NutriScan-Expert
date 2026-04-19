@@ -1,13 +1,19 @@
 "use client";
 
-import React, { createContext, useContext } from 'react';
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
-import { useAuth as useFirebaseAuth, useUser } from '@/firebase';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { User } from 'firebase/auth';
+
+// Mock user for bypass mode
+const MOCK_USER = {
+  uid: 'guest-user-123',
+  displayName: 'Explorateur Invité',
+  email: 'invite@nutriscan.expert',
+  photoURL: 'https://picsum.photos/seed/guest/200/200',
+};
 
 interface AuthContextType {
-  user: User | null;
+  user: any;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -16,29 +22,29 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading } = useUser();
-  const auth = useFirebaseAuth();
+  const { user: firebaseUser, loading: firebaseLoading } = useUser();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  const login = async () => {
-    if (!auth) return;
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      router.push('/');
-    } catch (error) {
-      console.error("Login failed", error);
+  useEffect(() => {
+    // Logic: If firebase is still loading, we wait. 
+    // If firebase finishes and there is no user, we inject our Mock User to bypass login.
+    if (!firebaseLoading) {
+      setUser(firebaseUser || MOCK_USER);
+      setLoading(false);
     }
+  }, [firebaseUser, firebaseLoading]);
+
+  const login = async () => {
+    // Login disabled for now as per user request
+    setUser(MOCK_USER);
+    router.push('/');
   };
 
   const logout = async () => {
-    if (!auth) return;
-    try {
-      await signOut(auth);
-      router.push('/login');
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
+    setUser(null);
+    router.push('/login');
   };
 
   return (

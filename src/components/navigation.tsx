@@ -10,7 +10,8 @@ export const Navigation = () => {
   const pathname = usePathname();
   const { user } = useAuth();
 
-  if (!user || pathname === '/login') return null;
+  // Navigation is always visible now except on login page
+  if (pathname === '/login') return null;
 
   const navItems = [
     { label: 'Accueil', href: '/', icon: Home },
