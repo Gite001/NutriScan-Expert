@@ -1,11 +1,11 @@
-
 "use client";
 
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Camera, Upload, Loader2, Info } from 'lucide-react';
+import { Camera, Upload, Loader2, Info, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { nutriScanExpert } from '@/ai/flows/ai-food-recognition-and-nutrition-report-flow';
 import { useAuth } from '@/context/auth-context';
 import { useFirestore, useDoc } from '@/firebase';
@@ -16,6 +16,9 @@ import { useToast } from '@/hooks/use-toast';
 
 export default function ScanPage() {
   const [loading, setLoading] = useState(false);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { user } = useAuth();
   const db = useFirestore();
   const { toast } = useToast();
@@ -25,8 +28,33 @@ export default function ScanPage() {
   const profileRef = useMemo(() => user && db ? doc(db, 'profiles', user.uid) : null, [db, user]);
   const { data: profile } = useDoc(profileRef);
 
+  useEffect(() => {
+    const getCameraPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        setHasCameraPermission(true);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        setHasCameraPermission(false);
+      }
+    };
+
+    getCameraPermission();
+
+    return () => {
+      if (videoRef.current?.srcObject) {
+        const stream = videoRef.current.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
+
   const handleAnalysis = async (dataUri: string) => {
-    if (!user || !db) return;
+    // Si on "oublie la connexion", on peut simuler un utilisateur si user est null
+    const userId = user?.uid || 'guest-user';
     setLoading(true);
     try {
       const result = await nutriScanExpert({
@@ -42,7 +70,7 @@ export default function ScanPage() {
       });
 
       const scanData = {
-        userId: user.uid,
+        userId: userId,
         productName: result.productName,
         nutriScore: result.nutriScore,
         globalScore: result.globalScore,
@@ -50,15 +78,17 @@ export default function ScanPage() {
         result: JSON.stringify(result)
       };
 
-      addDoc(collection(db, 'scans'), scanData)
-        .catch(async (error) => {
-          const permissionError = new FirestorePermissionError({
-            path: 'scans',
-            operation: 'create',
-            requestResourceData: scanData,
+      if (db) {
+        addDoc(collection(db, 'scans'), scanData)
+          .catch(async (error) => {
+            const permissionError = new FirestorePermissionError({
+              path: 'scans',
+              operation: 'create',
+              requestResourceData: scanData,
+            });
+            errorEmitter.emit('permission-error', permissionError);
           });
-          errorEmitter.emit('permission-error', permissionError);
-        });
+      }
 
       localStorage.setItem('lastScanResult', JSON.stringify(result));
       router.push('/scan/results');
@@ -67,10 +97,25 @@ export default function ScanPage() {
       toast({
         variant: "destructive",
         title: "Erreur d'analyse",
-        description: "Impossible d'analyser l'image. Assurez-vous qu'elle est claire et contient des informations nutritionnelles."
+        description: "Impossible d'analyser l'image. Assurez-vous qu'elle est claire."
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const takePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      if (context) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUri = canvas.toDataURL('image/jpeg');
+        handleAnalysis(dataUri);
+      }
     }
   };
 
@@ -89,56 +134,75 @@ export default function ScanPage() {
     <div className="max-w-xl mx-auto p-6 space-y-8 animate-in fade-in slide-in-from-bottom-4">
       <div className="space-y-2 text-center">
         <h1 className="text-3xl font-headline font-bold text-primary">Prêt à scanner ?</h1>
-        <p className="text-muted-foreground">Prenez une photo de votre aliment pour une analyse complète.</p>
+        <p className="text-muted-foreground">Visez l'aliment ou importez une photo.</p>
       </div>
 
-      <Card className="border-dashed border-2 bg-white/50">
-        <CardContent className="pt-10 pb-10 flex flex-col items-center justify-center space-y-6">
-          <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-            {loading ? <Loader2 className="w-12 h-12 animate-spin" /> : <Camera className="w-12 h-12" />}
+      <Card className="overflow-hidden border-2 bg-black relative group shadow-2xl rounded-[2.5rem]">
+        <video 
+          ref={videoRef} 
+          className="w-full aspect-[3/4] object-cover" 
+          autoPlay 
+          muted 
+          playsInline
+        />
+        <canvas ref={canvasRef} className="hidden" />
+        
+        {loading && (
+          <div className="absolute inset-0 bg-primary/20 backdrop-blur-sm flex flex-col items-center justify-center text-white z-20">
+            <Loader2 className="w-16 h-16 animate-spin mb-4" />
+            <p className="font-bold text-lg animate-pulse">Analyse nutritionnelle en cours...</p>
           </div>
-          
-          <div className="grid grid-cols-1 w-full gap-4 px-4">
-            <Button 
-              onClick={() => fileInputRef.current?.click()} 
-              disabled={loading}
-              className="h-14 text-lg gap-2 bg-primary hover:bg-primary/90 rounded-2xl"
-            >
-              <Camera className="w-5 h-5" />
-              Prendre une Photo
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => fileInputRef.current?.click()} 
-              disabled={loading}
-              className="h-14 text-lg gap-2 border-primary text-primary hover:bg-primary/5 rounded-2xl"
-            >
-              <Upload className="w-5 h-5" />
-              Choisir de la Galerie
-            </Button>
-            <input 
-              type="file" 
-              accept="image/*" 
-              className="hidden" 
-              ref={fileInputRef} 
-              onChange={onFileChange}
-              capture="environment"
-            />
-          </div>
-        </CardContent>
+        )}
+
+        <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-4 px-6 z-10">
+          <Button 
+            onClick={takePhoto} 
+            disabled={loading || hasCameraPermission === false}
+            size="lg"
+            className="w-20 h-20 rounded-full bg-white text-primary hover:bg-white/90 border-4 border-primary shadow-xl p-0"
+          >
+            <Camera className="w-10 h-10" />
+          </Button>
+        </div>
       </Card>
+
+      {hasCameraPermission === false && (
+        <Alert variant="destructive" className="rounded-2xl">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Accès Caméra Refusé</AlertTitle>
+          <AlertDescription>
+            Veuillez autoriser l'accès à la caméra pour scanner en direct ou utilisez l'option d'importation.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="grid grid-cols-1 w-full gap-4">
+        <Button 
+          variant="outline" 
+          onClick={() => fileInputRef.current?.click()} 
+          disabled={loading}
+          className="h-14 text-lg gap-2 border-primary text-primary hover:bg-primary/5 rounded-2xl"
+        >
+          <Upload className="w-5 h-5" />
+          Importer de la Galerie
+        </Button>
+        <input 
+          type="file" 
+          accept="image/*" 
+          className="hidden" 
+          ref={fileInputRef} 
+          onChange={onFileChange}
+        />
+      </div>
 
       <div className="bg-accent/10 p-6 rounded-2xl space-y-3">
         <div className="flex items-center gap-2 text-primary font-bold font-headline">
           <Info className="w-5 h-5" />
-          Conseils pour un scan réussi
+          Scan Expert
         </div>
-        <ul className="text-sm text-primary/80 space-y-2 list-disc pl-5">
-          <li>Bien cadrer le produit et les informations nutritionnelles.</li>
-          <li>Assurez-vous d'avoir un bon éclairage.</li>
-          <li>Évitez les reflets sur les emballages plastiques.</li>
-          <li>La liste des ingrédients et le code-barres aident l'IA à être plus précise.</li>
-        </ul>
+        <p className="text-xs text-primary/80 leading-relaxed">
+          Pour une précision optimale, assurez-vous que la liste des ingrédients et les valeurs nutritionnelles sont bien lisibles dans le cadre.
+        </p>
       </div>
     </div>
   );

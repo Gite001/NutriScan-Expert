@@ -27,7 +27,6 @@ export function useCollection<T = DocumentData>(q: Query<T> | null) {
         setLoading(false);
       },
       async (serverError) => {
-        // Find path from the query object if possible
         const path = (q as any)._query?.path?.segments?.join('/') || 'unknown';
         const permissionError = new FirestorePermissionError({
           path,
