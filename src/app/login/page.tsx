@@ -32,7 +32,6 @@ export default function LoginPage() {
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] -z-10" />
 
-      {/* Bouton de retour à l'accueil pour la courtoisie ergonomique */}
       <div className="absolute top-8 left-8 z-50">
         <Button 
           variant="ghost" 

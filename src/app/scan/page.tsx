@@ -64,6 +64,8 @@ export default function ScanPage() {
         setHasCameraPermission(true);
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          // Force playback to avoid "Play" icon on mobile webviews/APK
+          videoRef.current.play().catch(e => console.warn("Auto-play failed:", e));
         }
       } catch (error) {
         setHasCameraPermission(false);

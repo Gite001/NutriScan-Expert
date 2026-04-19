@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Microscope, UserRound, Globe, Leaf } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -139,13 +140,5 @@ export default function HomePage() {
         </div>
       </footer>
     </div>
-  );
-}
-
-function Badge({ children, className }: { children: React.ReactNode, className?: string }) {
-  return (
-    <span className={cn("px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black border", className)}>
-      {children}
-    </span>
   );
 }

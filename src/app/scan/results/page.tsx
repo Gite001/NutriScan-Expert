@@ -145,19 +145,19 @@ export default function ResultsPage() {
           <TabsList className="grid w-full grid-cols-4 h-16 rounded-[2rem] glass p-2 gap-2 border border-primary/40 shadow-lg bg-white/60">
             <TabsTrigger value="vitality" className="rounded-[1.5rem] data-[state=active]:bg-primary data-[state=active]:text-white font-black transition-all">
               <Activity size={18} className="shrink-0" />
-              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Vitalité</span>
+              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2 text-primary-950">Vitalité</span>
             </TabsTrigger>
             <TabsTrigger value="molecular" className="rounded-[1.5rem] data-[state=active]:bg-accent data-[state=active]:text-primary-950 font-black transition-all">
               <Layers size={18} className="shrink-0" />
-              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Moléculaire</span>
+              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2 text-primary-950">Moléculaire</span>
             </TabsTrigger>
             <TabsTrigger value="symbiosis" className="rounded-[1.5rem] data-[state=active]:bg-emerald-950 data-[state=active]:text-white font-black transition-all">
               <Globe size={18} className="shrink-0" />
-              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Symbiose</span>
+              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2 text-primary-950">Symbiose</span>
             </TabsTrigger>
             <TabsTrigger value="alchemy" className="rounded-[1.5rem] data-[state=active]:bg-amber-900 data-[state=active]:text-white font-black transition-all">
               <Sparkles size={18} className="shrink-0" />
-              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Alchimie</span>
+              <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2 text-primary-950">Alchimie</span>
             </TabsTrigger>
           </TabsList>
 
