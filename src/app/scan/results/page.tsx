@@ -176,7 +176,7 @@ export default function ResultsPage() {
                            <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-3 bg-primary/10" />
                         </div>
                         
-                        {/* SECTION VERDICT DE QUALITÉ - RESTRUCTUREE */}
+                        {/* SECTION VERDICT DE QUALITÉ */}
                         <div className="p-6 rounded-[2.5rem] bg-primary/5 border border-primary/10 space-y-4">
                            <p className="text-[10px] font-black text-primary uppercase tracking-widest text-center md:text-left">Verdict de Qualité</p>
                            <div className="flex flex-col gap-4">
@@ -210,9 +210,11 @@ export default function ResultsPage() {
                    
                    <div className="grid grid-cols-2 gap-4">
                       {(data.bonusTips?.healthBenefits || []).map((benefit, i) => (
-                        <div key={i} className="glass p-5 md:p-6 rounded-[2rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col justify-center items-center text-center gap-2 hover:scale-105">
-                           <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><HeartPulse size={18} /></div>
-                           <p className="text-[9px] md:text-[10px] font-bold leading-tight uppercase tracking-tight">{benefit}</p>
+                        <div key={i} className="glass p-6 rounded-[2.5rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col items-center text-center gap-4 hover:scale-105 h-full justify-start pt-10">
+                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                              <HeartPulse size={20} />
+                           </div>
+                           <p className="text-[10px] font-bold leading-relaxed uppercase tracking-tight">{benefit}</p>
                         </div>
                       ))}
                    </div>
@@ -353,12 +355,14 @@ export default function ResultsPage() {
                      </div>
                      <div className="space-y-4">
                         {(data.bonusTips?.practicalTips || []).map((tip, i) => (
-                           <div key={i} className="glass p-5 md:p-6 rounded-[2rem] md:rounded-3xl flex items-center gap-4 md:gap-6 hover:border-accent/40 hover:translate-x-2 transition-all group cursor-default">
-                              <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent group-hover:text-white transition-all shadow-lg shadow-accent/5">
-                                 <Activity size={18} />
+                           <div key={i} className="glass p-6 rounded-[2rem] md:rounded-3xl flex items-start gap-6 hover:border-accent/40 hover:translate-x-2 transition-all group cursor-default h-full">
+                              <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent group-hover:text-white transition-all shadow-lg shadow-accent/5 mt-1">
+                                 <Activity size={20} />
                               </div>
-                              <p className="text-xs md:text-[13px] font-bold leading-snug tracking-tight text-foreground/80">{tip}</p>
-                              <ChevronRight className="ml-auto text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
+                              <div className="flex-1 py-1">
+                                <p className="text-sm font-bold leading-relaxed tracking-tight text-foreground/80">{tip}</p>
+                              </div>
+                              <ChevronRight className="mt-4 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
                            </div>
                         ))}
                      </div>
