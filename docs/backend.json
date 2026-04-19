@@ -15,13 +15,14 @@
     },
     "Scan": {
       "title": "Scan",
-      "description": "Informations sur un produit alimentaire scanné et son analyse par l'IA.",
+      "description": "Informations sur un produit alimentaire scanné, incluant l'impact santé et planétaire.",
       "type": "object",
       "properties": {
         "userId": { "type": "string" },
         "productName": { "type": "string" },
         "nutriScore": { "type": "string", "enum": ["A", "B", "C", "D", "E"] },
         "globalScore": { "type": "number" },
+        "ecoScore": { "type": "number", "description": "Score environnemental de 0 à 100" },
         "scannedAt": { "type": "string", "format": "date-time" },
         "result": { "type": "string", "description": "Chaîne JSON de l'objet NutriScanExpertOutput complet." }
       },
@@ -33,11 +34,11 @@
   },
   "firestore": {
     "/profiles/{userId}": {
-      "schema": { "$ref": "#/entities/UserProfile" },
+      "schema": { "$ref": "#/backend/entities/UserProfile" },
       "description": "Paramètres personnels et données de santé de l'utilisateur."
     },
     "/scans/{scanId}": {
-      "schema": { "$ref": "#/entities/Scan" },
+      "schema": { "$ref": "#/backend/entities/Scan" },
       "description": "Historique des scans alimentaires effectués par les utilisateurs."
     }
   }

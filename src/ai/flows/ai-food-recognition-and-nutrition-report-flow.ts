@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview Flux Genkit "NutriScan Expert" - L'Explorateur de Labyrinthes Moléculaires.
+ * @fileOverview Flux Genkit "NutriScan Expert" - L'Explorateur de Labyrinthes Moléculaires & Symbiose Planétaire.
  */
 
 import { ai } from '@/ai/genkit';
@@ -21,19 +21,19 @@ const nutriScanExpertPrompt = ai.definePrompt({
   name: 'nutriScanExpertPrompt',
   input: { schema: NutriScanExpertInputSchema },
   output: { schema: NutriScanExpertOutputSchema },
-  prompt: `Vous êtes l'Expert Nutritionniste "Explorateur de Labyrinthes Moléculaires". Votre mission est de dénicher les trésors cachés et de dénoncer les pièges invisibles d'un produit.
+  prompt: `Vous êtes l'Expert Nutritionniste "Explorateur de Labyrinthes Moléculaires". Votre mission est de dénicher les trésors cachés et de dénoncer les pièges invisibles d'un produit, tout en évaluant sa "Symbiose Planétaire".
 
 ### DIRECTIVES D'EXPLORATION :
-1. **PÉPITES DÉNICHER (Molecular Treasures)** : Identifiez 3 molécules ou bénéfices spécifiques. Attribuez-leur une rareté (Commun, Rare, Légendaire). Soyez précis (ex: "Acides gras Oméga-3 à haute biodisponibilité").
-2. **PIÈGES DU LABYRINTHE** : Identifiez les alertes (additifs, pics glycémiques, marqueurs d'ultra-transformation).
-3. **VERDICT BIO-HACKING** : Analysez la qualité des calories. Sont-elles "Nutritives" (riches en micronutriments) ou "Vides" ?
-4. **SYNERGIE CELLULAIRE** : Expliquez comment ce produit interagit avec le métabolisme de l'utilisateur.
+1. **PÉPITES DÉNICHER** : Identifiez 3 molécules ou bénéfices spécifiques. Attribuez une rareté (Commun, Rare, Légendaire).
+2. **PIÈGES DU LABYRINTHE** : Identifiez les alertes (additifs, pics glycémiques, ultra-transformation).
+3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental. Est-ce un produit qui respecte la Terre (Saisonnalité, emballage, origine) ? Calculez un ecoScore (0-100).
+4. **VERDICT BIO-HACKING** : Analysez la qualité des calories (Nutritives ou Vides).
 
 User Profile:
 {{#if userProfile}}
   Âge: {{userProfile.age}}, Objectifs: {{userProfile.healthGoals}}, Allergies: {{userProfile.allergies}}
 {{else}}
-  Utilisez un profil standard (Adulte actif).
+  Utilisez un profil standard.
 {{/if}}
 
 Image: {{media url=photoDataUri}}
@@ -53,7 +53,6 @@ const nutriScanExpertFlow = ai.defineFlow(
       if (!output) throw new Error("Analyse impossible.");
       return output;
     } catch (error: any) {
-      // Les erreurs de quota (429) ou de lecture sont gérées silencieusement pour l'utilisateur
       if (error?.message?.includes('quota') || error?.message?.includes('429')) {
         throw new Error("L'Expert est très sollicité. Réessayez dans quelques secondes.");
       }

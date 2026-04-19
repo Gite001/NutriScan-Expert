@@ -52,6 +52,11 @@ export const NutriScanExpertOutputSchema = z.object({
   }),
   molecularTreasures: z.array(MolecularTreasureSchema).max(3),
   scientificAlerts: z.array(ScientificAlertSchema).optional(),
+  ecoIntelligence: z.object({
+    ecoScore: z.number().int().min(0).max(100).describe("Score environnemental du produit"),
+    planetaryVerdict: z.string().describe("Bref commentaire sur l'impact écologique"),
+    footprintTags: z.array(z.string()).describe("Tags comme 'Local', 'Bio', 'Emballage Plastique', etc."),
+  }),
   quickLook: z.array(QuickLookItemSchema).min(4).max(4),
   healthyAlternatives: z.array(HealthyAlternativeSchema).min(2).max(2),
   expertVerdict: z.string(),

@@ -20,7 +20,9 @@ import {
   Flame,
   Droplet,
   Info,
-  Quote
+  Quote,
+  Leaf,
+  Globe
 } from 'lucide-react';
 import {
   Accordion,
@@ -119,6 +121,44 @@ export default function ResultsPage() {
                   SYNERGIE CELLULAIRE
                 </Badge>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* SYMBIOSE PLANÉTAIRE (ECO-IMPACT) */}
+        <section className="glass border-accent/20 rounded-[3rem] p-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-10">
+            <Globe size={80} className="text-accent" />
+          </div>
+          <div className="flex items-center gap-3 mb-6">
+            <Leaf className="text-accent w-6 h-6" />
+            <h3 className="text-2xl font-headline font-bold tracking-tight">Symbiose Planétaire</h3>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center text-accent text-3xl font-bold border border-accent/20">
+                    {data.ecoIntelligence.ecoScore}
+                 </div>
+                 <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-accent">Indice Eco-Vision</p>
+                    <p className="text-sm font-medium leading-tight">{data.ecoIntelligence.planetaryVerdict}</p>
+                 </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {data.ecoIntelligence.footprintTags.map((tag, i) => (
+                  <Badge key={i} variant="outline" className="text-[8px] font-bold border-accent/30 text-accent/80">
+                    {tag.toUpperCase()}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white/50 p-6 rounded-2xl border border-accent/10">
+               <div className="flex justify-between items-center mb-2">
+                  <span className="text-[9px] font-bold uppercase opacity-60">Durabilité Moléculaire</span>
+                  <span className="text-[9px] font-black text-accent">{data.ecoIntelligence.ecoScore}%</span>
+               </div>
+               <Progress value={data.ecoIntelligence.ecoScore} className="h-1.5 bg-accent/10" />
             </div>
           </div>
         </section>

@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound, Target } from 'lucide-react';
+import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound, Target, Leaf, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -86,24 +86,24 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Bio-Hacking Card with Glow (CORRESPONDANT À L'IMAGE) */}
+          {/* Bio-Hacking & Symbiose Card */}
           <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-6 relative group overflow-hidden min-h-[320px] transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] select-none">
              <div className="absolute -bottom-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Apple size={280} />
+              <Globe size={280} className="text-accent" />
             </div>
             <div className="relative z-10 space-y-4">
               <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-primary">
-                Bio-Hacking <br /> Nutritionnel
+                Symbiose <br /> Planétaire
               </h3>
               <p className="text-muted-foreground text-sm md:text-lg max-w-sm leading-relaxed">
-                Optimisez votre métabolisme avec des synergies alimentaires calculées par notre algorithme de pointe.
+                Parce que votre santé cellulaire est indissociable de la santé de la Terre. Analyse de l'impact écologique en temps réel.
               </p>
-              <div className="flex flex-col items-start gap-2.5 mt-2">
+              <div className="flex flex-wrap items-start gap-2.5 mt-2">
                 <Badge className="bg-[#e8f5ed] text-[#1a8545] border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
                   CALORIES NUTRITIVES
                 </Badge>
-                <Badge className="bg-[#f0f8e4] text-[#86c624] border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
-                  SYNERGIE CELLULAIRE
+                <Badge className="bg-[#f0f8e4] text-accent border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
+                  ÉCO-INTELLIGENCE
                 </Badge>
               </div>
             </div>
@@ -111,10 +111,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section - Situé après les cartes avec effet de lumière pulsante */}
+      {/* CTA Section */}
       <section className="px-6 py-24 w-full flex flex-col items-center space-y-8">
         <div className="relative group animate-in zoom-in duration-700">
-          {/* Aura lumineuse pulsante */}
           <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2.6rem] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
           
           <Link href="/scan" className="relative">
@@ -139,7 +138,7 @@ export default function HomePage() {
           <p className="text-sm text-muted-foreground font-medium">© 2025 – La science pour tous. Propulsé par GenAI.</p>
           <div className="flex gap-6">
             <Heart className="w-5 h-5 text-primary/40 hover:text-primary transition-colors cursor-pointer" />
-            <Biohazard className="w-5 h-5 text-primary/40 hover:text-primary transition-colors cursor-pointer" />
+            <Leaf className="w-5 h-5 text-accent/40 hover:text-accent transition-colors cursor-pointer" />
           </div>
         </div>
       </footer>
