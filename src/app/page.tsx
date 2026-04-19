@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound } from 'lucide-react';
+import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound, Target } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -29,21 +29,8 @@ export default function HomePage() {
 
         <p className="text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-in fade-in duration-1000 delay-500">
           Bienvenue dans l'ère de la transparence radicale. <br />
-          Scannez, apprenez, et libérez votre potentiel de santé.
+          Utilisez le bouton central pour scanner vos aliments.
         </p>
-
-        <div className="pt-8 flex flex-col md:flex-row gap-6 justify-center items-center animate-in fade-in zoom-in-95 duration-1000 delay-700">
-          <Button asChild size="lg" className="h-16 px-12 text-xl font-headline font-bold bg-primary hover:bg-primary/90 rounded-full shadow-[0_20px_40px_-10px_rgba(34,197,94,0.3)] group">
-            <Link href="/scan" className="flex items-center">
-              LANCER LE RADAR
-              <Scan className="ml-3 w-6 h-6 group-hover:rotate-12 transition-transform" />
-            </Link>
-          </Button>
-          <p className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-            ou <Link href="/profile" className="text-primary hover:underline underline-offset-4">explorer votre historique</Link>
-            <ArrowRight className="w-4 h-4" />
-          </p>
-        </div>
       </section>
 
       {/* Bento Grid Features */}
@@ -51,7 +38,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* IA Analysis Card - STATIQUE avec Glow */}
           <div className="md:col-span-8">
-            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] group">
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] group select-none">
               <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Scan size={120} />
               </div>
@@ -62,7 +49,7 @@ export default function HomePage() {
           
           {/* Scientist Persona Card - Statique & Publicitaire avec Glow */}
           <div className="md:col-span-4">
-            <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 border-4 border-transparent hover:border-white/50 group">
+            <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 border border-transparent hover:border-white/40 hover:shadow-[0_0_40px_-10px_rgba(163,230,53,0.3)] group select-none">
               {/* Background Icon */}
               <div className="absolute -right-6 -top-6 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-700">
                 <UserRound size={220} />
@@ -74,26 +61,26 @@ export default function HomePage() {
               </div>
 
               {/* Content */}
-              <div className="relative z-10 space-y-6">
+              <div className="relative z-10 space-y-4">
                 <div className="space-y-1">
                   <h3 className="text-2xl font-headline font-bold leading-tight">Expert Scientifique</h3>
                   <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">Conseils & Bio-Intelligence</p>
                 </div>
                 
-                {/* Status Indicator */}
-                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-4 flex flex-col items-center justify-center gap-2 group-hover:shadow-white/20 transition-all">
+                {/* Status Indicator - Plus compact et aéré */}
+                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-3 md:p-4 flex flex-col items-center justify-center gap-1.5 transition-all">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">ACTIF SUR VOTRE BARRE</span>
+                    <span className="text-[9px] font-black uppercase tracking-[0.15em] leading-none">ACTIF SUR VOTRE BARRE</span>
                   </div>
-                  <p className="text-[8px] opacity-60 font-bold uppercase tracking-tighter text-center leading-none">Cliquez sur l'icône en bas</p>
+                  <p className="text-[8px] opacity-60 font-bold uppercase tracking-tight text-center leading-none">L'IA VOUS ATTEND EN BAS</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Alert Card with Glow */}
-          <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px] transition-all duration-500 border border-transparent hover:border-destructive/40 hover:shadow-[0_0_40px_-10px_rgba(239,68,68,0.2)]">
+          <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px] transition-all duration-500 border border-transparent hover:border-destructive/40 hover:shadow-[0_0_40px_-10px_rgba(239,68,68,0.2)] select-none">
             <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center text-destructive group-hover:scale-110 transition-transform">
               <ShieldAlert size={32} />
             </div>
@@ -104,7 +91,7 @@ export default function HomePage() {
           </div>
 
           {/* Bio-Hacking Card with Glow */}
-          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 relative group overflow-hidden min-h-[260px] transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
+          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 relative group overflow-hidden min-h-[260px] transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] select-none">
              <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
               <Apple size={240} />
             </div>
