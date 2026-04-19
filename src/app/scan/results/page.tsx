@@ -14,7 +14,6 @@ import {
   Gem,
   Sparkles,
   Target,
-  Flame,
   Quote,
   Globe,
   Utensils,
@@ -22,7 +21,6 @@ import {
   HeartPulse,
   Activity,
   Layers,
-  ChevronRight,
   Fingerprint,
   Leaf,
   WifiOff
@@ -64,7 +62,7 @@ export default function ResultsPage() {
   };
 
   const rarityStyles = {
-    'Commun': 'bg-muted text-primary-950 font-bold',
+    'Commun': 'bg-muted text-primary-950 font-black',
     'Rare': 'bg-primary-200 text-primary-950 border border-primary/50 font-black',
     'Légendaire': 'bg-accent text-primary-950 border border-accent/60 shadow-[0_0_15px_rgba(163,230,53,0.3)] font-black',
   };
@@ -77,7 +75,7 @@ export default function ResultsPage() {
       <div className="space-y-3 w-full">
         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-950">Diagnostic Sensor-X</h4>
         <p className="text-xl md:text-2xl font-headline font-bold text-primary-950">{title}</p>
-        <div className="flex items-center gap-2 text-[10px] font-black text-primary-950 uppercase tracking-widest bg-primary/20 px-5 py-2.5 rounded-full border border-primary/40 w-fit">
+        <div className="flex items-center gap-2 text-[10px] font-black text-primary-950 uppercase tracking-widest bg-primary/20 px-5 py-2.5 rounded-full border border-primary/50 w-fit">
           <WifiOff size={14} className="text-primary-950" />
           {reason}
         </div>
@@ -90,7 +88,7 @@ export default function ResultsPage() {
       <div className="max-w-5xl mx-auto p-4 md:p-10 space-y-10">
         
         <header className="flex items-center justify-between animate-in fade-in slide-in-from-top-4 duration-700">
-          <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full glass hover:bg-white/40 border-primary/30">
+          <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full glass hover:bg-white/60 border border-primary/30 shadow-sm">
             <ArrowLeft className="w-6 h-6 text-primary-950" />
           </Button>
           <div className="text-right">
@@ -103,7 +101,7 @@ export default function ResultsPage() {
         </header>
 
         <section className="animate-in zoom-in-95 duration-1000">
-          <Card className="glass rounded-[3rem] p-6 md:p-12 relative overflow-hidden border-primary/40 shadow-xl bg-white/50">
+          <Card className="glass rounded-[3rem] p-6 md:p-12 relative overflow-hidden border border-primary/40 shadow-xl bg-white/50">
             <div className="flex flex-col gap-10">
               <div className="space-y-6 text-center md:text-left">
                 <Badge className="bg-primary text-white border-none text-[10px] font-black uppercase py-1.5 px-6 rounded-full tracking-widest shadow-md">
@@ -113,7 +111,7 @@ export default function ResultsPage() {
                   {data.productName}
                 </h2>
                 <div className="flex items-center justify-center md:justify-start gap-6">
-                  <div className="glass p-5 rounded-[2rem] flex flex-col items-center min-w-[100px] border-primary/50 bg-white/70">
+                  <div className="glass p-5 rounded-[2rem] flex flex-col items-center min-w-[100px] border border-primary/50 bg-white/70 shadow-inner">
                     <span className="text-4xl font-black text-primary-950">{data.globalScore || 0}</span>
                     <span className="text-[9px] font-black text-primary-950 uppercase tracking-widest">Bio-Score</span>
                   </div>
@@ -128,14 +126,14 @@ export default function ResultsPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(data.quickLook || []).map((item, i) => (
-                   <div key={i} className="glass p-6 rounded-3xl border-primary/30 flex flex-col items-start gap-4 bg-white/70 w-full shadow-sm">
+                   <div key={i} className="glass p-6 rounded-3xl border border-primary/40 flex flex-col items-start gap-4 bg-white/70 w-full shadow-md">
                       <div className="flex flex-col gap-1">
-                        <p className="text-[10px] font-black text-primary-950/60 uppercase tracking-widest">{item.name}</p>
+                        <p className="text-[10px] font-black text-primary-950/70 uppercase tracking-widest">{item.name}</p>
                         <span className="text-2xl font-black text-primary-950 uppercase tracking-tight">{item.level}</span>
                       </div>
-                      <Badge variant="outline" className="text-xs border-primary/50 px-4 py-2 font-black rounded-xl bg-primary/20 text-primary-950 w-full text-left leading-relaxed shadow-inner">
+                      <div className="w-full p-4 rounded-xl bg-primary/20 border border-primary/40 text-primary-950 text-xs font-black uppercase tracking-tight leading-relaxed shadow-inner">
                         {item.benefit}
-                      </Badge>
+                      </div>
                    </div>
                 ))}
               </div>
@@ -144,7 +142,7 @@ export default function ResultsPage() {
         </section>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full space-y-8">
-          <TabsList className="grid w-full grid-cols-4 h-16 rounded-[2rem] glass p-2 gap-2 border-primary/40 shadow-md">
+          <TabsList className="grid w-full grid-cols-4 h-16 rounded-[2rem] glass p-2 gap-2 border border-primary/40 shadow-lg bg-white/60">
             <TabsTrigger value="vitality" className="rounded-[1.5rem] data-[state=active]:bg-primary data-[state=active]:text-white font-black transition-all">
               <Activity size={18} className="shrink-0" />
               <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Vitalité</span>
@@ -166,7 +164,7 @@ export default function ResultsPage() {
           <div className="min-h-[400px] animate-in slide-in-from-bottom-8 duration-700">
             <TabsContent value="vitality" className="space-y-8 mt-0">
               <div className="flex flex-col gap-8">
-                <Card className="glass rounded-[3rem] p-8 md:p-12 border-primary/40 bg-white/70 shadow-lg relative overflow-hidden">
+                <Card className="glass rounded-[3rem] p-8 md:p-12 border border-primary/40 bg-white/70 shadow-xl relative overflow-hidden">
                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-950 mb-8 flex items-center gap-2">
                       <Target className="text-primary-950 shrink-0" size={16} /> Budget Énergétique
                    </h3>
@@ -183,7 +181,7 @@ export default function ResultsPage() {
                            </div>
                            <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-4 bg-primary/30" />
                         </div>
-                        <div className="p-8 rounded-[2.5rem] bg-primary/20 border border-primary/40 space-y-6">
+                        <div className="p-8 rounded-[2.5rem] bg-primary/20 border border-primary/40 space-y-6 shadow-inner">
                            <h4 className="text-[10px] font-black text-primary-950 uppercase tracking-widest">Verdict de Qualité</h4>
                            <div className="flex flex-col gap-6">
                               <Badge className={cn(
@@ -207,7 +205,7 @@ export default function ResultsPage() {
                    )}
                 </Card>
 
-                <div className="glass p-8 md:p-12 rounded-[3rem] border-primary/40 bg-white/70 relative overflow-hidden shadow-lg">
+                <div className="glass p-8 md:p-12 rounded-[3rem] border border-primary/40 bg-white/70 relative overflow-hidden shadow-xl">
                    <Quote className="absolute -top-6 -right-6 w-32 h-32 opacity-10 text-primary-950" />
                    <h4 className="text-[10px] font-black uppercase tracking-widest text-primary-950 mb-6 flex items-center gap-2">
                      <Microscope size={16} className="shrink-0" /> Le Mot de l'Expert
@@ -215,17 +213,6 @@ export default function ResultsPage() {
                    <p className="text-xl md:text-3xl font-headline font-bold leading-tight italic text-primary-950">
                      "{data.expertVerdict || "Analyse terminée. Synchronisation des données en cours."}"
                    </p>
-                </div>
-                
-                <div className="flex flex-col gap-4">
-                   {(data.bonusTips?.healthBenefits || []).map((benefit, i) => (
-                     <div key={i} className="glass p-8 rounded-[2.5rem] border-primary/30 flex flex-col items-start gap-4 bg-white/70 shadow-sm w-full">
-                        <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0 shadow-lg">
-                           <HeartPulse size={24} />
-                        </div>
-                        <p className="text-xs md:text-base font-black leading-relaxed uppercase tracking-widest text-primary-950 text-left w-full">{benefit}</p>
-                     </div>
-                   ))}
                 </div>
               </div>
             </TabsContent>
@@ -238,12 +225,12 @@ export default function ResultsPage() {
                 </div>
                 {data.molecularTreasures && data.molecularTreasures.length > 0 ? (
                   data.molecularTreasures.map((treasure, idx) => (
-                    <Card key={idx} className="glass rounded-[2.5rem] p-8 md:p-10 border-primary/30 bg-white/70 shadow-sm flex flex-col items-start gap-5 w-full">
-                      <Badge className={cn("border-none text-[10px] font-black uppercase tracking-widest py-1.5 px-6 rounded-full shadow-sm", rarityStyles[treasure.rarity || 'Commun'])}>
+                    <Card key={idx} className="glass rounded-[2.5rem] p-8 md:p-10 border border-primary/40 bg-white/70 shadow-lg flex flex-col items-start gap-5 w-full">
+                      <Badge className={cn("border-none text-[10px] font-black uppercase tracking-widest py-1.5 px-6 rounded-full shadow-md", rarityStyles[treasure.rarity || 'Commun'])}>
                         {treasure.rarity}
                       </Badge>
                       <h4 className="text-xl md:text-3xl font-black text-primary-950">{treasure.name}</h4>
-                      <p className="text-sm md:text-lg text-primary-950 font-bold leading-relaxed italic border-l-2 border-primary/40 pl-6">"{treasure.description}"</p>
+                      <p className="text-sm md:text-lg text-primary-950 font-black leading-relaxed italic border-l-2 border-primary/40 pl-6">"{treasure.description}"</p>
                     </Card>
                   ))
                 ) : (
@@ -262,16 +249,16 @@ export default function ResultsPage() {
                     <h3 className="text-xl md:text-2xl font-headline font-bold tracking-tight text-red-900 uppercase italic">Pièges du Labyrinthe</h3>
                   </div>
                   {data.scientificAlerts.map((alert, idx) => (
-                    <div key={idx} className="glass border-red-900/40 bg-red-600/10 p-8 md:p-10 rounded-[2.5rem] flex flex-col items-start gap-6 shadow-md w-full">
+                    <div key={idx} className="glass border border-red-900/40 bg-red-600/10 p-8 md:p-10 rounded-[2.5rem] flex flex-col items-start gap-6 shadow-xl w-full">
                       <div className="bg-red-800 text-white p-4 rounded-2xl shrink-0 shadow-lg shadow-red-900/30">
                         <AlertTriangle size={24} />
                       </div>
                       <div className="space-y-4 w-full">
-                        <Badge className="bg-red-800 text-white text-[10px] font-black tracking-widest py-1.5 px-6 uppercase rounded-full border-none">
+                        <Badge className="bg-red-800 text-white text-[10px] font-black tracking-widest py-1.5 px-6 uppercase rounded-full border-none shadow-md">
                           {(alert.category || 'INCONNU').toUpperCase()}
                         </Badge>
                         <h4 className="text-xl md:text-2xl font-black uppercase tracking-tight text-red-950">{alert.title}</h4>
-                        <p className="text-sm md:text-base text-red-950 font-bold leading-relaxed">{alert.message}</p>
+                        <p className="text-sm md:text-base text-red-950 font-black leading-relaxed">{alert.message}</p>
                       </div>
                     </div>
                   ))}
@@ -281,10 +268,10 @@ export default function ResultsPage() {
 
             <TabsContent value="symbiosis" className="space-y-8 mt-0">
                {data.ecoIntelligence ? (
-                 <Card className="glass border-emerald-900/40 rounded-[3rem] p-8 md:p-12 bg-white/70 shadow-lg flex flex-col gap-10 w-full">
+                 <Card className="glass border border-emerald-900/40 rounded-[3rem] p-8 md:p-12 bg-white/70 shadow-2xl flex flex-col gap-10 w-full">
                     <div className="flex flex-col items-start gap-8 w-full">
                        <div className="flex items-center gap-6">
-                          <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-950 text-white flex items-center justify-center text-5xl font-black shadow-xl shrink-0">
+                          <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-950 text-white flex items-center justify-center text-5xl font-black shadow-2xl shrink-0">
                              {data.ecoIntelligence.ecoScore || 0}
                           </div>
                           <div className="space-y-1">
@@ -297,25 +284,10 @@ export default function ResultsPage() {
                        </p>
                        <div className="flex flex-wrap gap-3">
                           {(data.ecoIntelligence.footprintTags || []).map((tag, i) => (
-                             <Badge key={i} className="bg-emerald-950 text-white border-none text-[10px] font-black tracking-widest px-6 py-3 rounded-full uppercase shadow-md">
+                             <Badge key={i} className="bg-emerald-950 text-white border-none text-[10px] font-black tracking-widest px-6 py-3 rounded-full uppercase shadow-lg">
                                 {tag.toUpperCase()}
                              </Badge>
                           ))}
-                       </div>
-                    </div>
-                    <div className="space-y-8 bg-emerald-800/10 p-8 rounded-[2.5rem] border border-emerald-800/40 shadow-inner w-full">
-                       <div className="space-y-3">
-                          <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-950">
-                             <span>Durabilité SENSOR-X</span>
-                             <span className="font-black">{data.ecoIntelligence.ecoScore || 0}%</span>
-                          </div>
-                          <Progress value={data.ecoIntelligence.ecoScore || 0} className="h-4 bg-emerald-800/40" />
-                       </div>
-                       <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-emerald-950 text-white flex items-center justify-center shrink-0">
-                             <Leaf size={20} />
-                          </div>
-                          <p className="text-sm md:text-lg font-black text-emerald-950 italic">Environnement pur = Nutriments purs.</p>
                        </div>
                     </div>
                  </Card>
@@ -333,7 +305,7 @@ export default function ResultsPage() {
                   {data.bonusTips?.expressRecipe ? (
                     <Card className="rounded-[3rem] bg-primary text-white p-8 md:p-16 border-none shadow-2xl relative overflow-hidden flex flex-col gap-10 w-full">
                        <div className="relative z-10 space-y-8">
-                          <Badge className="bg-white text-primary-950 border-none text-[10px] font-black tracking-widest px-8 py-3 rounded-full uppercase shadow-md">Alchimie Culinaire</Badge>
+                          <Badge className="bg-white text-primary-950 border-none text-[10px] font-black tracking-widest px-8 py-3 rounded-full uppercase shadow-lg">Alchimie Culinaire</Badge>
                           <h3 className="text-3xl md:text-6xl font-headline font-bold leading-none">{data.bonusTips.expressRecipe.name}</h3>
                           <div className="space-y-4">
                              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/90">Ingrédients Synergiques :</p>
@@ -361,7 +333,7 @@ export default function ResultsPage() {
                         <h3 className="text-xl font-headline font-bold tracking-tight uppercase text-primary-950">Bio-Hacking</h3>
                      </div>
                      {(data.bonusTips?.practicalTips || []).map((tip, i) => (
-                        <div key={i} className="glass p-8 rounded-[2.5rem] flex flex-col items-start gap-5 bg-white/70 border-primary/40 shadow-sm w-full">
+                        <div key={i} className="glass p-8 rounded-[2.5rem] flex flex-col items-start gap-5 bg-white/70 border border-primary/40 shadow-lg w-full">
                            <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0 shadow-lg">
                               <Activity size={24} />
                            </div>
@@ -382,7 +354,7 @@ export default function ResultsPage() {
             <RotateCcw className="w-8 h-8 shrink-0" />
             NOUVELLE EXPÉDITION
           </Button>
-          <p className="text-[10px] font-black text-primary-950 uppercase tracking-[0.4em] text-center">Science & Vérité - NutriScan 2026</p>
+          <p className="text-[10px] font-black text-primary-950 uppercase tracking-[0.4em] text-center">Science & Vérité – NutriScan 2026</p>
         </div>
 
       </div>

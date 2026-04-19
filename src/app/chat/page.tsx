@@ -79,8 +79,8 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden animate-in fade-in duration-700">
-      <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
+      <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50 bg-white/80 backdrop-blur-3xl">
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full border border-primary/20">
           <ArrowLeft className="w-5 h-5 text-primary-950" />
         </Button>
         <div className="text-center px-2">
@@ -107,12 +107,12 @@ export default function ChatPage() {
                 {msg.role === 'assistant' ? (
                   <div className="flex items-center gap-1.5 bg-primary/20 px-3 py-1.5 rounded-full border border-primary/40">
                     <UserRound size={12} className="text-primary-950" />
-                    <span className="text-primary-950 font-bold uppercase">Expert Scientifique</span>
+                    <span className="text-primary-950 font-black uppercase">Expert Scientifique</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-1.5 bg-primary/30 px-3 py-1.5 rounded-full border border-primary/50">
                     <User size={12} className="text-primary-950" />
-                    <span className="text-primary-950 font-bold uppercase">Vous</span>
+                    <span className="text-primary-950 font-black uppercase">Vous</span>
                   </div>
                 )}
               </div>
@@ -121,28 +121,24 @@ export default function ChatPage() {
                 "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
-                  : "glass border-primary/20 rounded-tl-sm text-primary-950 chat-prose"
+                  : "glass border-primary/30 rounded-tl-sm text-primary-950 chat-prose bg-white/60"
               )}>
                 {msg.role === 'assistant' && (
-                  <div className="absolute -left-3 -top-3 bg-white border border-primary/30 rounded-full p-1.5 shadow-md text-primary-950">
+                  <div className="absolute -left-3 -top-3 bg-white border border-primary/40 rounded-full p-1.5 shadow-md text-primary-950">
                     <Microscope size={14} />
                   </div>
                 )}
-                {msg.role === 'assistant' ? (
-                  <div className="text-primary-950">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {msg.content}
-                    </ReactMarkdown>
-                  </div>
-                ) : (
-                  <p className="leading-relaxed whitespace-normal break-words font-medium">{msg.content}</p>
-                )}
+                <div className={cn(msg.role === 'user' ? "text-white" : "text-primary-950 font-bold")}>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {msg.content}
+                  </ReactMarkdown>
+                </div>
               </Card>
 
               {msg.keyTakeaways && msg.keyTakeaways.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mt-2">
                   {msg.keyTakeaways.map((point, i) => (
-                    <div key={i} className="glass p-4 rounded-2xl border-primary/30 flex items-center gap-3 hover:border-primary/50 hover:scale-105 transition-all card-shine shadow-sm bg-white/40">
+                    <div key={i} className="glass p-4 rounded-2xl border-primary/40 flex items-center gap-3 hover:border-primary/60 hover:scale-105 transition-all card-shine shadow-sm bg-white/50">
                        <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                           <Zap size={12} className="text-primary-950" />
                        </div>
@@ -156,8 +152,8 @@ export default function ChatPage() {
           {loading && (
             <div className="flex items-center gap-3 text-primary-950 animate-pulse pl-4">
                <div className="relative">
-                  <Loader2 className="w-6 h-6 animate-spin" />
-                  <Microscope size={10} className="absolute inset-0 m-auto" />
+                  <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                  <Microscope size={10} className="absolute inset-0 m-auto text-primary" />
                </div>
                <span className="text-[10px] font-black uppercase tracking-widest italic text-primary-950">Analyse moléculaire en cours...</span>
             </div>
@@ -172,7 +168,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/40 shadow-inner px-8 text-base md:text-lg text-primary-950 font-bold placeholder:text-primary-950/70 placeholder:font-black placeholder:text-sm focus:ring-primary/20 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary/40 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950/50 placeholder:font-black placeholder:text-sm focus:ring-primary/40 transition-all flex-1"
               disabled={loading}
             />
             <Button 
@@ -181,7 +177,7 @@ export default function ChatPage() {
               disabled={loading || !input.trim()}
               className="h-16 w-16 rounded-full bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 shrink-0 transition-all active:scale-90"
             >
-              <Send className="w-8 h-8" />
+              <Send className="w-8 h-8 text-white" />
             </Button>
           </div>
           <p className="text-center text-[8px] text-primary-950 font-black uppercase tracking-[0.4em]">
