@@ -49,27 +49,27 @@ export default function HomePage() {
       {/* Bento Grid Features */}
       <section className="px-6 pb-24 max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* IA Analysis Card - MAINTENANT STATIQUE */}
+          {/* IA Analysis Card - STATIQUE avec Glow */}
           <div className="md:col-span-8">
-            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500">
-              <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10">
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] group">
+              <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Scan size={120} />
               </div>
-              <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight">Analyse Moléculaire par IA</h3>
+              <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight group-hover:text-primary transition-colors">Analyse Moléculaire par IA</h3>
               <p className="text-muted-foreground max-w-md text-sm md:text-base">Détectez les additifs, les sucres cachés et les micro-plastiques instantanément grâce à notre moteur de vision artificielle.</p>
             </div>
           </div>
           
-          {/* Scientist Persona Card - Statique & Publicitaire */}
+          {/* Scientist Persona Card - Statique & Publicitaire avec Glow */}
           <div className="md:col-span-4">
-            <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px]">
+            <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 border-4 border-transparent hover:border-white/50 group">
               {/* Background Icon */}
-              <div className="absolute -right-6 -top-6 opacity-10 rotate-12">
+              <div className="absolute -right-6 -top-6 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-700">
                 <UserRound size={220} />
               </div>
 
               {/* Icon Badge */}
-              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30 shadow-inner">
+              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30 shadow-inner group-hover:scale-110 transition-transform">
                 <Microscope size={32} className="text-accent-foreground" />
               </div>
 
@@ -81,7 +81,7 @@ export default function HomePage() {
                 </div>
                 
                 {/* Status Indicator */}
-                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-4 flex flex-col items-center justify-center gap-2">
+                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-4 flex flex-col items-center justify-center gap-2 group-hover:shadow-white/20 transition-all">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                     <span className="text-[9px] font-black uppercase tracking-[0.2em]">ACTIF SUR VOTRE BARRE</span>
@@ -92,24 +92,24 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Alert Card */}
-          <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px]">
+          {/* Alert Card with Glow */}
+          <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px] transition-all duration-500 border border-transparent hover:border-destructive/40 hover:shadow-[0_0_40px_-10px_rgba(239,68,68,0.2)]">
             <div className="w-16 h-16 rounded-2xl bg-destructive/10 flex items-center justify-center text-destructive group-hover:scale-110 transition-transform">
               <ShieldAlert size={32} />
             </div>
             <div>
-              <h3 className="text-2xl font-headline font-bold mb-2">Lanceur d'Alerte</h3>
+              <h3 className="text-2xl font-headline font-bold mb-2 group-hover:text-destructive transition-colors">Lanceur d'Alerte</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">Soyez prévenu en temps réel des additifs bannis (California Safety Act 2026) et des risques de pesticides.</p>
             </div>
           </div>
 
-          {/* Bio-Hacking Card */}
-          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 relative group overflow-hidden min-h-[260px]">
+          {/* Bio-Hacking Card with Glow */}
+          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 relative group overflow-hidden min-h-[260px] transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)]">
              <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
               <Apple size={240} />
             </div>
             <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-headline font-bold mb-2">Bio-Hacking Nutritionnel</h3>
+              <h3 className="text-2xl md:text-3xl font-headline font-bold mb-2 group-hover:text-primary transition-colors">Bio-Hacking Nutritionnel</h3>
               <p className="text-muted-foreground text-sm md:text-base max-w-sm">Optimisez votre métabolisme avec des synergies alimentaires calculées par notre algorithme de pointe.</p>
               <div className="flex flex-wrap gap-2 mt-4">
                 <Badge className="bg-primary/10 text-primary border-none text-[8px] font-bold">CALORIES NUTRITIVES</Badge>
