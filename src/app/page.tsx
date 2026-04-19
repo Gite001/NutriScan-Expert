@@ -31,20 +31,10 @@ export default function HomePage() {
           Bienvenue dans l'ère de la transparence radicale. <br />
           Découvrez la vérité derrière chaque étiquette.
         </p>
-
-        <div className="flex justify-center animate-in fade-in zoom-in duration-1000 delay-700">
-          <Link href="/scan">
-            <Button size="lg" className="h-20 px-12 rounded-[2.5rem] text-xl font-headline font-bold gap-4 bg-primary hover:bg-primary/90 shadow-[0_20px_40px_-10px_rgba(34,197,94,0.4)] transition-all hover:scale-105 active:scale-95 group">
-              <Scan className="w-8 h-8 group-hover:rotate-12 transition-transform" />
-              ACTIVER LE RADAR
-              <ArrowRight className="w-6 h-6 ml-2" />
-            </Button>
-          </Link>
-        </div>
       </section>
 
       {/* Bento Grid Features */}
-      <section className="px-6 pb-24 max-w-6xl mx-auto w-full">
+      <section className="px-6 pb-12 max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* IA Analysis Card - STATIQUE avec Glow */}
           <div className="md:col-span-8">
@@ -110,6 +100,22 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Passé à la fin avec effet lumineux */}
+      <section className="px-6 py-20 w-full flex justify-center">
+        <div className="relative group animate-in zoom-in duration-700">
+          {/* Aura lumineuse pulsante */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2.6rem] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
+          
+          <Link href="/scan" className="relative">
+            <Button size="lg" className="h-20 px-12 rounded-[2.5rem] text-xl font-headline font-bold gap-4 bg-primary hover:bg-primary/90 shadow-2xl transition-all hover:scale-105 active:scale-95">
+              <Scan className="w-8 h-8 group-hover:rotate-12 transition-transform" />
+              ACTIVER LE RADAR
+              <ArrowRight className="w-6 h-6 ml-2" />
+            </Button>
+          </Link>
         </div>
       </section>
 
