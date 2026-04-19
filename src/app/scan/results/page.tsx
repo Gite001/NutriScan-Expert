@@ -25,7 +25,9 @@ import {
   Layers,
   ChevronRight,
   Fingerprint,
-  Leaf
+  Leaf,
+  DatabaseZap,
+  SearchX
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -59,7 +61,7 @@ export default function ResultsPage() {
     A: "bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]", 
     B: "bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)]", 
     C: "bg-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.4)]", 
-    D: "bg-orange-500 shadow-[0_0_20_rgba(249,115,22,0.4)]", 
+    D: "bg-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.4)]", 
     E: "bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)]",
   };
 
@@ -115,7 +117,6 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              {/* Quick Summary COLUMN - Perfect Alignment */}
               <div className="flex flex-col gap-4">
                 {(data.quickLook || []).map((item, i) => (
                    <div key={i} className="glass p-6 rounded-3xl border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-1 card-shine flex flex-col gap-3 group">
@@ -194,7 +195,10 @@ export default function ResultsPage() {
                         </div>
                      </div>
                    ) : (
-                     <p className="text-muted-foreground italic text-center py-10">Analyse calorique indisponible.</p>
+                     <div className="glass rounded-[2.5rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-primary/20">
+                        <DatabaseZap className="w-12 h-12 text-primary/20 animate-pulse" />
+                        <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Analyse calorique indisponible</p>
+                     </div>
                    )}
                 </Card>
 
@@ -230,16 +234,23 @@ export default function ResultsPage() {
                   <h3 className="text-2xl font-headline font-bold tracking-tight uppercase">Trésors Débusqués</h3>
                 </div>
                 <div className="flex flex-col gap-6">
-                  {(data.molecularTreasures || []).map((treasure, idx) => (
-                    <Card key={idx} className="glass group rounded-[2.5rem] p-8 md:p-10 border-primary/5 hover:border-accent/40 transition-all duration-500 relative overflow-hidden card-shine flex flex-col items-start gap-4">
-                      <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition-opacity"><Gem size={100} /></div>
-                      <Badge className={cn("border-none text-[8px] md:text-[10px] font-black uppercase tracking-widest py-1.5 px-4 whitespace-normal leading-tight rounded-full", rarityStyles[treasure.rarity || 'Commun'])}>
-                        {treasure.rarity}
-                      </Badge>
-                      <h4 className="text-xl md:text-3xl font-black group-hover:text-accent transition-colors whitespace-normal break-words">{treasure.name}</h4>
-                      <p className="text-sm md:text-lg text-muted-foreground leading-relaxed whitespace-normal break-words italic">"{treasure.description}"</p>
-                    </Card>
-                  ))}
+                  {data.molecularTreasures && data.molecularTreasures.length > 0 ? (
+                    data.molecularTreasures.map((treasure, idx) => (
+                      <Card key={idx} className="glass group rounded-[2.5rem] p-8 md:p-10 border-primary/5 hover:border-accent/40 transition-all duration-500 relative overflow-hidden card-shine flex flex-col items-start gap-4">
+                        <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition-opacity"><Gem size={100} /></div>
+                        <Badge className={cn("border-none text-[8px] md:text-[10px] font-black uppercase tracking-widest py-1.5 px-4 whitespace-normal leading-tight rounded-full", rarityStyles[treasure.rarity || 'Commun'])}>
+                          {treasure.rarity}
+                        </Badge>
+                        <h4 className="text-xl md:text-3xl font-black group-hover:text-accent transition-colors whitespace-normal break-words">{treasure.name}</h4>
+                        <p className="text-sm md:text-lg text-muted-foreground leading-relaxed whitespace-normal break-words italic">"{treasure.description}"</p>
+                      </Card>
+                    ))
+                  ) : (
+                    <div className="glass rounded-[2.5rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-accent/20">
+                        <SearchX className="w-12 h-12 text-accent/20" />
+                        <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Aucun trésor moléculaire détecté</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -315,7 +326,10 @@ export default function ResultsPage() {
                     </div>
                  </Card>
                ) : (
-                 <p className="text-muted-foreground italic text-center py-10">Données environnementales indisponibles.</p>
+                 <div className="glass rounded-[3rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-emerald-500/20">
+                    <Globe size={48} className="text-emerald-500/20" />
+                    <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Données environnementales indisponibles</p>
+                 </div>
                )}
             </TabsContent>
 
@@ -346,7 +360,10 @@ export default function ResultsPage() {
                        </div>
                     </Card>
                   ) : (
-                    <div className="glass rounded-[3rem] p-12 flex items-center justify-center text-muted-foreground">Recette indisponible.</div>
+                    <div className="glass rounded-[3rem] p-12 flex flex-col items-center justify-center text-center gap-4 border-dashed border-amber-500/20">
+                      <Utensils size={48} className="text-amber-500/20" />
+                      <p className="text-muted-foreground font-bold uppercase tracking-widest text-[10px] opacity-50">Recette indisponible</p>
+                    </div>
                   )}
 
                   <div className="flex flex-col gap-6">
