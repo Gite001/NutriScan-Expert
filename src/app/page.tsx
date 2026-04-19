@@ -29,8 +29,18 @@ export default function HomePage() {
 
         <p className="text-lg md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-in fade-in duration-1000 delay-500">
           Bienvenue dans l'ère de la transparence radicale. <br />
-          Utilisez le bouton central pour scanner vos aliments.
+          Découvrez la vérité derrière chaque étiquette.
         </p>
+
+        <div className="flex justify-center animate-in fade-in zoom-in duration-1000 delay-700">
+          <Link href="/scan">
+            <Button size="lg" className="h-20 px-12 rounded-[2.5rem] text-xl font-headline font-bold gap-4 bg-primary hover:bg-primary/90 shadow-[0_20px_40px_-10px_rgba(34,197,94,0.4)] transition-all hover:scale-105 active:scale-95 group">
+              <Scan className="w-8 h-8 group-hover:rotate-12 transition-transform" />
+              ACTIVER LE RADAR
+              <ArrowRight className="w-6 h-6 ml-2" />
+            </Button>
+          </Link>
+        </div>
       </section>
 
       {/* Bento Grid Features */}
@@ -50,30 +60,26 @@ export default function HomePage() {
           {/* Scientist Persona Card - Statique & Publicitaire avec Glow */}
           <div className="md:col-span-4">
             <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 border border-transparent hover:border-white/40 hover:shadow-[0_0_40px_-10px_rgba(163,230,53,0.3)] group select-none">
-              {/* Background Icon */}
               <div className="absolute -right-6 -top-6 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-700">
                 <UserRound size={220} />
               </div>
 
-              {/* Icon Badge */}
               <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30 shadow-inner group-hover:scale-110 transition-transform">
                 <Microscope size={32} className="text-accent-foreground" />
               </div>
 
-              {/* Content */}
               <div className="relative z-10 space-y-4">
                 <div className="space-y-1">
                   <h3 className="text-2xl font-headline font-bold leading-tight">Expert Scientifique</h3>
                   <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">Conseils & Bio-Intelligence</p>
                 </div>
                 
-                {/* Status Indicator - Plus compact et aéré */}
-                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-3 md:p-4 flex flex-col items-center justify-center gap-1.5 transition-all">
+                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-3 flex flex-col items-center justify-center gap-1">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-[9px] font-black uppercase tracking-[0.15em] leading-none">ACTIF SUR VOTRE BARRE</span>
+                    <span className="text-[9px] font-black uppercase tracking-[0.15em] leading-none">Disponible sur votre barre</span>
                   </div>
-                  <p className="text-[8px] opacity-60 font-bold uppercase tracking-tight text-center leading-none">L'IA VOUS ATTEND EN BAS</p>
+                  <p className="text-[8px] opacity-60 font-bold uppercase tracking-tight text-center leading-none">L'IA vous attend en bas</p>
                 </div>
               </div>
             </div>

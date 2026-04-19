@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Scan, User, Apple, Activity, UserRound } from 'lucide-react';
+import { Home, User, Apple, UserRound } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { cn } from '@/lib/utils';
 
@@ -14,7 +14,6 @@ export const Navigation = () => {
 
   const navItems = [
     { label: 'Accueil', href: '/', icon: Home },
-    { label: 'Scanner', href: '/scan', icon: Scan, primary: true },
     { label: 'Expert AI', href: '/chat', icon: UserRound },
     { label: 'Profil', href: '/profile', icon: User },
   ];
@@ -46,23 +45,11 @@ export const Navigation = () => {
       </nav>
 
       {/* Mobile Bottom Bar */}
-      <nav className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-4 h-20 w-[94%] flex justify-around items-center border border-white/40 shadow-2xl">
+      <nav className="md:hidden fixed bottom-8 left-1/2 -translate-x-1/2 z-50 glass rounded-full px-4 h-16 w-[90%] flex justify-around items-center border border-white/40 shadow-2xl">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
           
-          if (item.primary) {
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center justify-center w-16 h-16 bg-primary rounded-full shadow-[0_15px_30px_-10px_rgba(34,197,94,0.5)] -mt-12 group transition-transform active:scale-90"
-              >
-                <Icon className="w-8 h-8 text-white group-hover:rotate-12 transition-transform" />
-              </Link>
-            );
-          }
-
           return (
             <Link
               key={item.href}
