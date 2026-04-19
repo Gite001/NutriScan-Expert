@@ -1,15 +1,17 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Send, Loader2, Sparkles, ArrowLeft, Bot, User, Quote, BrainCircuit, ShieldCheck, Zap } from 'lucide-react';
+import { Send, Loader2, Sparkles, ArrowLeft, Bot, User, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { askNutritionExpert, type NutritionChatOutput } from '@/ai/flows/ai-nutrition-chat-flow';
-import { Badge } from '@/components/ui/badge';
+import { askNutritionExpert } from '@/ai/flows/ai-nutrition-chat-flow';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   id: string;
@@ -33,9 +35,12 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      const viewport = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (viewport) {
+        viewport.scrollTop = viewport.scrollHeight;
+      }
     }
-  }, [messages]);
+  }, [messages, loading]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,8 +89,8 @@ export default function ChatPage() {
       </header>
 
       {/* Chat Area */}
-      <ScrollArea className="flex-1 p-6 space-y-8" ref={scrollRef}>
-        <div className="max-w-3xl mx-auto space-y-10 pb-12">
+      <ScrollArea className="flex-1 p-6" ref={scrollRef}>
+        <div className="max-w-3xl mx-auto space-y-10 pb-24">
           {messages.map((msg) => (
             <div key={msg.id} className={cn(
               "flex flex-col gap-3 animate-in slide-in-from-bottom-2 duration-500",
@@ -100,22 +105,28 @@ export default function ChatPage() {
               </div>
               
               <Card className={cn(
-                "p-6 rounded-[2rem] text-sm leading-relaxed shadow-sm max-w-[90%]",
+                "p-6 rounded-[2rem] text-sm leading-relaxed shadow-sm max-w-[95%]",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm" 
-                  : "glass border-accent/10 rounded-tl-sm text-foreground/80"
+                  : "glass border-accent/10 rounded-tl-sm text-foreground/80 prose prose-sm dark:prose-invert max-w-none"
               )}>
-                {msg.content}
+                {msg.role === 'assistant' ? (
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {msg.content}
+                  </ReactMarkdown>
+                ) : (
+                  msg.content
+                )}
               </Card>
 
-              {msg.keyTakeaways && (
+              {msg.keyTakeaways && msg.keyTakeaways.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mt-2">
                   {msg.keyTakeaways.map((point, i) => (
-                    <div key={i} className="glass p-3 rounded-2xl border-accent/20 flex items-center gap-3">
+                    <div key={i} className="glass p-4 rounded-2xl border-accent/20 flex items-center gap-3 hover:border-accent/40 transition-colors">
                        <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
                           <Zap size={12} className="text-accent" />
                        </div>
-                       <span className="text-[10px] font-bold text-foreground/60 leading-tight">{point}</span>
+                       <span className="text-[10px] font-bold text-foreground/70 leading-tight">{point}</span>
                     </div>
                   ))}
                 </div>
@@ -125,7 +136,7 @@ export default function ChatPage() {
           {loading && (
             <div className="flex items-center gap-3 text-accent animate-pulse">
                <Loader2 className="w-5 h-5 animate-spin" />
-               <span className="text-[10px] font-bold uppercase tracking-widest">L'IA réfléchit...</span>
+               <span className="text-[10px] font-bold uppercase tracking-widest">L'IA déchiffre la vérité...</span>
             </div>
           )}
         </div>
@@ -151,7 +162,7 @@ export default function ChatPage() {
           </Button>
         </form>
         <p className="text-center text-[8px] text-muted-foreground mt-4 font-medium uppercase tracking-widest">
-           Propulsé par le Moteur Bio-Intelligence 2026
+           Analyse Moléculaire & Bio-Intelligence 2026
         </p>
       </div>
     </div>
