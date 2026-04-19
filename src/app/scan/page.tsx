@@ -55,7 +55,6 @@ export default function ScanPage() {
           videoRef.current.srcObject = stream;
         }
       } catch (error) {
-        console.error('Error accessing camera:', error);
         setHasCameraPermission(false);
       }
     };
@@ -116,15 +115,23 @@ export default function ScanPage() {
       });
       saveScanResult(result);
     } catch (error: any) {
-      console.error(error);
-      const isQuotaError = error?.message?.includes('quota') || error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED');
+      const isQuotaError = error?.message?.includes('quota') || 
+                           error?.message?.includes('429') || 
+                           error?.message?.includes('RESOURCE_EXHAUSTED') ||
+                           error?.message?.includes('limit');
       
+      // On ne loggue pas l'erreur en console si c'est une erreur "normale" (quota ou flou) 
+      // pour éviter de déclencher l'overlay d'erreur NextJS en dev.
+      if (!isQuotaError) {
+        console.warn('Analyse impossible avec cette image, probablement trop floue.');
+      }
+
       toast({
         variant: "destructive",
-        title: isQuotaError ? "L'expert est très sollicité !" : "Oups, je n'ai pas bien vu...",
+        title: isQuotaError ? "L'Expert est très sollicité !" : "Oups, je n'ai pas bien vu...",
         description: isQuotaError 
-          ? "Trop de scans en même temps. Patientez quelques secondes et relancez le radar."
-          : "La photo semble floue ou le produit est mal cadré. Essayez de stabiliser l'appareil et de reprendre la photo."
+          ? "Trop de demandes en même temps. Patientez quelques secondes et relancez le radar."
+          : "L'image semble illisible. Essayez de stabiliser l'appareil, de bien cadrer le produit et de reprendre la photo."
       });
     } finally {
       setLoading(false);
@@ -143,15 +150,17 @@ export default function ScanPage() {
       });
       saveScanResult(result);
     } catch (error: any) {
-      console.error(error);
-      const isQuotaError = error?.message?.includes('quota') || error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED');
+      const isQuotaError = error?.message?.includes('quota') || 
+                           error?.message?.includes('429') || 
+                           error?.message?.includes('RESOURCE_EXHAUSTED') ||
+                           error?.message?.includes('limit');
 
       toast({
         variant: "destructive",
-        title: isQuotaError ? "L'expert prend une pause..." : "Produit introuvable",
+        title: isQuotaError ? "L'Expert prend une courte pause..." : "Produit introuvable",
         description: isQuotaError 
-          ? "Le système est temporairement saturé. Attendez un court instant avant de retenter."
-          : "L'IA n'a pas trouvé d'informations pour ce nom. Vérifiez l'orthographe ou essayez un nom plus connu."
+          ? "Le système est temporairement saturé par de nombreuses analyses. Réessayez dans un instant."
+          : "Je n'ai pas trouvé d'informations fiables pour ce nom. Vérifiez l'orthographe ou essayez un nom plus générique."
       });
     } finally {
       setLoading(false);

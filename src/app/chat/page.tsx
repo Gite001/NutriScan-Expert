@@ -60,11 +60,18 @@ export default function ChatPage() {
         keyTakeaways: response.keyTakeaways
       };
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
+    } catch (error: any) {
+      const isQuotaError = error?.message?.includes('quota') || 
+                           error?.message?.includes('429') || 
+                           error?.message?.includes('RESOURCE_EXHAUSTED') ||
+                           error?.message?.includes('limit');
+      
       setMessages(prev => [...prev, {
         id: 'error',
         role: 'assistant',
-        content: "Désolé, j'ai rencontré une difficulté technique pour analyser votre demande. Veuillez réessayer."
+        content: isQuotaError 
+          ? "Je reçois énormément de questions en ce moment ! Laissez-moi souffler quelques secondes et reposez-moi votre question, je serai ravi de vous répondre."
+          : "J'ai eu un petit souci technique pour traiter cette information. Pouvez-vous reformuler ou retenter dans un instant ?"
       }]);
     } finally {
       setLoading(false);
