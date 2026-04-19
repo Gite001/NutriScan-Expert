@@ -4,14 +4,16 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Apple, LogIn, Loader2, Mail, Lock, User as UserIcon, Sparkles } from 'lucide-react';
+import { Apple, LogIn, Loader2, Mail, Lock, User as UserIcon, Sparkles, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const { loginWithGoogle, loginWithEmail, registerWithEmail, loading } = useAuth();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -30,6 +32,18 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-background relative overflow-hidden">
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] -z-10" />
+
+      {/* Bouton de retour à l'accueil */}
+      <div className="absolute top-8 left-8 z-50">
+        <Button 
+          variant="ghost" 
+          onClick={() => router.push('/')}
+          className="rounded-full gap-2 border border-primary-950/20 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all"
+        >
+          <ArrowLeft size={16} />
+          Retour à la base
+        </Button>
+      </div>
 
       <div className="max-w-md w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
         <div className="text-center space-y-4">

@@ -81,7 +81,7 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden animate-in fade-in duration-700">
       <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50 bg-white/80 backdrop-blur-3xl border-primary/20">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full border border-primary-950/20 hover:bg-primary/10">
+        <Button variant="ghost" size="icon" onClick={() => router.push('/')} className="rounded-full border border-primary-950/20 hover:bg-primary/10">
           <ArrowLeft className="w-5 h-5 text-primary-950" />
         </Button>
         <div className="text-center px-2">
