@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -121,7 +120,7 @@ export default function ChatPage() {
               </div>
               
               <Card className={cn(
-                "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group",
+                "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
                   : "glass border-primary/10 rounded-tl-sm text-foreground/90 prose prose-sm dark:prose-invert max-w-none chat-prose"
@@ -143,7 +142,7 @@ export default function ChatPage() {
               {msg.keyTakeaways && msg.keyTakeaways.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mt-2">
                   {msg.keyTakeaways.map((point, i) => (
-                    <div key={i} className="glass p-4 rounded-2xl border-accent/20 flex items-center gap-3 hover:border-accent/40 transition-colors">
+                    <div key={i} className="glass p-4 rounded-2xl border-accent/20 flex items-center gap-3 hover:border-accent/40 hover:scale-105 transition-all cursor-default card-shine">
                        <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
                           <Zap size={12} className="text-accent" />
                        </div>

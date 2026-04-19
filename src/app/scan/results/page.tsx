@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -12,16 +11,11 @@ import {
   ShieldAlert,
   Microscope,
   Zap,
-  Dna,
   Gem,
   Sparkles,
-  Trophy,
   Target,
   Flame,
-  Droplet,
-  Info,
   Quote,
-  Leaf,
   Globe,
   Utensils,
   Lightbulb,
@@ -29,12 +23,13 @@ import {
   Activity,
   Layers,
   ChevronRight,
-  Fingerprint
+  Fingerprint,
+  Leaf
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ResultsPage() {
@@ -61,7 +56,7 @@ export default function ResultsPage() {
     A: "bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]", 
     B: "bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)]", 
     C: "bg-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.4)]", 
-    D: "bg-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.4)]", 
+    D: "bg-orange-500 shadow-[0_0_20_rgba(249,115,22,0.4)]", 
     E: "bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)]",
   };
 
@@ -104,12 +99,12 @@ export default function ResultsPage() {
                   </h2>
                 </div>
                 <div className="flex items-center gap-6">
-                  <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20 hover:scale-110 transition-transform">
+                  <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20 hover:scale-110 transition-transform cursor-help">
                     <span className="text-4xl font-black text-primary leading-none">{data.globalScore}</span>
                     <span className="text-[9px] font-black opacity-50 uppercase tracking-widest mt-1">Bio-Score</span>
                   </div>
                   <div className={cn(
-                    "w-24 h-24 rounded-[2.5rem] flex items-center justify-center text-6xl font-black text-white transition-all duration-500 hover:rotate-6", 
+                    "w-24 h-24 rounded-[2.5rem] flex items-center justify-center text-6xl font-black text-white transition-all duration-500 hover:rotate-6 cursor-help", 
                     scoreColors[data.nutriScore]
                   )}>
                     {data.nutriScore}
@@ -120,7 +115,7 @@ export default function ResultsPage() {
               {/* Quick Summary Grid */}
               <div className="grid grid-cols-2 gap-4">
                 {data.quickLook.map((item, i) => (
-                   <div key={i} className="glass p-4 rounded-3xl border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-1">
+                   <div key={i} className="glass p-4 rounded-3xl border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-1 card-shine">
                       <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest mb-1">{item.name}</p>
                       <div className="flex items-end justify-between">
                          <span className="text-lg font-bold">{item.level}</span>
@@ -154,13 +149,10 @@ export default function ResultsPage() {
             </TabsTrigger>
           </TabsList>
 
-          {/* CONTENU DES SPHÈRES */}
           <div className="min-h-[500px] animate-in slide-in-from-bottom-8 duration-700">
-            
-            {/* SPHÈRE 1: VITALITÉ MÉTABOLIQUE */}
-            <TabsContent value="vitality" className="space-y-8">
+            <TabsContent value="vitality" className="space-y-8 mt-0">
               <div className="grid md:grid-cols-2 gap-8">
-                <Card className="glass rounded-[3rem] p-10 border-primary/10 hover:border-primary/30 transition-all group overflow-hidden relative">
+                <Card className="glass rounded-[3rem] p-10 border-primary/10 hover:border-primary/30 transition-all group overflow-hidden relative card-shine">
                    <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:scale-150 transition-transform duration-1000"><Flame size={120} /></div>
                    <h3 className="text-2xl font-headline font-bold mb-8 flex items-center gap-3">
                       <Target className="text-primary" /> Budget Énergétique
@@ -196,7 +188,7 @@ export default function ResultsPage() {
                 </Card>
 
                 <div className="space-y-6">
-                   <div className="glass p-8 rounded-[2.5rem] border-primary/10 relative group overflow-hidden">
+                   <div className="glass p-8 rounded-[2.5rem] border-primary/10 relative group overflow-hidden hover:border-primary/30 transition-all">
                       <Quote className="absolute -top-6 -right-6 w-32 h-32 opacity-5" />
                       <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
                         <Microscope size={14} /> Le Mot de l'Expert
@@ -208,7 +200,7 @@ export default function ResultsPage() {
                    
                    <div className="grid grid-cols-2 gap-4">
                       {data.bonusTips.healthBenefits.map((benefit, i) => (
-                        <div key={i} className="glass p-6 rounded-[2rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col justify-center items-center text-center gap-2">
+                        <div key={i} className="glass p-6 rounded-[2rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col justify-center items-center text-center gap-2 hover:scale-105">
                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><HeartPulse size={20} /></div>
                            <p className="text-[10px] font-bold leading-tight uppercase tracking-tight">{benefit}</p>
                         </div>
@@ -218,8 +210,7 @@ export default function ResultsPage() {
               </div>
             </TabsContent>
 
-            {/* SPHÈRE 2: ARCHITECTURE MOLÉCULAIRE */}
-            <TabsContent value="molecular" className="space-y-10">
+            <TabsContent value="molecular" className="space-y-10 mt-0">
               <div className="space-y-6">
                 <div className="flex items-center gap-3 px-2">
                   <Gem className="text-accent w-6 h-6 animate-pulse" />
@@ -227,7 +218,7 @@ export default function ResultsPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {data.molecularTreasures.map((treasure, idx) => (
-                    <Card key={idx} className="glass group rounded-[2.5rem] p-8 border-primary/5 hover:border-accent/40 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                    <Card key={idx} className="glass group rounded-[2.5rem] p-8 border-primary/5 hover:border-accent/40 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden card-shine">
                       <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition-opacity"><Gem size={100} /></div>
                       <Badge className={cn("mb-6 border-none text-[8px] font-black uppercase tracking-widest py-1 px-3", rarityStyles[treasure.rarity])}>
                         {treasure.rarity}
@@ -247,7 +238,7 @@ export default function ResultsPage() {
                   </div>
                   <div className="grid md:grid-cols-2 gap-6">
                     {data.scientificAlerts.map((alert, idx) => (
-                      <div key={idx} className="glass border-red-500/20 bg-red-500/5 p-8 rounded-[2.5rem] flex gap-6 hover:bg-red-500/10 transition-colors group">
+                      <div key={idx} className="glass border-red-500/20 bg-red-500/5 p-8 rounded-[2.5rem] flex gap-6 hover:bg-red-500/10 transition-all group hover:-translate-x-1">
                         <div className="bg-red-500 text-white p-4 rounded-2xl h-fit group-hover:rotate-12 transition-transform shadow-lg shadow-red-500/20">
                           <AlertTriangle size={24} />
                         </div>
@@ -265,14 +256,13 @@ export default function ResultsPage() {
               )}
             </TabsContent>
 
-            {/* SPHÈRE 3: SYMBIOSE PLANÉTAIRE */}
-            <TabsContent value="symbiosis" className="space-y-8">
-               <Card className="glass border-emerald-500/20 rounded-[4rem] p-12 relative overflow-hidden group">
+            <TabsContent value="symbiosis" className="space-y-8 mt-0">
+               <Card className="glass border-emerald-500/20 rounded-[4rem] p-12 relative overflow-hidden group card-shine">
                   <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:scale-110 transition-transform duration-1000"><Globe size={300} className="text-emerald-500" /></div>
                   <div className="grid md:grid-cols-2 gap-16 items-center">
                      <div className="space-y-8">
                         <div className="flex items-center gap-4">
-                           <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-500/10 flex items-center justify-center text-emerald-600 text-4xl font-black border border-emerald-500/20 shadow-inner">
+                           <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-500/10 flex items-center justify-center text-emerald-600 text-4xl font-black border border-emerald-500/20 shadow-inner group-hover:scale-110 transition-transform">
                               {data.ecoIntelligence.ecoScore}
                            </div>
                            <div className="space-y-1">
@@ -285,7 +275,7 @@ export default function ResultsPage() {
                         </p>
                         <div className="flex flex-wrap gap-3">
                            {data.ecoIntelligence.footprintTags.map((tag, i) => (
-                              <Badge key={i} className="bg-emerald-500/10 text-emerald-700 border-emerald-500/20 text-[9px] font-black tracking-widest px-4 py-2 rounded-full">
+                              <Badge key={i} className="bg-emerald-500/10 text-emerald-700 border-emerald-500/20 text-[9px] font-black tracking-widest px-4 py-2 rounded-full hover:bg-emerald-500 hover:text-white transition-colors cursor-default">
                                  {tag.toUpperCase()}
                               </Badge>
                            ))}
@@ -312,10 +302,9 @@ export default function ResultsPage() {
                </Card>
             </TabsContent>
 
-            {/* SPHÈRE 4: ALCHIMIE ET BIO-HACKING */}
-            <TabsContent value="alchemy" className="space-y-8">
+            <TabsContent value="alchemy" className="space-y-8 mt-0">
                <div className="grid md:grid-cols-2 gap-8">
-                  <Card className="rounded-[3.5rem] bg-gradient-to-br from-primary to-primary/80 text-white border-none shadow-2xl relative overflow-hidden group p-12 transition-all hover:scale-[1.02]">
+                  <Card className="rounded-[3.5rem] bg-gradient-to-br from-primary to-primary/80 text-white border-none shadow-2xl relative overflow-hidden group p-12 transition-all hover:scale-[1.02] card-shine">
                      <div className="absolute -right-10 -top-10 opacity-10 group-hover:rotate-12 transition-transform duration-1000"><Utensils size={240} /></div>
                      <div className="relative z-10 space-y-8">
                         <div className="space-y-2">
@@ -346,7 +335,7 @@ export default function ResultsPage() {
                      </div>
                      <div className="space-y-4">
                         {data.bonusTips.practicalTips.map((tip, i) => (
-                           <div key={i} className="glass p-6 rounded-3xl flex items-center gap-6 hover:border-accent/40 hover:translate-x-2 transition-all group">
+                           <div key={i} className="glass p-6 rounded-3xl flex items-center gap-6 hover:border-accent/40 hover:translate-x-2 transition-all group cursor-default">
                               <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent group-hover:text-white transition-all shadow-lg shadow-accent/5">
                                  <Activity size={20} />
                               </div>
@@ -358,7 +347,6 @@ export default function ResultsPage() {
                   </div>
                </div>
             </TabsContent>
-
           </div>
         </Tabs>
 
@@ -378,4 +366,3 @@ export default function ResultsPage() {
     </div>
   );
 }
-
