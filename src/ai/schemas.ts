@@ -61,11 +61,11 @@ export const NutriScanExpertOutputSchema = z.object({
   healthyAlternatives: z.array(HealthyAlternativeSchema).min(2).max(2),
   expertVerdict: z.string(),
   bonusTips: z.object({
-    practicalTips: z.array(z.string()).min(3).max(3),
-    healthBenefits: z.array(z.string()).min(2).max(2),
+    practicalTips: z.array(z.string()).min(3).max(3).describe("Astuces de bio-hacking pour optimiser ce produit"),
+    healthBenefits: z.array(z.string()).min(2).max(2).describe("Bénéfices secondaires sur le sommeil, l'énergie ou le focus"),
     expressRecipe: z.object({
-      name: z.string(),
-      ingredients: z.array(z.string()).min(3).max(3),
+      name: z.string().describe("Nom d'une recette alchimique rapide utilisant ce produit"),
+      ingredients: z.array(z.string()).min(3).max(3).describe("3 ingrédients clés pour magnifier ce produit"),
     }),
   }),
 });

@@ -15,18 +15,21 @@ import {
   Gem,
   Sparkles,
   Trophy,
-  TrendingUp,
   Target,
   Flame,
   Droplet,
   Info,
   Quote,
   Leaf,
-  Globe
+  Globe,
+  Utensils,
+  Lightbulb,
+  HeartPulse
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -59,14 +62,14 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen pb-24 bg-background">
-      <div className="max-w-4xl mx-auto p-4 md:p-10 space-y-8">
+      <div className="max-w-4xl mx-auto p-4 md:p-10 space-y-12">
         <header className="flex items-center justify-between">
           <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full glass">
             <ArrowLeft className="w-6 h-6" />
           </Button>
           <div className="text-right">
             <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase">Rapport SENSOR-X</p>
-            <h1 className="text-xl font-headline font-bold text-primary">TRÉSORS MOLÉCULAIRES</h1>
+            <h1 className="text-xl font-headline font-bold text-primary">ANALYSE SANS LIMITES</h1>
           </div>
         </header>
 
@@ -119,7 +122,7 @@ export default function ResultsPage() {
           </div>
         </section>
 
-        {/* SYMBIOSE PLANÉTAIRE (ECO-IMPACT) */}
+        {/* SYMBIOSE PLANÉTAIRE */}
         <section className="glass border-accent/20 rounded-[3rem] p-8 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             <Globe size={80} className="text-accent" />
@@ -175,6 +178,49 @@ export default function ResultsPage() {
             ))}
           </div>
         </section>
+
+        {/* ALCHIMIE & BIO-HACKING (THE UNLIMITED SECTION) */}
+        <div className="grid md:grid-cols-2 gap-8">
+           {/* Recette Alchimique */}
+           <section className="space-y-4">
+              <div className="flex items-center gap-2 px-2">
+                <Utensils className="text-primary w-5 h-5" />
+                <h3 className="text-xl font-headline font-bold tracking-tight">ALCHIMIE EXPRESS</h3>
+              </div>
+              <Card className="rounded-[2.5rem] bg-primary text-white border-none shadow-xl relative overflow-hidden group">
+                 <Sparkles size={120} className="absolute -right-8 -bottom-8 opacity-10 group-hover:scale-125 transition-transform duration-1000" />
+                 <CardContent className="p-8 space-y-4">
+                    <h4 className="text-2xl font-headline font-bold leading-tight">{data.bonusTips.expressRecipe.name}</h4>
+                    <div className="space-y-2">
+                       <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">Synergistes requis :</p>
+                       <ul className="flex flex-wrap gap-2">
+                          {data.bonusTips.expressRecipe.ingredients.map((ing, i) => (
+                            <li key={i} className="bg-white/10 px-3 py-1 rounded-full text-[10px] font-bold">{ing}</li>
+                          ))}
+                       </ul>
+                    </div>
+                 </CardContent>
+              </Card>
+           </section>
+
+           {/* Bio-Hacking Tips */}
+           <section className="space-y-4">
+              <div className="flex items-center gap-2 px-2">
+                <Lightbulb className="text-accent w-5 h-5" />
+                <h3 className="text-xl font-headline font-bold tracking-tight">RITUELS DE BIO-HACKING</h3>
+              </div>
+              <div className="space-y-3">
+                 {data.bonusTips.practicalTips.map((tip, i) => (
+                    <div key={i} className="glass p-4 rounded-2xl flex items-center gap-4 hover:border-accent/40 transition-colors">
+                       <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent shrink-0">
+                          <HeartPulse size={16} />
+                       </div>
+                       <p className="text-[11px] font-medium leading-tight">{tip}</p>
+                    </div>
+                 ))}
+              </div>
+           </section>
+        </div>
 
         {/* PIÈGES DU LABYRINTHE */}
         {data.scientificAlerts && data.scientificAlerts.length > 0 && (
