@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -92,7 +93,7 @@ export default function ResultsPage() {
           <Card className="glass rounded-[3rem] p-6 md:p-12 relative overflow-hidden border-primary/10 transition-all duration-500 hover:shadow-2xl">
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div className="space-y-6">
-                <div className="space-y-3">
+                <div className="space-y-3 text-center md:text-left">
                   <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold uppercase py-1.5 px-5 rounded-full tracking-widest animate-pulse">
                     {data.personalizationIndicator || "ANALYSE PERSONNALISÉE"}
                   </Badge>
@@ -100,7 +101,7 @@ export default function ResultsPage() {
                     {data.productName}
                   </h2>
                 </div>
-                <div className="flex items-center gap-6">
+                <div className="flex items-center justify-center md:justify-start gap-6">
                   <div className="glass p-4 md:p-6 rounded-[2rem] md:rounded-[2.5rem] flex flex-col items-center min-w-[80px] md:min-w-[100px] border-primary/20 hover:scale-110 transition-transform cursor-help">
                     <span className="text-3xl md:text-4xl font-black text-primary leading-none">{data.globalScore || 0}</span>
                     <span className="text-[8px] md:text-[9px] font-black opacity-50 uppercase tracking-widest mt-1">Bio-Score</span>
@@ -114,15 +115,17 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              {/* Quick Summary Grid */}
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
+              {/* Quick Summary Grid - GÉNÉRALISÉ EN COLONNE UNIQUE */}
+              <div className="grid grid-cols-1 gap-3 md:gap-4">
                 {(data.quickLook || []).map((item, i) => (
-                   <div key={i} className="glass p-4 rounded-2xl md:rounded-3xl border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-1 card-shine">
-                      <p className="text-[7px] md:text-[8px] font-black text-muted-foreground uppercase tracking-widest mb-1">{item.name}</p>
-                      <div className="flex items-end justify-between">
-                         <span className="text-sm md:text-lg font-bold">{item.level}</span>
-                         <Badge variant="outline" className="text-[6px] md:text-[7px] border-primary/20 px-1.5">{item.benefit?.split(' ')[0]}</Badge>
+                   <div key={i} className="glass p-5 rounded-2xl md:rounded-3xl border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-1 card-shine flex items-center justify-between group">
+                      <div className="space-y-1">
+                        <p className="text-[8px] md:text-[10px] font-black text-muted-foreground uppercase tracking-widest group-hover:text-primary transition-colors">{item.name}</p>
+                        <span className="text-base md:text-xl font-bold">{item.level}</span>
                       </div>
+                      <Badge variant="outline" className="text-[9px] md:text-[11px] border-primary/20 px-4 py-1.5 font-bold rounded-full bg-white/50 backdrop-blur-sm group-hover:bg-primary/10 group-hover:text-primary transition-all">
+                        {item.benefit}
+                      </Badge>
                    </div>
                 ))}
               </div>
@@ -208,13 +211,13 @@ export default function ResultsPage() {
                       </p>
                    </div>
                    
-                   <div className="flex flex-col gap-4"> {/* Changé en colonne unique */}
+                   <div className="flex flex-col gap-4">
                       {(data.bonusTips?.healthBenefits || []).map((benefit, i) => (
-                        <div key={i} className="glass p-8 rounded-[2.5rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col items-center text-center gap-6 hover:scale-[1.02] card-shine">
+                        <div key={i} className="glass p-8 rounded-[2.5rem] border-primary/5 hover:border-primary/20 transition-all flex items-start gap-6 hover:scale-[1.02] card-shine">
                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 shadow-sm">
                               <HeartPulse size={24} />
                            </div>
-                           <p className="text-xs md:text-sm font-bold leading-relaxed uppercase tracking-widest max-w-[80%] mx-auto">{benefit}</p>
+                           <p className="text-xs md:text-sm font-bold leading-relaxed uppercase tracking-widest mt-1 text-left">{benefit}</p>
                         </div>
                       ))}
                    </div>
@@ -359,7 +362,7 @@ export default function ResultsPage() {
                               <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent group-hover:text-white transition-all shadow-lg shadow-accent/5 mt-1">
                                  <Activity size={20} />
                               </div>
-                              <div className="flex-1 py-1">
+                              <div className="flex-1 py-1 text-left">
                                 <p className="text-sm font-bold leading-relaxed tracking-tight text-foreground/80">{tip}</p>
                               </div>
                               <ChevronRight className="mt-4 text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
