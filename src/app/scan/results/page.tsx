@@ -18,7 +18,10 @@ import {
   ShieldAlert,
   Microscope,
   Droplet,
-  Info
+  Info,
+  Sparkles,
+  ExternalLink,
+  Target
 } from 'lucide-react';
 import {
   Accordion,
@@ -45,11 +48,11 @@ export default function ResultsPage() {
   if (!data) return null;
 
   const scoreColors = {
-    A: "bg-emerald-500",
-    B: "bg-green-500",
-    C: "bg-yellow-500",
-    D: "bg-orange-500",
-    E: "bg-red-500",
+    A: "bg-emerald-500 shadow-emerald-500/50",
+    B: "bg-green-500 shadow-green-500/50",
+    C: "bg-yellow-500 shadow-yellow-500/50",
+    D: "bg-orange-500 shadow-orange-500/50",
+    E: "bg-red-500 shadow-red-500/50",
   };
 
   const aspectIcons = {
@@ -68,189 +71,199 @@ export default function ResultsPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4 md:p-8 space-y-8 pb-24 animate-in fade-in duration-500">
-      <header className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full">
-          <ArrowLeft className="w-6 h-6" />
-        </Button>
-        <h1 className="text-2xl font-headline font-bold text-primary">Radar Nutritionnel</h1>
-      </header>
+    <div className="min-h-screen pb-24 animate-in fade-in duration-1000">
+      {/* Background Decor */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-accent/5 rounded-full blur-[100px]" />
+      </div>
 
-      {/* Main Score Section */}
-      <section className="bg-white rounded-[2.5rem] p-8 shadow-xl border-t-8 border-primary space-y-6 text-center relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
-        
-        <div className="flex flex-col items-center">
-          <div className="relative w-44 h-44 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle cx="88" cy="88" r="80" fill="transparent" stroke="currentColor" strokeWidth="12" className="text-muted/30" />
-              <circle
-                cx="88" cy="88" r="80" fill="transparent" stroke="currentColor" strokeWidth="12"
-                strokeDasharray={502}
-                strokeDashoffset={502 - (502 * data.globalScore) / 100}
-                strokeLinecap="round"
-                className="text-primary transition-all duration-1000 ease-out"
-              />
-            </svg>
-            <div className="absolute flex flex-col items-center">
-              <span className="text-6xl font-bold text-primary tracking-tighter">{data.globalScore}</span>
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Indice Santé</span>
+      <div className="max-w-4xl mx-auto p-4 md:p-10 space-y-12">
+        <header className="flex items-center justify-between">
+          <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full glass w-12 h-12">
+            <ArrowLeft className="w-6 h-6" />
+          </Button>
+          <div className="text-right">
+            <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase mb-1">Analyse Terminée</p>
+            <h1 className="text-2xl font-headline font-bold text-primary tracking-tighter">RAPPORT D'EXPERTISE</h1>
+          </div>
+        </header>
+
+        {/* Artful Score Card */}
+        <section className="glass rounded-[4rem] p-10 md:p-16 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-8">
+            <Target size={120} className="text-primary/5 group-hover:text-primary/10 transition-colors" />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="flex flex-col items-center md:items-start space-y-8">
+              <div className="space-y-2">
+                <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold tracking-widest uppercase py-1 px-4 mb-4">
+                  {data.personalizationIndicator}
+                </Badge>
+                <h2 className="text-4xl md:text-6xl font-headline font-bold leading-[0.9] tracking-tighter">{data.productName}</h2>
+              </div>
+              
+              <div className="flex gap-4">
+                <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20">
+                  <span className="text-3xl font-bold tracking-tighter">{data.globalScore}</span>
+                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Score Global</span>
+                </div>
+                <Badge className={cn("text-6xl w-24 h-24 rounded-[2.5rem] flex items-center justify-center font-bold text-white border-8 border-white/20 shadow-2xl transition-transform hover:scale-110", scoreColors[data.nutriScore])}>
+                  {data.nutriScore}
+                </Badge>
+              </div>
+            </div>
+
+            <div className="relative flex items-center justify-center">
+              <svg className="w-64 h-64 transform -rotate-90">
+                <circle cx="128" cy="128" r="110" fill="transparent" stroke="currentColor" strokeWidth="2" className="text-primary/10" />
+                <circle
+                  cx="128" cy="128" r="110" fill="transparent" stroke="currentColor" strokeWidth="12"
+                  strokeDasharray={691}
+                  strokeDashoffset={691 - (691 * data.globalScore) / 100}
+                  strokeLinecap="round"
+                  className="text-primary transition-all duration-1000 ease-out drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                />
+              </svg>
+              <div className="absolute flex flex-col items-center">
+                <Sparkles className="text-accent w-8 h-8 mb-2 animate-pulse" />
+                <span className="text-sm font-bold tracking-widest uppercase">Pureté</span>
+              </div>
             </div>
           </div>
-          <Badge className={cn("mt-8 text-5xl w-20 h-20 rounded-3xl flex items-center justify-center font-bold text-white shadow-2xl border-4 border-white", scoreColors[data.nutriScore])}>
-            {data.nutriScore}
-          </Badge>
-        </div>
+        </section>
 
-        <div className="space-y-2">
-          <h2 className="text-3xl font-headline font-bold leading-tight">{data.productName}</h2>
-          <div className="inline-flex items-center gap-2 bg-primary/5 px-4 py-1.5 rounded-full">
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs font-bold text-primary uppercase tracking-wider">{data.personalizationIndicator}</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Scientific Whistleblower Alerts */}
-      {data.scientificAlerts && data.scientificAlerts.length > 0 && (
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 px-2">
-            <ShieldAlert className="text-accent w-6 h-6" />
-            <h3 className="text-xl font-headline font-bold">Alertes Scientifiques (2025-2026)</h3>
-          </div>
-          <div className="grid gap-3">
-            {data.scientificAlerts.map((alert, idx) => {
-              const Icon = (alertIcons as any)[alert.category] || Info;
-              return (
-                <div key={idx} className="bg-accent/10 border border-accent/20 p-5 rounded-[2rem] flex items-start gap-4 shadow-sm hover:shadow-md transition-all">
-                  <div className="bg-white p-3 rounded-2xl text-accent shadow-sm shrink-0">
-                    <Icon size={24} />
+        {/* Scientific Whistleblower Alerts */}
+        {data.scientificAlerts && data.scientificAlerts.length > 0 && (
+          <section className="space-y-6">
+            <div className="flex items-center gap-3 px-2">
+              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shadow-lg shadow-accent/20">
+                <ShieldAlert className="text-white w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-headline font-bold tracking-tighter">RADAR SCIENTIFIQUE 2026</h3>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {data.scientificAlerts.map((alert, idx) => {
+                const Icon = (alertIcons as any)[alert.category] || Info;
+                return (
+                  <div key={idx} className="glass border-accent/20 p-8 rounded-[3rem] space-y-4 hover:shadow-2xl transition-all hover:-translate-y-1">
+                    <div className="bg-accent/10 p-4 rounded-3xl text-accent w-fit">
+                      <Icon size={28} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-lg leading-tight mb-2">{alert.title}</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{alert.message}</p>
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-accent-foreground leading-snug">{alert.title}</h4>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{alert.message}</p>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* Quick Look Section */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">ANALYSE MOLÉCULAIRE</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {data.quickLook.map((item, idx) => {
+              const Icon = (aspectIcons as any)[item.name] || Zap;
+              return (
+                <div key={idx} className="glass p-8 rounded-[3rem] space-y-4 hover:border-primary/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="bg-primary/10 p-3 rounded-2xl text-primary">
+                      <Icon size={24} />
+                    </div>
+                  </div>
+                  <div>
+                    <Badge variant="outline" className={cn(
+                      "text-[9px] font-bold uppercase tracking-tighter px-2 mb-2 border-none",
+                      item.level === 'Beaucoup' ? "text-red-500 bg-red-500/10" :
+                      item.level === 'Peu' ? "text-emerald-500 bg-emerald-500/10" : "text-muted-foreground bg-muted/20"
+                    )}>
+                      {item.level}
+                    </Badge>
+                    <h4 className="font-bold text-sm mb-1">{item.name}</h4>
+                    <p className="text-[10px] text-muted-foreground leading-tight">{item.benefit}</p>
                   </div>
                 </div>
               );
             })}
           </div>
         </section>
-      )}
 
-      {/* Quick Look Section */}
-      <section className="space-y-4">
-        <h3 className="text-xl font-headline font-bold px-2">Analyse Moléculaire</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {data.quickLook.map((item, idx) => {
-            const Icon = (aspectIcons as any)[item.name] || Zap;
-            return (
-              <div key={idx} className="bg-white p-5 rounded-[2rem] border shadow-sm space-y-3 hover:border-primary/30 transition-colors">
-                <div className="flex items-center justify-between">
-                  <div className="bg-primary/10 p-2.5 rounded-2xl text-primary">
-                    <Icon size={22} />
-                  </div>
-                  <Badge variant="outline" className={cn(
-                    "text-[10px] font-bold uppercase tracking-tighter px-2",
-                    item.level === 'Beaucoup' ? "border-red-200 text-red-600 bg-red-50" :
-                    item.level === 'Peu' ? "border-emerald-200 text-emerald-600 bg-emerald-50" : "border-muted"
-                  )}>
-                    {item.level}
-                  </Badge>
-                </div>
-                <div>
-                  <h4 className="font-bold text-sm">{item.name}</h4>
-                  <p className="text-[11px] text-muted-foreground leading-tight mt-1">{item.benefit}</p>
-                </div>
+        {/* Expert Verdict */}
+        <section className="bg-primary text-white p-12 md:p-20 rounded-[4rem] relative overflow-hidden shadow-2xl shadow-primary/30">
+          <Quote className="absolute -top-10 -right-10 w-48 h-48 text-white/10" />
+          <div className="relative z-10 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                <Microscope size={20} className="text-primary" />
               </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Expert Verdict */}
-      <section className="bg-primary text-white p-10 rounded-[3rem] relative overflow-hidden shadow-2xl">
-        <Quote className="absolute -top-6 -right-6 w-32 h-32 text-white/10" />
-        <div className="relative z-10 space-y-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-              <Microscope size={16} className="text-primary" />
+              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-accent">VERDICT EXPERT</h3>
             </div>
-            <h3 className="text-sm font-bold uppercase tracking-widest text-accent">Le Verdict de l'Expert</h3>
+            <p className="text-2xl md:text-4xl italic font-headline font-bold leading-[1.1] tracking-tighter">
+              "{data.expertVerdict}"
+            </p>
           </div>
-          <p className="text-xl italic font-medium leading-relaxed">
-            "{data.expertVerdict}"
-          </p>
+        </section>
+
+        {/* Optimisation Section */}
+        <section className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-6">
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">OPTIMISATION SANTÉ</h3>
+             <div className="space-y-4">
+                {data.healthyAlternatives.map((alt, idx) => (
+                  <div key={idx} className="glass border-emerald-500/20 p-8 rounded-[3rem] flex items-center gap-6 group hover:bg-emerald-500/5 transition-all">
+                    <div className="bg-emerald-500 p-4 rounded-3xl text-white group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-500/30">
+                      <CheckCircle2 size={24} />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-lg tracking-tight">{alt.productName}</h4>
+                      <p className="text-xs text-muted-foreground">{alt.benefit}</p>
+                    </div>
+                  </div>
+                ))}
+             </div>
+          </div>
+
+          <div className="space-y-6">
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">GUIDE PRATIQUE</h3>
+             <Accordion type="single" collapsible className="w-full glass rounded-[3rem] overflow-hidden border-none px-6">
+                <AccordionItem value="tips" className="border-b border-white/10">
+                  <AccordionTrigger className="font-bold hover:no-underline py-8 text-lg">Bio-Hacking Tips</AccordionTrigger>
+                  <AccordionContent className="pb-8">
+                    <ul className="space-y-4 text-sm text-muted-foreground py-2">
+                      {data.bonusTips.practicalTips.map((tip, i) => (
+                        <li key={i} className="flex gap-4">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                          {tip}
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="recipe" className="border-none">
+                  <AccordionTrigger className="font-bold hover:no-underline py-8 text-lg">Recette Express 120s</AccordionTrigger>
+                  <AccordionContent className="space-y-6 pb-8">
+                    <h4 className="font-bold text-primary text-xl tracking-tight">{data.bonusTips.expressRecipe.name}</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {data.bonusTips.expressRecipe.ingredients.map((ing, i) => (
+                        <Badge key={i} className="rounded-2xl px-5 py-2 glass bg-primary/5 text-primary border-none text-xs font-bold">{ing}</Badge>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+             </Accordion>
+          </div>
+        </section>
+
+        <div className="pt-12 flex justify-center">
+          <Button onClick={() => router.push('/scan')} className="h-20 px-12 rounded-[2.5rem] text-2xl font-headline font-bold gap-4 bg-primary hover:bg-primary/90 shadow-[0_25px_50px_-12px_rgba(34,197,94,0.4)] transition-all active:scale-95">
+            <RotateCcw className="w-8 h-8" />
+            NOUVELLE ANALYSE
+          </Button>
         </div>
-      </section>
-
-      {/* Alternatives Section */}
-      <section className="space-y-4">
-        <h3 className="text-xl font-headline font-bold px-2">Optimisation Santé</h3>
-        <div className="space-y-3">
-          {data.healthyAlternatives.map((alt, idx) => (
-            <div key={idx} className="bg-emerald-50/50 border border-emerald-100 p-6 rounded-[2.5rem] flex items-center gap-5 group hover:bg-emerald-50 transition-colors">
-              <div className="bg-white p-4 rounded-2xl shadow-sm text-emerald-600 group-hover:scale-110 transition-transform">
-                <CheckCircle2 size={28} />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-emerald-900 text-lg">{alt.productName}</h4>
-                <p className="text-sm text-emerald-700/80">{alt.benefit}</p>
-              </div>
-              <ChevronRight className="text-emerald-300" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Bonus Tips Accordion */}
-      <section className="space-y-4">
-        <h3 className="text-xl font-headline font-bold px-2">Guide Pratique</h3>
-        <Accordion type="single" collapsible className="w-full bg-white rounded-[2rem] shadow-sm border overflow-hidden">
-          <AccordionItem value="tips" className="border-b px-8">
-            <AccordionTrigger className="font-bold hover:no-underline py-6">Astuces Bio-Hacking</AccordionTrigger>
-            <AccordionContent className="pb-6">
-              <ul className="space-y-3 text-sm text-muted-foreground list-none py-2">
-                {data.bonusTips.practicalTips.map((tip, i) => (
-                  <li key={i} className="flex gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                    {tip}
-                  </li>
-                ))}
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="benefits" className="border-b px-8">
-            <AccordionTrigger className="font-bold hover:no-underline py-6">Bénéfices Cellulaires</AccordionTrigger>
-            <AccordionContent className="pb-6">
-              <ul className="space-y-3 text-sm text-muted-foreground list-none py-2">
-                {data.bonusTips.healthBenefits.map((benefit, i) => (
-                  <li key={i} className="flex gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
-                    {benefit}
-                  </li>
-                ))}
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="recipe" className="px-8 border-none">
-            <AccordionTrigger className="font-bold hover:no-underline py-6">Recette Express 120s</AccordionTrigger>
-            <AccordionContent className="space-y-4 pb-8">
-              <h4 className="font-bold text-primary text-lg">{data.bonusTips.expressRecipe.name}</h4>
-              <div className="flex flex-wrap gap-2">
-                {data.bonusTips.expressRecipe.ingredients.map((ing, i) => (
-                  <Badge key={i} variant="secondary" className="rounded-xl px-4 py-1.5 bg-primary/5 text-primary border-none">{ing}</Badge>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </section>
-
-      <div className="pt-6 pb-12 px-2">
-        <Button onClick={() => router.push('/scan')} className="w-full h-16 rounded-3xl text-xl font-headline font-bold gap-3 bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 transition-all active:scale-95">
-          <RotateCcw className="w-6 h-6" />
-          Nouvelle Analyse
-        </Button>
       </div>
     </div>
   );
