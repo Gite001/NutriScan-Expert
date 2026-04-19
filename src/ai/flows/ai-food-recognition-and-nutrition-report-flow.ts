@@ -112,7 +112,7 @@ Use the following information for your analysis:
 **Food Product Image:**
 {{media url=photoDataUri}}
 
-Ensure your response is a valid JSON object matching the `NutriScanExpertOutputSchema`. Focus on providing practical, easy-to-understand information. Output must be in French.
+Ensure your response is a valid JSON object matching the \`NutriScanExpertOutputSchema\`. Focus on providing practical, easy-to-understand information. Output must be in French.
 `,
 });
 
