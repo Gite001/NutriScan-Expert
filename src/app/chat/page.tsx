@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -85,7 +86,7 @@ export default function ChatPage() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="text-center px-2">
-           <h1 className="text-lg md:text-xl font-headline font-bold text-primary tracking-tighter">IA EXPERT NUTRITION</h1>
+           <h1 className="text-lg md:text-xl font-headline font-bold text-primary tracking-tighter uppercase">IA EXPERT NUTRITION</h1>
            <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold text-accent uppercase tracking-widest">
               <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Intelligence Active 2026
@@ -165,28 +166,30 @@ export default function ChatPage() {
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
+      {/* Input Area - Adjusted for perfect alignment */}
       <div className="p-6 border-t glass bg-white/80 backdrop-blur-3xl pb-10 md:pb-6">
-        <form onSubmit={handleSend} className="max-w-3xl mx-auto flex gap-4">
-          <Input 
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Posez votre question à l'IA Expert..."
-            className="h-14 rounded-[1.5rem] bg-white border-primary/10 shadow-inner px-6 text-sm md:text-base placeholder:text-xs md:placeholder:text-sm"
-            disabled={loading}
-          />
-          <Button 
-            type="submit" 
-            size="icon" 
-            disabled={loading || !input.trim()}
-            className="h-14 w-14 rounded-2xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 shrink-0"
-          >
-            <Send className="w-6 h-6" />
-          </Button>
+        <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-4">
+          <div className="relative flex items-center gap-3">
+            <Input 
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Posez votre question à l'IA..."
+              className="h-16 rounded-[2rem] bg-white border-primary/10 shadow-inner px-8 text-base md:text-lg placeholder:text-muted-foreground/50 placeholder:text-sm md:placeholder:text-base focus:ring-primary/20 transition-all flex-1"
+              disabled={loading}
+            />
+            <Button 
+              type="submit" 
+              size="icon" 
+              disabled={loading || !input.trim()}
+              className="h-16 w-16 rounded-full bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 shrink-0 transition-all active:scale-90"
+            >
+              <Send className="w-8 h-8" />
+            </Button>
+          </div>
+          <p className="text-center text-[8px] text-muted-foreground font-black uppercase tracking-[0.4em] opacity-40">
+             Analyse Moléculaire & Bio-Intelligence 2026
+          </p>
         </form>
-        <p className="text-center text-[8px] text-muted-foreground mt-4 font-medium uppercase tracking-widest">
-           Analyse Moléculaire & Bio-Intelligence – Science & Vérité
-        </p>
       </div>
     </div>
   );
