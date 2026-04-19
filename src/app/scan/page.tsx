@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Camera, Upload, Loader2, Sparkles, X, Search, ArrowRight, Zap, Eye, Thermometer, Sun } from 'lucide-react';
+import { Camera, Upload, Loader2, Sparkles, X, Search, ArrowRight, Zap, Eye, Thermometer, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { nutriScanExpert } from '@/ai/flows/ai-food-recognition-and-nutrition-report-flow';
@@ -14,7 +14,6 @@ import { doc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 
 type FilterMode = 'normal' | 'infrared' | 'lowlight';
@@ -187,8 +186,9 @@ export default function ScanPage() {
       canvas.height = video.videoHeight;
       const context = canvas.getContext('2d');
       if (context) {
-        if (filterMode === 'infrared') context.filter = 'invert(1) hue-rotate(180deg) brightness(1.2)';
-        else if (filterMode === 'lowlight') context.filter = 'brightness(1.5) contrast(1.2) saturate(0.5)';
+        // Appliquer les mêmes filtres sur le canvas que sur la prévisualisation
+        if (filterMode === 'infrared') context.filter = 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.5) saturate(2)';
+        else if (filterMode === 'lowlight') context.filter = 'brightness(2) contrast(1.3) saturate(0.2) sepia(1) hue-rotate(70deg)';
         
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const dataUri = canvas.toDataURL('image/jpeg', 0.8);
@@ -208,8 +208,8 @@ export default function ScanPage() {
 
   const filterClasses = {
     normal: "",
-    infrared: "invert-[0.8] hue-rotate-[180deg] brightness-[1.2] contrast-[1.5]",
-    lowlight: "brightness-[1.8] contrast-[1.3] saturate-[0.2] sepia-[0.3]"
+    infrared: "invert-[1] hue-rotate-[180deg] brightness-[1.1] contrast-[1.4] saturate-[2]",
+    lowlight: "brightness-[1.8] contrast-[1.2] saturate-[0.1] sepia-[1] hue-rotate-[70deg] grayscale-[0.2]"
   };
 
   return (
@@ -236,7 +236,7 @@ export default function ScanPage() {
         </Button>
       </div>
 
-      {/* SÉLECTEUR DE MODE: Discret, ne ressemble plus à un bouton d'action */}
+      {/* SÉLECTEUR DE MODE DISCRET */}
       <div className="absolute top-28 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
          <div className="bg-black/40 backdrop-blur-md border border-white/10 p-1 rounded-2xl flex gap-1">
             <button 
@@ -246,7 +246,7 @@ export default function ScanPage() {
                 activeTab === 'camera' ? "bg-white/10 text-white shadow-inner" : "text-white/30 hover:text-white/60"
               )}
             >
-              Radar-Food
+              Radar
             </button>
             <button 
               onClick={() => setActiveTab('search')}
@@ -255,7 +255,7 @@ export default function ScanPage() {
                 activeTab === 'search' ? "bg-white/10 text-white shadow-inner" : "text-white/30 hover:text-white/60"
               )}
             >
-              Recherche
+              Virtuel
             </button>
          </div>
       </div>
@@ -266,7 +266,7 @@ export default function ScanPage() {
           <div className="absolute inset-0">
              <video 
               ref={videoRef} 
-              className={cn("absolute inset-0 w-full h-full object-cover transition-all duration-500", filterClasses[filterMode])} 
+              className={cn("absolute inset-0 w-full h-full object-cover transition-all duration-700", filterClasses[filterMode])} 
               autoPlay 
               muted 
               playsInline
@@ -285,12 +285,12 @@ export default function ScanPage() {
               </div>
             </div>
 
-            {/* FILTRES DE VISION (Uniquement en mode Radar) */}
+            {/* FILTRES DE VISION SPÉCIFIQUES */}
             <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
               {[
                 { id: 'normal', icon: Eye, label: 'STND' },
-                { id: 'infrared', icon: Thermometer, label: 'INFRA' },
-                { id: 'lowlight', icon: Sun, label: 'DARK' }
+                { id: 'infrared', icon: Thermometer, label: 'HEAT' },
+                { id: 'lowlight', icon: Moon, label: 'DARK' }
               ].map((mode) => (
                 <button
                   key={mode.id}
@@ -318,14 +318,14 @@ export default function ScanPage() {
                   <div className="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto border border-primary/30">
                     <Search size={32} className="text-primary" />
                   </div>
-                  <h2 className="text-3xl font-headline font-bold text-white tracking-tighter">ACCÈS VIRTUEL</h2>
-                  <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.2em]">Décryptage par nom de produit</p>
+                  <h2 className="text-3xl font-headline font-bold text-white tracking-tighter">RECHERCHE VIRTUELLE</h2>
+                  <p className="text-white/40 text-[9px] font-bold uppercase tracking-[0.2em]">Identification par base de données</p>
                 </div>
                 <form onSubmit={handleSearch} className="relative group">
                   <Input 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Ex: Coca-Cola, Yaourt..."
+                    placeholder="Nom du produit ou marque..."
                     className="h-16 rounded-3xl bg-white/5 border-white/10 text-white placeholder:text-white/20 pl-6 pr-20 text-lg group-focus-within:border-primary/50 group-focus-within:bg-white/10 transition-all"
                   />
                   <Button 
@@ -356,10 +356,10 @@ export default function ScanPage() {
         </div>
       )}
 
-      {/* CONTRÔLES INFÉRIEURS (Uniquement visibles en mode Radar) */}
+      {/* CONTRÔLES INFÉRIEURS CONTEXTUELS */}
       <div className={cn(
         "bg-black/90 backdrop-blur-[40px] border-t border-white/5 p-8 pb-12 relative z-[55] transition-all duration-500",
-        activeTab === 'search' ? "translate-y-full opacity-0" : "translate-y-0 opacity-100"
+        activeTab === 'search' ? "translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
       )}>
         <div className="flex justify-between items-center max-w-sm mx-auto">
           <Button 
@@ -400,4 +400,3 @@ export default function ScanPage() {
     </div>
   );
 }
-
