@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -240,7 +239,7 @@ export default function ScanPage() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col relative overflow-hidden">
-      {/* HEADER : Titre et Fermeture (Clean & No Overlap) */}
+      {/* HEADER */}
       <div className="absolute top-0 left-0 right-0 p-6 z-[60] flex justify-between items-center bg-gradient-to-b from-black/60 to-transparent pointer-events-none">
         <div className="space-y-1 pointer-events-auto">
           <h1 className="text-white text-xl font-headline font-bold tracking-tight uppercase flex items-center gap-2">
@@ -262,7 +261,7 @@ export default function ScanPage() {
         </Button>
       </div>
 
-      {/* MODES DE VISION : Sidebar affinée */}
+      {/* MODES DE VISION */}
       <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 pointer-events-none">
         {[
           { id: 'normal', icon: Eye, label: 'STND' },
@@ -286,7 +285,6 @@ export default function ScanPage() {
       </div>
 
       <Tabs defaultValue="camera" className="flex-1 flex flex-col">
-        {/* ONGLES REPOSITIONNÉS (Plus bas et centrés) */}
         <div className="absolute top-28 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
            <TabsList className="glass bg-white/5 rounded-full p-1 border-white/10 h-11">
              <TabsTrigger value="camera" className="rounded-full px-5 data-[state=active]:bg-primary data-[state=active]:text-white uppercase text-[9px] font-bold tracking-widest transition-all">Radar</TabsTrigger>
@@ -307,9 +305,10 @@ export default function ScanPage() {
           />
           <canvas ref={canvasRef} className="hidden" />
           
-          {/* HUD OVERLAY : Repositionné dans les coins */}
+          {/* HUD OVERLAY */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <div className="scan-line" />
+            <div className="radar-sweep" />
             
             <div className="absolute inset-8 border border-white/5 rounded-[3rem]">
               <div className="absolute -top-1 -left-1 w-10 h-10 border-t-2 border-l-2 border-primary rounded-tl-2xl shadow-[-3px_-3px_10px_rgba(34,197,94,0.3)]" />
@@ -318,7 +317,6 @@ export default function ScanPage() {
               <div className="absolute -bottom-1 -right-1 w-10 h-10 border-b-2 border-r-2 border-primary rounded-br-2xl shadow-[3px_3px_10px_rgba(34,197,94,0.3)]" />
             </div>
 
-            {/* HUD DATA : Coins du cadre */}
             <div className="absolute top-40 left-12 space-y-1.5 opacity-40">
                <div className="text-[6px] font-mono text-primary flex gap-2"><span>LAT:</span><span>48.8566</span></div>
                <div className="text-[6px] font-mono text-primary flex gap-2"><span>LON:</span><span>2.3522</span></div>
@@ -365,18 +363,6 @@ export default function ScanPage() {
                   <ArrowRight size={24} />
                 </Button>
               </form>
-              <div className="flex flex-wrap justify-center gap-2">
-                 {['Cola', 'Yaourt grec', 'Biscuits bio', 'Saumon'].map(s => (
-                   <Badge 
-                    key={s} 
-                    variant="outline" 
-                    className="cursor-pointer hover:bg-white/10 text-white/40 border-white/10 py-1.5 px-4 rounded-full text-[9px] font-bold uppercase tracking-widest transition-colors"
-                    onClick={() => setSearchQuery(s)}
-                   >
-                     {s}
-                   </Badge>
-                 ))}
-              </div>
            </div>
         </TabsContent>
 
@@ -390,7 +376,7 @@ export default function ScanPage() {
             </div>
             <p className="font-headline text-3xl font-bold tracking-tighter uppercase mb-2">Décryptage Moléculaire</p>
             <div className="flex flex-col items-center gap-1">
-               <span className="text-primary/60 text-[9px] font-bold tracking-[0.4em] uppercase">Analyse ADN-Food</span>
+               <span className="text-primary/60 text-[9px] font-bold tracking-[0.4em] uppercase">Analyse Radar-Food</span>
                <div className="w-40 h-1 bg-white/10 rounded-full overflow-hidden mt-4">
                   <div className="h-full bg-primary animate-[shimmer_2s_infinite]" style={{width: '60%'}} />
                </div>
@@ -399,10 +385,9 @@ export default function ScanPage() {
         )}
       </Tabs>
 
-      {/* CONTRÔLES INFÉRIEURS : Shutter, Flash et Upload */}
+      {/* CONTRÔLES INFÉRIEURS */}
       <div className="bg-black/90 backdrop-blur-[40px] border-t border-white/5 p-8 pb-12 relative z-[55]">
         <div className="flex justify-between items-center max-w-sm mx-auto">
-          {/* Flash */}
           <Button 
             variant="ghost" 
             onClick={toggleTorch}
@@ -416,7 +401,6 @@ export default function ScanPage() {
             <span className="text-[7px] font-black uppercase tracking-widest">Flash</span>
           </Button>
           
-          {/* Shutter Principal */}
           <div className="relative group">
             <div className="absolute -inset-4 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <Button 
@@ -429,7 +413,6 @@ export default function ScanPage() {
             </Button>
           </div>
 
-          {/* Upload */}
           <Button 
             variant="ghost" 
             onClick={() => fileInputRef.current?.click()} 

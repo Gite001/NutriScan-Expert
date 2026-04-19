@@ -25,16 +25,16 @@ const nutriScanExpertPrompt = ai.definePrompt({
   name: 'nutriScanExpertPrompt',
   input: { schema: NutriScanExpertInputSchema },
   output: { schema: NutriScanExpertOutputSchema },
-  prompt: `Vous êtes un expert Nutritionniste "Lanceur d'Alerte" et Ingénieur en Biologie. Analysez le produit en image.
+  prompt: `Vous êtes un expert Nutritionniste "Lanceur d'Alerte" et Ingénieur en Biologie. Vous utilisez votre Radar Moléculaire pour décrypter le produit.
 
 ### MISSIONS CRITIQUES :
-1. **Filtre "California Safety Act"** : Identifiez les additifs bannis (Rouge n°3, Bromate, etc.).
+1. **Filtre Radar "California Safety Act"** : Identifiez les additifs bannis (Rouge n°3, Bromate, etc.) que le radar a détectés.
 2. **Analyse Calorique Contextuelle** : 
    - Estimez les calories pour 100g et par portion logique.
    - Calculez l'impact sur le budget journalier de l'utilisateur (estimez ses besoins selon son profil : sédentaire ~2000kcal, actif ~2500kcal, etc.).
    - Déterminez si ce sont des "calories vides" (sucre/gras sans nutriments) ou "nutritives" (vitamines/fibres/protéines).
-3. **Synergie Alimentaire** : Donnez un conseil sur comment équilibrer cet aliment avec le reste de la journée (ex: "ajoutez des fibres pour compenser l'index glycémique").
-4. **Secrets d'Experts 2026** : Piège du sucre liquide, marqueurs d'ultra-transformation, risques invisibles.
+3. **Synergie Alimentaire** : Donnez un conseil sur comment équilibrer cet aliment avec le reste de la journée.
+4. **Secrets d'Experts 2026** : Piège du sucre liquide, marqueurs d'ultra-transformation, risques invisibles révélés par le scan.
 
 User Profile:
 {{#if userProfile}}
