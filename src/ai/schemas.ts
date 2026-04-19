@@ -1,6 +1,6 @@
 /**
  * @fileOverview Schémas Zod partagés pour NutriScan Expert.
- * Ce fichier ne contient pas 'use server' pour pouvoir être exporté vers des composants clients ou serveurs.
+ * Ce fichier définit la structure des données pour l'analyse moléculaire et les trésors nutritionnels.
  */
 
 import { z } from 'genkit';
@@ -15,7 +15,7 @@ export const UserProfileSchema = z.object({
 }).optional();
 
 export const ScientificAlertSchema = z.object({
-  title: z.string().describe("Titre de l'alerte (ex: 'Alerte California Safety Act')"),
+  title: z.string().describe("Titre de l'alerte (ex: 'Piège du Labyrinthe')"),
   message: z.string().describe("Détails scientifiques ou conseil de l'expert"),
   category: z.enum(['additif', 'glycemie', 'ultra-transformation', 'invisible', 'pesticide']),
 });
@@ -34,7 +34,7 @@ export const HealthyAlternativeSchema = z.object({
 export const MolecularTreasureSchema = z.object({
   name: z.string().describe("Nom de la pépite ou molécule précieuse dénichée"),
   description: z.string().describe("Pourquoi ce composant est un trésor pour le corps"),
-  rarity: z.enum(['Commun', 'Rare', 'Légendaire']).describe("Niveau de rareté de ce bénéfice dans ce type de produit"),
+  rarity: z.enum(['Commun', 'Rare', 'Légendaire']).describe("Niveau de rareté de ce bénéfice"),
 });
 
 export const NutriScanExpertOutputSchema = z.object({
@@ -43,16 +43,15 @@ export const NutriScanExpertOutputSchema = z.object({
   productName: z.string(),
   personalizationIndicator: z.string(),
   caloricAnalysis: z.object({
-    caloriesPer100g: z.number().describe("Calories pour 100g"),
-    estimatedPortion: z.string().describe("Taille de portion estimée (ex: 200g, 1 unité)"),
-    caloriesPerPortion: z.number().describe("Calories pour la portion estimée"),
-    dailyBudgetContribution: z.number().describe("Pourcentage du budget journalier estimé pour cet utilisateur"),
-    qualityVerdict: z.enum(['Nutritives', 'Vides', 'Mixte']).describe("Qualité des calories"),
-    expertAdvice: z.string().describe("Conseil sur comment intégrer ces calories dans la journée"),
+    caloriesPer100g: z.number(),
+    estimatedPortion: z.string(),
+    caloriesPerPortion: z.number(),
+    dailyBudgetContribution: z.number(),
+    qualityVerdict: z.enum(['Nutritives', 'Vides', 'Mixte']),
+    expertAdvice: z.string(),
   }),
-  molecularTreasures: z.array(MolecularTreasureSchema).max(3).describe("Les pépites nutritionnelles cachées dénichées par l'expert"),
-  mainAlert: z.string().optional(),
-  scientificAlerts: z.array(ScientificAlertSchema).optional().describe("Alertes basées sur les controverses scientifiques 2025-2026"),
+  molecularTreasures: z.array(MolecularTreasureSchema).max(3),
+  scientificAlerts: z.array(ScientificAlertSchema).optional(),
   quickLook: z.array(QuickLookItemSchema).min(4).max(4),
   healthyAlternatives: z.array(HealthyAlternativeSchema).min(2).max(2),
   expertVerdict: z.string(),
