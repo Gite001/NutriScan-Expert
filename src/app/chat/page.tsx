@@ -80,8 +80,8 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden animate-in fade-in duration-700">
-      <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50 bg-white/80 backdrop-blur-3xl">
-        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full border border-primary/20">
+      <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50 bg-white/80 backdrop-blur-3xl border-primary/20">
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full border border-primary-950/20 hover:bg-primary/10">
           <ArrowLeft className="w-5 h-5 text-primary-950" />
         </Button>
         <div className="text-center px-2">
@@ -111,7 +111,7 @@ export default function ChatPage() {
                     <span className="text-primary-950 font-black uppercase">Expert Scientifique</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 bg-primary/30 px-3 py-1.5 rounded-full border border-primary/50">
+                  <div className="flex items-center gap-1.5 bg-primary/30 px-3 py-1.5 rounded-full border border-primary-950/20">
                     <User size={12} className="text-primary-950" />
                     <span className="text-primary-950 font-black uppercase tracking-tight">Vous</span>
                   </div>
@@ -122,7 +122,7 @@ export default function ChatPage() {
                 "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
-                  : "glass border-primary/30 rounded-tl-sm text-primary-950 chat-prose bg-white/60 shadow-lg"
+                  : "glass border-primary/40 rounded-tl-sm text-primary-950 chat-prose bg-white/60 shadow-lg"
               )}>
                 {msg.role === 'assistant' && (
                   <div className="absolute -left-3 -top-3 bg-white border border-primary/40 rounded-full p-1.5 shadow-md text-primary-950">
@@ -162,14 +162,14 @@ export default function ChatPage() {
         </div>
       </ScrollArea>
 
-      <div className="p-6 border-t glass bg-white/80 backdrop-blur-3xl pb-10 md:pb-6">
+      <div className="p-6 border-t glass bg-white/80 backdrop-blur-3xl pb-10 md:pb-6 border-primary/20">
         <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-4">
           <div className="relative flex items-center gap-3">
             <Input 
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/60 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950/40 placeholder:font-black placeholder:text-sm focus:ring-primary/40 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary-950/30 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950/40 placeholder:font-black placeholder:text-sm focus:ring-primary/40 focus:border-primary transition-all flex-1"
               disabled={loading}
             />
             <Button 

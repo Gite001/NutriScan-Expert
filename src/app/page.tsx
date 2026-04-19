@@ -12,13 +12,11 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col items-center bg-background">
-      {/* Background Orbs */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10 animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] -z-10" />
 
-      {/* Hero Section */}
       <section className="px-6 pt-24 pb-16 md:pt-32 md:pb-24 max-w-5xl mx-auto text-center space-y-10 relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-primary/30 animate-in fade-in slide-in-from-top-4 duration-1000">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border-primary/40 animate-in fade-in slide-in-from-top-4 duration-1000">
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-xs font-black uppercase tracking-widest text-primary-950">Le futur de la nutrition est ici</span>
         </div>
@@ -34,12 +32,10 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* Bento Grid Features */}
       <section className="px-6 pb-12 max-w-6xl mx-auto w-full relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* IA Analysis Card */}
           <div className="md:col-span-8 h-full">
-            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 border-primary/30 hover:border-primary/60 hover:shadow-xl group select-none bg-white/40">
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 border-primary/40 hover:border-primary/70 hover:shadow-xl group select-none bg-white/40">
               <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10 group-hover:opacity-20 transition-opacity text-primary">
                 <Scan size={120} />
               </div>
@@ -52,9 +48,8 @@ export default function HomePage() {
             </div>
           </div>
           
-          {/* Scientist Persona Card */}
           <div className="md:col-span-4 h-full">
-            <div className="h-full bg-accent text-primary-950 p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 border border-primary/20 hover:border-white/60 group select-none">
+            <div className="h-full bg-accent text-primary-950 p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 border border-primary/30 hover:border-white/60 group select-none">
               <div className="absolute -right-6 -top-6 opacity-10 rotate-12 group-hover:rotate-45 transition-transform duration-700">
                 <UserRound size={220} />
               </div>
@@ -80,8 +75,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Alert Card */}
-          <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px] transition-all duration-500 border-primary/30 hover:border-destructive/60 hover:shadow-xl select-none bg-white/40">
+          <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px] transition-all duration-500 border-primary/40 hover:border-destructive/60 hover:shadow-xl select-none bg-white/40">
             <div className="w-16 h-16 rounded-2xl bg-destructive text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-destructive/20">
               <ShieldAlert size={32} />
             </div>
@@ -91,8 +85,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Planetary Symbiosis Card */}
-          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-6 relative group overflow-hidden min-h-[320px] transition-all duration-500 border-primary/30 hover:border-primary/60 hover:shadow-xl select-none bg-white/40">
+          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-6 relative group overflow-hidden min-h-[320px] transition-all duration-500 border-primary/40 hover:border-primary/70 hover:shadow-xl select-none bg-white/40">
              <div className="absolute -bottom-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity text-primary">
               <Globe size={280} />
             </div>
@@ -116,7 +109,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="px-6 py-24 w-full flex flex-col items-center space-y-8 relative z-10">
         <div className="relative group animate-in zoom-in duration-700">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2.6rem] blur opacity-30 group-hover:opacity-80 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
@@ -132,7 +124,7 @@ export default function HomePage() {
         <p className="text-[10px] font-black text-primary-950 uppercase tracking-[0.4em] opacity-80">L'aventure commence ici</p>
       </section>
 
-      <footer className="w-full py-12 px-6 border-t glass mt-auto border-primary/20 bg-white/60 relative z-10">
+      <footer className="w-full py-12 px-6 border-t glass mt-auto border-primary/30 bg-white/60 relative z-10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-3">
             <div className="bg-primary p-2 rounded-2xl shadow-lg">

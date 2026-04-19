@@ -28,7 +28,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-background relative overflow-hidden">
-      {/* Background Decor */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] -z-10" />
 
@@ -41,13 +40,13 @@ export default function LoginPage() {
           <p className="text-primary-950 font-black uppercase tracking-widest text-[10px]">Identité Moléculaire & Bio-Expertise</p>
         </div>
 
-        <Card className="glass border-primary/30 shadow-2xl bg-white/40 rounded-[2.5rem] overflow-hidden">
+        <Card className="glass border-primary/40 shadow-2xl bg-white/40 rounded-[2.5rem] overflow-hidden">
           <CardHeader className="text-center pb-2">
             <CardTitle className="font-headline font-bold text-primary-950 text-2xl uppercase tracking-tighter">Accès Terminal</CardTitle>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 h-12 rounded-2xl glass mb-8 p-1 border border-primary/20 bg-white/40">
+              <TabsList className="grid w-full grid-cols-2 h-12 rounded-2xl glass mb-8 p-1 border border-primary/30 bg-white/40">
                 <TabsTrigger value="signin" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white font-black text-[10px] uppercase tracking-widest transition-all text-primary-950">Connexion</TabsTrigger>
                 <TabsTrigger value="signup" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white font-black text-[10px] uppercase tracking-widest transition-all text-primary-950">S'inscrire</TabsTrigger>
               </TabsList>
@@ -57,28 +56,28 @@ export default function LoginPage() {
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Email Radar</Label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/40 w-5 h-5" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
                       <Input 
                         type="email" 
                         placeholder="expert@lab.com" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/20 bg-white/80 text-primary-950 font-bold focus:ring-primary/40"
+                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Séquence d'Accès</Label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/40 w-5 h-5" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
                       <Input 
                         type="password" 
                         placeholder="••••••••" 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/20 bg-white/80 text-primary-950 font-bold focus:ring-primary/40"
+                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
                       />
                     </div>
                   </div>
@@ -98,41 +97,41 @@ export default function LoginPage() {
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Nom de l'Expert</Label>
                     <div className="relative">
-                      <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/40 w-5 h-5" />
+                      <UserIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
                       <Input 
                         placeholder="Dr. Maurice" 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/20 bg-white/80 text-primary-950 font-bold focus:ring-primary/40"
+                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Email Radar</Label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/40 w-5 h-5" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
                       <Input 
                         type="email" 
                         placeholder="expert@lab.com" 
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/20 bg-white/80 text-primary-950 font-bold focus:ring-primary/40"
+                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950 ml-2">Séquence d'Accès</Label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/40 w-5 h-5" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-950/60 w-5 h-5" />
                       <Input 
                         type="password" 
                         placeholder="••••••••" 
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/20 bg-white/80 text-primary-950 font-bold focus:ring-primary/40"
+                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
                       />
                     </div>
                   </div>
@@ -149,7 +148,7 @@ export default function LoginPage() {
             </Tabs>
 
             <div className="relative my-10">
-              <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-primary/20"></span></div>
+              <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-primary/30"></span></div>
               <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.5em]"><span className="bg-white/40 px-4 text-primary-950">OU</span></div>
             </div>
 
@@ -157,7 +156,7 @@ export default function LoginPage() {
               onClick={loginWithGoogle} 
               disabled={loading}
               variant="outline"
-              className="w-full h-14 rounded-2xl border-primary/30 text-primary-950 font-black uppercase tracking-widest gap-3 hover:bg-white/60 transition-all"
+              className="w-full h-14 rounded-2xl border-primary-950/20 text-primary-950 font-black uppercase tracking-widest gap-3 hover:bg-white/60 transition-all shadow-sm"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <LogIn className="w-5 h-5" />}
               Continuer avec Google
