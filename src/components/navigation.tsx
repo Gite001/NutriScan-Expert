@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Scan, User, Apple, Activity, MessageSquare } from 'lucide-react';
+import { Home, Scan, User, Apple, Activity, UserRound } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { cn } from '@/lib/utils';
 
@@ -15,7 +15,7 @@ export const Navigation = () => {
   const navItems = [
     { label: 'Accueil', href: '/', icon: Home },
     { label: 'Scanner', href: '/scan', icon: Scan, primary: true },
-    { label: 'Expert AI', href: '/chat', icon: MessageSquare },
+    { label: 'Expert AI', href: '/chat', icon: UserRound },
     { label: 'Profil', href: '/profile', icon: User },
   ];
 
