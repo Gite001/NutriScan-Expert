@@ -128,7 +128,7 @@ export default function ResultsPage() {
                 {(data.quickLook || []).map((item, i) => (
                    <div key={i} className="glass p-6 rounded-3xl border border-primary/40 flex flex-col items-start gap-4 bg-white/70 w-full shadow-md">
                       <div className="flex flex-col gap-1">
-                        <p className="text-[10px] font-black text-primary-950/70 uppercase tracking-widest">{item.name}</p>
+                        <p className="text-[10px] font-black text-primary-950 uppercase tracking-widest">{item.name}</p>
                         <span className="text-2xl font-black text-primary-950 uppercase tracking-tight">{item.level}</span>
                       </div>
                       <div className="w-full p-4 rounded-xl bg-primary/20 border border-primary/40 text-primary-950 text-xs font-black uppercase tracking-tight leading-relaxed shadow-inner">

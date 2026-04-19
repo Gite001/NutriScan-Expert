@@ -3,7 +3,7 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCorrectKeyShouldBeHere", // À remplacer par votre clé réelle depuis la console Firebase
+  apiKey: "AIzaSyCorrectKeyShouldBeHere", // Remplacer par la clé réelle de la console Firebase
   authDomain: "estateflow-54561.firebaseapp.com",
   projectId: "estateflow-54561",
   storageBucket: "estateflow-54561.firebasestorage.app",

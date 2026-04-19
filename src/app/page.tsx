@@ -27,7 +27,7 @@ export default function HomePage() {
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">EN CONSCIENCE</span>
         </h1>
 
-        <p className="text-lg md:text-2xl text-primary-950 font-bold max-w-2xl mx-auto leading-relaxed animate-in fade-in duration-1000 delay-500">
+        <p className="text-lg md:text-2xl text-primary-950 font-black max-w-2xl mx-auto leading-relaxed animate-in fade-in duration-1000 delay-500">
           Bienvenue dans l'ère de la transparence radicale. <br />
           Découvrez la vérité derrière chaque étiquette.
         </p>
@@ -43,7 +43,7 @@ export default function HomePage() {
                 <Scan size={120} />
               </div>
               <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight group-hover:text-primary transition-colors text-primary-950">Bio-Hacking Nutritionnel</h3>
-              <p className="text-primary-950 font-bold max-w-md text-sm md:text-base leading-relaxed">Décryptez la densité en nutriments et évitez les calories vides. Identifiez instantanément les molécules qui optimisent votre biologie.</p>
+              <p className="text-primary-950 font-black max-w-md text-sm md:text-base leading-relaxed">Décryptez la densité en nutriments et évitez les calories vides. Identifiez instantanément les molécules qui optimisent votre biologie.</p>
               <div className="flex gap-2 mt-2">
                  <Badge className="bg-primary text-white border-none text-[8px] font-black tracking-widest px-3 py-1 rounded-full uppercase">CALORIES NUTRITIVES</Badge>
                  <Badge className="bg-accent text-primary-950 border-none text-[8px] font-black tracking-widest px-3 py-1 rounded-full uppercase">SYNERGIE CELLULAIRE</Badge>
@@ -86,7 +86,7 @@ export default function HomePage() {
             </div>
             <div>
               <h3 className="text-2xl font-headline font-bold mb-2 group-hover:text-destructive transition-colors text-primary-950">Pièges du Labyrinthe</h3>
-              <p className="text-primary-950 font-bold text-sm leading-relaxed">Débusquez les additifs toxiques et les molécules interdites. Ne soyez plus la victime du marketing ultra-transformé.</p>
+              <p className="text-primary-950 font-black text-sm leading-relaxed">Débusquez les additifs toxiques et les molécules interdites. Ne soyez plus la victime du marketing ultra-transformé.</p>
             </div>
           </div>
 
@@ -99,7 +99,7 @@ export default function HomePage() {
               <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-primary-950">
                 Symbiose <br /> Planétaire
               </h3>
-              <p className="text-primary-950 font-bold text-sm md:text-lg max-w-md leading-relaxed">
+              <p className="text-primary-950 font-black text-sm md:text-lg max-w-md leading-relaxed">
                 Parce que manger propre exige un environnement propre. Découvrez comment vos choix protègent la terre qui fabrique vos cellules.
               </p>
               <div className="flex flex-wrap items-start gap-2.5 mt-2">
