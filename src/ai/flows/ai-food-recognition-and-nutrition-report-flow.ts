@@ -44,7 +44,7 @@ const HealthyAlternativeSchema = z.object({
   benefit: z.string(),
 });
 
-const NutriScanExpertOutputSchema = z.object({
+export const NutriScanExpertOutputSchema = z.object({
   nutriScore: z.enum(['A', 'B', 'C', 'D', 'E']),
   globalScore: z.number().int().min(0).max(100),
   productName: z.string(),
