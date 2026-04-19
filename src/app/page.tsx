@@ -86,25 +86,33 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Bio-Hacking Card with Glow */}
-          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 relative group overflow-hidden min-h-[260px] transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] select-none">
-             <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Apple size={240} />
+          {/* Bio-Hacking Card with Glow (CORRESPONDANT À L'IMAGE) */}
+          <div className="md:col-span-7 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-6 relative group overflow-hidden min-h-[320px] transition-all duration-500 border border-transparent hover:border-primary/40 hover:shadow-[0_0_40px_-10px_rgba(34,197,94,0.3)] select-none">
+             <div className="absolute -bottom-6 -right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+              <Apple size={280} />
             </div>
-            <div className="relative z-10">
-              <h3 className="text-2xl md:text-3xl font-headline font-bold mb-2 group-hover:text-primary transition-colors">Bio-Hacking Nutritionnel</h3>
-              <p className="text-muted-foreground text-sm md:text-base max-w-sm">Optimisez votre métabolisme avec des synergies alimentaires calculées par notre algorithme de pointe.</p>
-              <div className="flex flex-wrap gap-2 mt-4">
-                <Badge className="bg-primary/10 text-primary border-none text-[8px] font-bold">CALORIES NUTRITIVES</Badge>
-                <Badge className="bg-accent/10 text-accent border-none text-[8px] font-bold">SYNERGIE CELLULAIRE</Badge>
+            <div className="relative z-10 space-y-4">
+              <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight text-primary">
+                Bio-Hacking <br /> Nutritionnel
+              </h3>
+              <p className="text-muted-foreground text-sm md:text-lg max-w-sm leading-relaxed">
+                Optimisez votre métabolisme avec des synergies alimentaires calculées par notre algorithme de pointe.
+              </p>
+              <div className="flex flex-col items-start gap-2.5 mt-2">
+                <Badge className="bg-[#e8f5ed] text-[#1a8545] border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
+                  CALORIES NUTRITIVES
+                </Badge>
+                <Badge className="bg-[#f0f8e4] text-[#86c624] border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
+                  SYNERGIE CELLULAIRE
+                </Badge>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section - Passé à la fin avec effet lumineux */}
-      <section className="px-6 py-20 w-full flex justify-center">
+      {/* CTA Section - Situé après les cartes avec effet de lumière pulsante */}
+      <section className="px-6 py-24 w-full flex flex-col items-center space-y-8">
         <div className="relative group animate-in zoom-in duration-700">
           {/* Aura lumineuse pulsante */}
           <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2.6rem] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
@@ -117,6 +125,7 @@ export default function HomePage() {
             </Button>
           </Link>
         </div>
+        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.4em] opacity-50">Prêt pour le décryptage</p>
       </section>
 
       <footer className="w-full py-12 px-6 border-t glass mt-auto">
