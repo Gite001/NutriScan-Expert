@@ -60,13 +60,13 @@ export default function HomePage() {
             </div>
           </Link>
           
-          {/* Scientist Persona Card - NOW FULLY DYNAMIC */}
-          <Link href="/chat" className="md:col-span-4 group/expert">
-            <div className="h-full bg-accent text-accent-foreground p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 hover:shadow-accent/40 hover:-translate-y-2">
-              <div className="absolute -right-4 -top-4 opacity-10 group-hover/expert:scale-110 group-hover/expert:rotate-3 transition-transform duration-700">
+          {/* Scientist Persona Card - NOW STATIC (Promotional only) */}
+          <div className="md:col-span-4 group/expert">
+            <div className="h-full bg-accent text-accent-foreground p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px]">
+              <div className="absolute -right-4 -top-4 opacity-10">
                 <UserRound size={200} />
               </div>
-              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30 group-hover/expert:scale-110 transition-transform">
+              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30">
                 <Microscope size={32} className="text-accent-foreground" />
               </div>
               <div className="relative z-10 space-y-4">
@@ -74,12 +74,12 @@ export default function HomePage() {
                   <h3 className="text-2xl font-headline font-bold mb-1 leading-tight">Expert Scientifique</h3>
                   <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">Conseils & Bio-Intelligence</p>
                 </div>
-                <div className="w-full rounded-2xl font-bold h-12 bg-white/90 group-hover/expert:bg-white text-accent-foreground shadow-xl flex items-center justify-center transition-colors">
-                  CONSULTER L'EXPERT
+                <div className="w-full rounded-2xl font-bold h-12 bg-white/90 text-accent-foreground shadow-xl flex items-center justify-center border border-white/40">
+                  DISPONIBLE SUR VOTRE BARRE
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
 
           {/* Alert Card */}
           <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px]">
