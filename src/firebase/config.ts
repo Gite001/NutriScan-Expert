@@ -3,7 +3,8 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDummyKeyForArchitectureOnly",
+  // ATTENTION : Remplacez par votre clé API réelle depuis la console Firebase (Paramètres du projet)
+  apiKey: "AIzaSyDummyKey_PleaseReplaceWithRealOne", 
   authDomain: "estateflow-54561.firebaseapp.com",
   projectId: "estateflow-54561",
   storageBucket: "estateflow-54561.firebasestorage.app",

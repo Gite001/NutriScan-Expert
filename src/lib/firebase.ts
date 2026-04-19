@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDummyKeyForArchitectureOnly",
+  apiKey: "AIzaSyCorrectKeyShouldBeHere",
   authDomain: "estateflow-54561.firebaseapp.com",
   projectId: "estateflow-54561",
   storageBucket: "estateflow-54561.firebasestorage.app",

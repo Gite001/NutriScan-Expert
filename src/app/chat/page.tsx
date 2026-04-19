@@ -81,11 +81,11 @@ export default function ChatPage() {
     <div className="flex flex-col h-screen bg-background overflow-hidden animate-in fade-in duration-700">
       <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50">
         <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
-          <ArrowLeft className="w-5 h-5 text-primary" />
+          <ArrowLeft className="w-5 h-5 text-primary-950" />
         </Button>
         <div className="text-center px-2">
-           <h1 className="text-lg md:text-xl font-headline font-bold text-primary tracking-tighter uppercase">IA EXPERT NUTRITION</h1>
-           <div className="flex items-center justify-center gap-1.5 text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
+           <h1 className="text-lg md:text-xl font-headline font-bold text-primary-950 tracking-tighter uppercase">IA EXPERT NUTRITION</h1>
+           <div className="flex items-center justify-center gap-1.5 text-[8px] font-black text-primary-950 uppercase tracking-widest bg-primary/20 px-3 py-1 rounded-full border border-primary/40">
               <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Intelligence Active 2026
            </div>
@@ -102,17 +102,17 @@ export default function ChatPage() {
             )}>
               <div className={cn(
                 "flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-1",
-                msg.role === 'user' ? "text-primary flex-row-reverse" : "text-primary"
+                msg.role === 'user' ? "text-primary-950 flex-row-reverse" : "text-primary-950"
               )}>
                 {msg.role === 'assistant' ? (
-                  <div className="flex items-center gap-1.5 bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
-                    <UserRound size={12} className="text-primary" />
-                    <span className="text-primary font-bold uppercase">Expert Scientifique</span>
+                  <div className="flex items-center gap-1.5 bg-primary/20 px-3 py-1.5 rounded-full border border-primary/40">
+                    <UserRound size={12} className="text-primary-950" />
+                    <span className="text-primary-950 font-bold uppercase">Expert Scientifique</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 bg-primary/20 px-3 py-1.5 rounded-full border border-primary/40">
-                    <User size={12} className="text-primary" />
-                    <span>Vous</span>
+                  <div className="flex items-center gap-1.5 bg-primary/30 px-3 py-1.5 rounded-full border border-primary/50">
+                    <User size={12} className="text-primary-950" />
+                    <span className="text-primary-950 font-bold uppercase">Vous</span>
                   </div>
                 )}
               </div>
@@ -121,10 +121,10 @@ export default function ChatPage() {
                 "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
-                  : "glass border-primary/10 rounded-tl-sm text-primary-950 chat-prose"
+                  : "glass border-primary/20 rounded-tl-sm text-primary-950 chat-prose"
               )}>
                 {msg.role === 'assistant' && (
-                  <div className="absolute -left-3 -top-3 bg-white border border-primary/20 rounded-full p-1.5 shadow-md text-primary">
+                  <div className="absolute -left-3 -top-3 bg-white border border-primary/30 rounded-full p-1.5 shadow-md text-primary-950">
                     <Microscope size={14} />
                   </div>
                 )}
@@ -140,9 +140,9 @@ export default function ChatPage() {
               {msg.keyTakeaways && msg.keyTakeaways.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mt-2">
                   {msg.keyTakeaways.map((point, i) => (
-                    <div key={i} className="glass p-4 rounded-2xl border-primary/20 flex items-center gap-3 hover:border-primary/40 hover:scale-105 transition-all card-shine shadow-sm">
-                       <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                          <Zap size={12} className="text-primary" />
+                    <div key={i} className="glass p-4 rounded-2xl border-primary/30 flex items-center gap-3 hover:border-primary/50 hover:scale-105 transition-all card-shine shadow-sm bg-white/40">
+                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                          <Zap size={12} className="text-primary-950" />
                        </div>
                        <span className="text-[10px] font-black text-primary-950 leading-tight uppercase tracking-tight">{point}</span>
                     </div>
@@ -152,12 +152,12 @@ export default function ChatPage() {
             </div>
           ))}
           {loading && (
-            <div className="flex items-center gap-3 text-primary animate-pulse pl-4">
+            <div className="flex items-center gap-3 text-primary-950 animate-pulse pl-4">
                <div className="relative">
                   <Loader2 className="w-6 h-6 animate-spin" />
                   <Microscope size={10} className="absolute inset-0 m-auto" />
                </div>
-               <span className="text-[10px] font-black uppercase tracking-widest italic">Analyse moléculaire en cours...</span>
+               <span className="text-[10px] font-black uppercase tracking-widest italic text-primary-950">Analyse moléculaire en cours...</span>
             </div>
           )}
         </div>
@@ -170,7 +170,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/20 shadow-inner px-8 text-base md:text-lg placeholder:text-primary/70 placeholder:font-bold placeholder:text-xs md:placeholder:text-base focus:ring-primary/20 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary/40 shadow-inner px-8 text-base md:text-lg placeholder:text-primary-950 placeholder:font-black placeholder:text-xs md:placeholder:text-sm focus:ring-primary/20 transition-all flex-1"
               disabled={loading}
             />
             <Button 
@@ -182,7 +182,7 @@ export default function ChatPage() {
               <Send className="w-8 h-8" />
             </Button>
           </div>
-          <p className="text-center text-[8px] text-primary/60 font-black uppercase tracking-[0.4em]">
+          <p className="text-center text-[8px] text-primary-950 font-black uppercase tracking-[0.4em]">
              Bio-Intelligence Active 2026
           </p>
         </form>
