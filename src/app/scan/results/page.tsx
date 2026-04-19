@@ -355,7 +355,7 @@ export default function ResultsPage() {
                         {(data.bonusTips?.practicalTips || []).map((tip, i) => (
                            <div key={i} className="glass p-5 md:p-6 rounded-[2rem] md:rounded-3xl flex items-center gap-4 md:gap-6 hover:border-accent/40 hover:translate-x-2 transition-all group cursor-default">
                               <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent group-hover:text-white transition-all shadow-lg shadow-accent/5">
-                                 <Activity size={18} md:size={20} />
+                                 <Activity size={18} />
                               </div>
                               <p className="text-xs md:text-[13px] font-bold leading-snug tracking-tight text-foreground/80">{tip}</p>
                               <ChevronRight className="ml-auto text-muted-foreground group-hover:text-accent transition-colors shrink-0" />
