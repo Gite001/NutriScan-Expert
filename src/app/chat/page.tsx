@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Send, Loader2, ArrowLeft, Bot, User, Zap } from 'lucide-react';
+import { Send, Loader2, ArrowLeft, Microscope, User, Zap, UserRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -28,7 +28,7 @@ export default function ChatPage() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: "Bonjour ! Je suis votre **Expert Nutritionniste IA**. Posez-moi vos questions sur un aliment, une allergie ou vos objectifs de santé. Je vais droit au but pour vous révéler la vérité scientifique."
+      content: "Bonjour ! Je suis votre **Expert Nutritionniste**. Passionné par la biologie moléculaire, je suis là pour vous aider à décrypter la vérité derrière vos aliments. Que voulez-vous explorer aujourd'hui ?"
     }
   ]);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -81,8 +81,8 @@ export default function ChatPage() {
         <div className="text-center">
            <h1 className="text-xl font-headline font-bold text-primary tracking-tighter">EXPERT NUTRITION</h1>
            <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold text-accent uppercase tracking-widest">
-              <div className="w-1 h-1 rounded-full bg-accent animate-pulse" />
-              Intelligence Active
+              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              Intelligence Active 2026
            </div>
         </div>
         <div className="w-10" />
@@ -90,26 +90,40 @@ export default function ChatPage() {
 
       {/* Chat Area */}
       <ScrollArea className="flex-1 p-6" ref={scrollRef}>
-        <div className="max-w-3xl mx-auto space-y-10 pb-24">
+        <div className="max-w-3xl mx-auto space-y-12 pb-24">
           {messages.map((msg) => (
             <div key={msg.id} className={cn(
-              "flex flex-col gap-3 animate-in slide-in-from-bottom-2 duration-500",
+              "flex flex-col gap-3 animate-in slide-in-from-bottom-4 duration-500",
               msg.role === 'user' ? "items-end" : "items-start"
             )}>
               <div className={cn(
                 "flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-1",
                 msg.role === 'user' ? "text-primary flex-row-reverse" : "text-accent"
               )}>
-                {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
-                {msg.role === 'assistant' ? 'L\'Expert IA' : 'Vous'}
+                {msg.role === 'assistant' ? (
+                  <div className="flex items-center gap-1.5 bg-accent/10 px-2 py-1 rounded-full border border-accent/20">
+                    <UserRound size={12} className="text-accent" />
+                    <span className="text-accent">L'Expert Scientifique</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-1 rounded-full border border-primary/20">
+                    <User size={12} className="text-primary" />
+                    <span>Vous</span>
+                  </div>
+                )}
               </div>
               
               <Card className={cn(
-                "p-6 rounded-[2rem] shadow-sm max-w-[95%] transition-all",
+                "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
                   : "glass border-primary/10 rounded-tl-sm text-foreground/90 prose prose-sm dark:prose-invert max-w-none chat-prose"
               )}>
+                {msg.role === 'assistant' && (
+                  <div className="absolute -left-3 -top-3 bg-white border border-accent/20 rounded-full p-1.5 shadow-sm text-accent group-hover:scale-110 transition-transform">
+                    <Microscope size={14} />
+                  </div>
+                )}
                 {msg.role === 'assistant' ? (
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {msg.content}
@@ -134,9 +148,12 @@ export default function ChatPage() {
             </div>
           ))}
           {loading && (
-            <div className="flex items-center gap-3 text-accent animate-pulse">
-               <Loader2 className="w-5 h-5 animate-spin" />
-               <span className="text-[10px] font-bold uppercase tracking-widest">L'IA synthétise la vérité...</span>
+            <div className="flex items-center gap-3 text-accent animate-pulse pl-4">
+               <div className="relative">
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                  <Microscope size={10} className="absolute inset-0 m-auto" />
+               </div>
+               <span className="text-[10px] font-bold uppercase tracking-widest italic">L'Expert analyse les séquences moléculaires...</span>
             </div>
           )}
         </div>
@@ -162,7 +179,7 @@ export default function ChatPage() {
           </Button>
         </form>
         <p className="text-center text-[8px] text-muted-foreground mt-4 font-medium uppercase tracking-widest">
-           Analyse Moléculaire & Bio-Intelligence 2026
+           Analyse Moléculaire & Bio-Intelligence – Science & Vérité
         </p>
       </div>
     </div>
