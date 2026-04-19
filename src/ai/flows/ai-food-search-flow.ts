@@ -3,9 +3,9 @@
  * @fileOverview Flux Genkit pour analyser un produit par son nom uniquement.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-import { NutriScanExpertOutputSchema, type NutriScanExpertOutput } from './ai-food-recognition-and-nutrition-report-flow';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
+import { NutriScanExpertOutputSchema, type NutriScanExpertOutput } from '../schemas';
 
 const FoodSearchInputSchema = z.object({
   productName: z.string().describe("Le nom du produit à rechercher"),
@@ -19,8 +19,8 @@ export async function aiFoodSearch(input: FoodSearchInput): Promise<NutriScanExp
 
 const foodSearchPrompt = ai.definePrompt({
   name: 'foodSearchPrompt',
-  input: {schema: FoodSearchInputSchema},
-  output: {schema: NutriScanExpertOutputSchema},
+  input: { schema: FoodSearchInputSchema },
+  output: { schema: NutriScanExpertOutputSchema },
   prompt: `Vous êtes un expert Nutritionniste "Lanceur d'Alerte". L'utilisateur n'a pas de photo mais recherche un produit par son nom : "{{{productName}}}".
 
 ### MISSION :
@@ -46,7 +46,7 @@ const aiFoodSearchFlow = ai.defineFlow(
     outputSchema: NutriScanExpertOutputSchema,
   },
   async (input) => {
-    const {output} = await foodSearchPrompt(input);
+    const { output } = await foodSearchPrompt(input);
     if (!output) throw new Error("Erreur recherche.");
     return output;
   }
