@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound, Zap } from 'lucide-react';
+import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -60,8 +60,8 @@ export default function HomePage() {
             </div>
           </Link>
           
-          {/* Scientist Persona Card - Promotional Only */}
-          <div className="md:col-span-4 group/expert">
+          {/* Scientist Persona Card - Statique & Publicitaire */}
+          <div className="md:col-span-4">
             <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px]">
               {/* Background Icon */}
               <div className="absolute -right-6 -top-6 opacity-10 rotate-12">
@@ -80,7 +80,7 @@ export default function HomePage() {
                   <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">Conseils & Bio-Intelligence</p>
                 </div>
                 
-                {/* Status Indicator Fix */}
+                {/* Status Indicator */}
                 <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-4 flex flex-col items-center justify-center gap-2">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />

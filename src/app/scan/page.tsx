@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Camera, Upload, Loader2, Info, AlertCircle, Sparkles, X, Search, Apple } from 'lucide-react';
+import { Camera, Upload, Loader2, Info, AlertCircle, Sparkles, X, Search, Apple, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { nutriScanExpert } from '@/ai/flows/ai-food-recognition-and-nutrition-report-flow';
@@ -13,8 +13,8 @@ import { doc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { useToast } from '@/hooks/use-toast';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 
 export default function ScanPage() {
   const [loading, setLoading] = useState(false);
@@ -319,7 +319,3 @@ export default function ScanPage() {
     </div>
   );
 }
-
-const ArrowRight = ({ size }: { size: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-);
