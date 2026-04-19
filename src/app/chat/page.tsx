@@ -28,7 +28,7 @@ export default function ChatPage() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: "Bonjour ! Je suis votre **Expert Nutritionniste**. Passionné par la biologie moléculaire, je suis là pour vous aider à décrypter la vérité derrière vos aliments. Que voulez-vous explorer aujourd'hui ?"
+      content: "Bonjour ! Je suis votre **IA Expert Nutritionniste**. Passionné par la biologie moléculaire, je suis là pour vous aider à décrypter la vérité derrière vos aliments. Que voulez-vous explorer aujourd'hui ?"
     }
   ]);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -86,7 +86,7 @@ export default function ChatPage() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="text-center">
-           <h1 className="text-xl font-headline font-bold text-primary tracking-tighter">EXPERT NUTRITION</h1>
+           <h1 className="text-xl font-headline font-bold text-primary tracking-tighter">IA EXPERT NUTRITION</h1>
            <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold text-accent uppercase tracking-widest">
               <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Intelligence Active 2026
@@ -110,7 +110,7 @@ export default function ChatPage() {
                 {msg.role === 'assistant' ? (
                   <div className="flex items-center gap-1.5 bg-accent/10 px-2 py-1 rounded-full border border-accent/20">
                     <UserRound size={12} className="text-accent" />
-                    <span className="text-accent">L'Expert Scientifique</span>
+                    <span className="text-accent">L'IA Expert Scientifique</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-1 rounded-full border border-primary/20">
@@ -160,7 +160,7 @@ export default function ChatPage() {
                   <Loader2 className="w-6 h-6 animate-spin" />
                   <Microscope size={10} className="absolute inset-0 m-auto" />
                </div>
-               <span className="text-[10px] font-bold uppercase tracking-widest italic">L'Expert analyse les séquences moléculaires...</span>
+               <span className="text-[10px] font-bold uppercase tracking-widest italic">L'IA analyse les séquences moléculaires...</span>
             </div>
           )}
         </div>
@@ -172,7 +172,7 @@ export default function ChatPage() {
           <Input 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Posez votre question à l'Expert..."
+            placeholder="Posez votre question à l'IA Expert..."
             className="h-14 rounded-[1.5rem] bg-white border-primary/10 shadow-inner px-6 text-base"
             disabled={loading}
           />
