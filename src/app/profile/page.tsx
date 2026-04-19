@@ -219,9 +219,12 @@ export default function ProfilePage() {
                   </div>
                 </div>
 
-                <Button disabled={saving} className="w-full rounded-2xl bg-primary hover:bg-primary/90 h-14 gap-3 shadow-xl shadow-primary/20 text-[12px] font-black uppercase tracking-[0.2em] transition-all active:scale-95">
-                  {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-                  Mettre à jour les paramètres
+                <Button 
+                  disabled={saving} 
+                  className="w-full rounded-2xl bg-primary hover:bg-primary/90 h-auto min-h-14 py-4 px-6 gap-3 shadow-xl shadow-primary/20 text-[11px] font-black uppercase tracking-wider transition-all active:scale-95 whitespace-normal leading-tight"
+                >
+                  {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5 shrink-0" />}
+                  <span className="flex-1">Mettre à jour les paramètres</span>
                 </Button>
               </form>
             </CardContent>

@@ -84,8 +84,8 @@ export default function ChatPage() {
         <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div className="text-center">
-           <h1 className="text-xl font-headline font-bold text-primary tracking-tighter">IA EXPERT NUTRITION</h1>
+        <div className="text-center px-2">
+           <h1 className="text-lg md:text-xl font-headline font-bold text-primary tracking-tighter">IA EXPERT NUTRITION</h1>
            <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold text-accent uppercase tracking-widest">
               <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Intelligence Active 2026
@@ -135,7 +135,7 @@ export default function ChatPage() {
                     {msg.content}
                   </ReactMarkdown>
                 ) : (
-                  <p className="leading-relaxed">{msg.content}</p>
+                  <p className="leading-relaxed whitespace-normal break-words">{msg.content}</p>
                 )}
               </Card>
 
@@ -172,7 +172,7 @@ export default function ChatPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Posez votre question à l'IA Expert..."
-            className="h-14 rounded-[1.5rem] bg-white border-primary/10 shadow-inner px-6 text-base"
+            className="h-14 rounded-[1.5rem] bg-white border-primary/10 shadow-inner px-6 text-sm md:text-base placeholder:text-xs md:placeholder:text-sm"
             disabled={loading}
           />
           <Button 
