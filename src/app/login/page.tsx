@@ -36,14 +36,14 @@ export default function LoginPage() {
         <Button 
           variant="ghost" 
           onClick={() => router.push('/')}
-          className="rounded-full gap-2 border border-primary-950/40 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all bg-white/60 backdrop-blur-md shadow-sm"
+          className="rounded-full gap-2 border border-primary-950/40 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all bg-white/60 backdrop-blur-md shadow-sm h-12"
         >
           <ArrowLeft size={16} />
           Retour à la base
         </Button>
       </div>
 
-      <div className="max-w-md w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+      <div className="max-w-md w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 mt-12">
         <div className="text-center space-y-4">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary text-white mb-4 shadow-xl shadow-primary/20">
             <Apple size={48} strokeWidth={1.5} />

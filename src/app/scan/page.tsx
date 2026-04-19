@@ -63,7 +63,6 @@ export default function ScanPage() {
       setHasCameraPermission(true);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        // Optimization for mobile APK/Webview to bypass "Play" button
         const playPromise = videoRef.current.play();
         if (playPromise !== undefined) {
           playPromise.catch(e => console.warn("Auto-play blocked:", e));
