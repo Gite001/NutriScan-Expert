@@ -65,7 +65,7 @@ export default function ResultsPage() {
 
   const rarityStyles = {
     'Commun': 'bg-muted text-primary-950 font-bold',
-    'Rare': 'bg-primary/30 text-primary-950 border border-primary/50 font-black',
+    'Rare': 'bg-primary-200 text-primary-950 border border-primary/50 font-black',
     'Légendaire': 'bg-accent text-primary-950 border border-accent/60 shadow-[0_0_15px_rgba(163,230,53,0.3)] font-black',
   };
 
@@ -126,12 +126,12 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(data.quickLook || []).map((item, i) => (
                    <div key={i} className="glass p-6 rounded-3xl border-primary/30 flex flex-col items-start gap-4 bg-white/70 w-full shadow-sm">
-                      <div className="flex flex-col">
-                        <p className="text-[10px] font-black text-primary-950 uppercase tracking-widest">{item.name}</p>
-                        <span className="text-2xl font-black text-primary-950">{item.level}</span>
+                      <div className="flex flex-col gap-1">
+                        <p className="text-[10px] font-black text-primary-950/60 uppercase tracking-widest">{item.name}</p>
+                        <span className="text-2xl font-black text-primary-950 uppercase tracking-tight">{item.level}</span>
                       </div>
                       <Badge variant="outline" className="text-xs border-primary/50 px-4 py-2 font-black rounded-xl bg-primary/20 text-primary-950 w-full text-left leading-relaxed shadow-inner">
                         {item.benefit}
@@ -153,11 +153,11 @@ export default function ResultsPage() {
               <Layers size={18} className="shrink-0" />
               <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Moléculaire</span>
             </TabsTrigger>
-            <TabsTrigger value="symbiosis" className="rounded-[1.5rem] data-[state=active]:bg-emerald-800 data-[state=active]:text-white font-black transition-all">
+            <TabsTrigger value="symbiosis" className="rounded-[1.5rem] data-[state=active]:bg-emerald-950 data-[state=active]:text-white font-black transition-all">
               <Globe size={18} className="shrink-0" />
               <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Symbiose</span>
             </TabsTrigger>
-            <TabsTrigger value="alchemy" className="rounded-[1.5rem] data-[state=active]:bg-amber-700 data-[state=active]:text-white font-black transition-all">
+            <TabsTrigger value="alchemy" className="rounded-[1.5rem] data-[state=active]:bg-amber-900 data-[state=active]:text-white font-black transition-all">
               <Sparkles size={18} className="shrink-0" />
               <span className="hidden md:inline text-[10px] uppercase tracking-widest ml-2">Alchimie</span>
             </TabsTrigger>
@@ -243,7 +243,7 @@ export default function ResultsPage() {
                         {treasure.rarity}
                       </Badge>
                       <h4 className="text-xl md:text-3xl font-black text-primary-950">{treasure.name}</h4>
-                      <p className="text-sm md:text-lg text-primary-950 font-black leading-relaxed italic border-l-2 border-primary/40 pl-6">"{treasure.description}"</p>
+                      <p className="text-sm md:text-lg text-primary-950 font-bold leading-relaxed italic border-l-2 border-primary/40 pl-6">"{treasure.description}"</p>
                     </Card>
                   ))
                 ) : (
@@ -271,7 +271,7 @@ export default function ResultsPage() {
                           {(alert.category || 'INCONNU').toUpperCase()}
                         </Badge>
                         <h4 className="text-xl md:text-2xl font-black uppercase tracking-tight text-red-950">{alert.title}</h4>
-                        <p className="text-sm md:text-base text-red-950 font-black leading-relaxed">{alert.message}</p>
+                        <p className="text-sm md:text-base text-red-950 font-bold leading-relaxed">{alert.message}</p>
                       </div>
                     </div>
                   ))}
@@ -284,7 +284,7 @@ export default function ResultsPage() {
                  <Card className="glass border-emerald-900/40 rounded-[3rem] p-8 md:p-12 bg-white/70 shadow-lg flex flex-col gap-10 w-full">
                     <div className="flex flex-col items-start gap-8 w-full">
                        <div className="flex items-center gap-6">
-                          <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-800 text-white flex items-center justify-center text-5xl font-black shadow-xl shrink-0">
+                          <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-950 text-white flex items-center justify-center text-5xl font-black shadow-xl shrink-0">
                              {data.ecoIntelligence.ecoScore || 0}
                           </div>
                           <div className="space-y-1">
@@ -297,13 +297,13 @@ export default function ResultsPage() {
                        </p>
                        <div className="flex flex-wrap gap-3">
                           {(data.ecoIntelligence.footprintTags || []).map((tag, i) => (
-                             <Badge key={i} className="bg-emerald-900 text-white border-none text-[10px] font-black tracking-widest px-6 py-3 rounded-full uppercase shadow-md">
+                             <Badge key={i} className="bg-emerald-950 text-white border-none text-[10px] font-black tracking-widest px-6 py-3 rounded-full uppercase shadow-md">
                                 {tag.toUpperCase()}
                              </Badge>
                           ))}
                        </div>
                     </div>
-                    <div className="space-y-8 bg-emerald-800/20 p-8 rounded-[2.5rem] border border-emerald-800/40 shadow-inner w-full">
+                    <div className="space-y-8 bg-emerald-800/10 p-8 rounded-[2.5rem] border border-emerald-800/40 shadow-inner w-full">
                        <div className="space-y-3">
                           <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-950">
                              <span>Durabilité SENSOR-X</span>
@@ -312,7 +312,7 @@ export default function ResultsPage() {
                           <Progress value={data.ecoIntelligence.ecoScore || 0} className="h-4 bg-emerald-800/40" />
                        </div>
                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-emerald-800 text-white flex items-center justify-center shrink-0">
+                          <div className="w-10 h-10 rounded-xl bg-emerald-950 text-white flex items-center justify-center shrink-0">
                              <Leaf size={20} />
                           </div>
                           <p className="text-sm md:text-lg font-black text-emerald-950 italic">Environnement pur = Nutriments purs.</p>

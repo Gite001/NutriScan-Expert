@@ -121,7 +121,7 @@ export default function ProfilePage() {
           </Avatar>
           <div className="space-y-2">
             <h1 className="text-3xl font-headline font-bold text-primary-950 tracking-tighter uppercase">{user?.displayName}</h1>
-            <p className="text-[10px] font-black text-primary/60 uppercase tracking-widest">{user?.email}</p>
+            <p className="text-[10px] font-black text-primary-950/60 uppercase tracking-widest">{user?.email}</p>
             {isGuest && <Badge className="bg-accent text-primary-950 text-[10px] font-black uppercase tracking-widest border-none px-4 py-1.5 rounded-full mt-2">Mode Démo</Badge>}
           </div>
           <Button variant="outline" onClick={logout} className="rounded-full gap-2 border-red-500/30 text-red-700 hover:bg-red-50 hover:text-red-800 font-bold uppercase text-[10px] tracking-widest px-8 h-12 shadow-sm">
@@ -143,15 +143,15 @@ export default function ProfilePage() {
       <div className="flex flex-col gap-12">
         <section className="space-y-6">
           <div className="flex items-center gap-3 px-4">
-            <Settings className="text-primary w-6 h-6 shrink-0" />
+            <Settings className="text-primary-950 w-6 h-6 shrink-0" />
             <h2 className="text-xl font-headline font-bold tracking-tight uppercase text-primary-950">Bio-Configuration</h2>
           </div>
           <Card className="rounded-[3rem] overflow-hidden border-primary/20 shadow-xl glass bg-white/60">
             <CardContent className="p-8 space-y-8">
               <form onSubmit={handleSave} className="flex flex-col gap-8">
-                <div className="flex flex-col gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-primary/60 ml-2">Âge Biologique</Label>
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950/70 ml-2">Âge Biologique</Label>
                     <Input 
                       type="number" 
                       value={formState.age} 
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-primary/60 ml-2">Sexe</Label>
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950/70 ml-2">Sexe</Label>
                     <Select value={formState.sex} onValueChange={(val) => setFormState({...formState, sex: val})}>
                       <SelectTrigger className="rounded-2xl border-primary/20 h-14 bg-white/80 text-primary-950 font-bold px-6">
                         <SelectValue />
@@ -175,7 +175,7 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-primary/60 ml-2">Intensité d'Activité</Label>
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950/70 ml-2">Intensité d'Activité</Label>
                   <Select value={formState.activityLevel} onValueChange={(val) => setFormState({...formState, activityLevel: val})}>
                     <SelectTrigger className="rounded-2xl border-primary/20 h-14 bg-white/80 text-primary-950 font-bold px-6">
                       <SelectValue />
@@ -190,8 +190,8 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-[10px] font-black uppercase tracking-widest text-primary/60 ml-2">Objectifs Cellulaires</Label>
-                  <div className="flex flex-col gap-3">
+                  <Label className="text-[10px] font-black uppercase tracking-widest text-primary-950/70 ml-2">Objectifs Cellulaires</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {['Perte de poids', 'Gain de muscle', 'Énergie', 'Sommeil'].map(goal => (
                       <div key={goal} className="flex items-center space-x-4 glass p-5 rounded-2xl border-primary/10 bg-white/40 hover:border-primary/40 transition-all cursor-pointer">
                         <Checkbox 
@@ -224,14 +224,14 @@ export default function ProfilePage() {
 
         <section className="space-y-6 pb-12">
           <div className="flex items-center gap-3 px-4">
-            <History className="text-primary w-6 h-6 shrink-0" />
+            <History className="text-primary-950 w-6 h-6 shrink-0" />
             <h2 className="text-xl font-headline font-bold tracking-tight uppercase text-primary-950">Archives Tactiques</h2>
           </div>
           <div className="flex flex-col gap-4">
             {!history || history.length === 0 ? (
               <div className="text-center py-20 glass rounded-[3rem] border-dashed border-primary/30 bg-white/40">
-                <Apple className="w-16 h-16 text-primary/20 mx-auto mb-4 animate-bounce" />
-                <p className="text-primary/40 font-black uppercase tracking-widest text-[10px]">Aucune archive détectée</p>
+                <Apple className="w-16 h-16 text-primary-950/20 mx-auto mb-4 animate-bounce" />
+                <p className="text-primary-950/40 font-black uppercase tracking-widest text-[10px]">Aucune archive détectée</p>
               </div>
             ) : (
               history.map((scan, idx) => (
@@ -257,14 +257,14 @@ export default function ProfilePage() {
                       <h4 className="font-headline font-bold text-lg text-primary-950 truncate tracking-tighter">{scan.productName}</h4>
                       <div className="flex items-center gap-3 mt-1">
                          <Badge variant="outline" className="text-[8px] font-black border-primary/20 text-primary-950 px-2 py-0 uppercase tracking-widest">Score: {scan.globalScore}</Badge>
-                         <p className="text-[8px] text-primary/60 font-black uppercase tracking-widest">
+                         <p className="text-[8px] text-primary-950/60 font-black uppercase tracking-widest">
                           {scan.scannedAt && !isGuest ? format(scan.scannedAt.toDate(), 'dd MMM yyyy', { locale: fr }) : 
                            scan.scannedAt ? format(new Date(scan.scannedAt), 'dd MMM yyyy', { locale: fr }) : '--'}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <ChevronRight className="w-6 h-6 text-primary/30 shrink-0" />
+                  <ChevronRight className="w-6 h-6 text-primary-950/30 shrink-0" />
                 </div>
               ))
             )}

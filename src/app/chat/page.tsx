@@ -129,9 +129,11 @@ export default function ChatPage() {
                   </div>
                 )}
                 {msg.role === 'assistant' ? (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {msg.content}
-                  </ReactMarkdown>
+                  <div className="text-primary-950">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {msg.content}
+                    </ReactMarkdown>
+                  </div>
                 ) : (
                   <p className="leading-relaxed whitespace-normal break-words font-medium">{msg.content}</p>
                 )}
@@ -170,7 +172,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/40 shadow-inner px-8 text-base md:text-lg text-primary-950 font-medium placeholder:text-primary-950 placeholder:font-black placeholder:text-sm focus:ring-primary/20 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary/40 shadow-inner px-8 text-base md:text-lg text-primary-950 font-bold placeholder:text-primary-950/70 placeholder:font-black placeholder:text-sm focus:ring-primary/20 transition-all flex-1"
               disabled={loading}
             />
             <Button 
