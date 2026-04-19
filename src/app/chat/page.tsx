@@ -112,7 +112,7 @@ export default function ChatPage() {
                 ) : (
                   <div className="flex items-center gap-1.5 bg-primary/30 px-3 py-1.5 rounded-full border border-primary/50">
                     <User size={12} className="text-primary-950" />
-                    <span className="text-primary-950 font-black uppercase">Vous</span>
+                    <span className="text-primary-950 font-black uppercase tracking-tight">Vous</span>
                   </div>
                 )}
               </div>
@@ -121,14 +121,14 @@ export default function ChatPage() {
                 "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
-                  : "glass border-primary/30 rounded-tl-sm text-primary-950 chat-prose bg-white/60"
+                  : "glass border-primary/30 rounded-tl-sm text-primary-950 chat-prose bg-white/60 shadow-lg"
               )}>
                 {msg.role === 'assistant' && (
                   <div className="absolute -left-3 -top-3 bg-white border border-primary/40 rounded-full p-1.5 shadow-md text-primary-950">
                     <Microscope size={14} />
                   </div>
                 )}
-                <div className={cn(msg.role === 'user' ? "text-white" : "text-primary-950 font-black")}>
+                <div className={cn(msg.role === 'user' ? "text-white font-medium" : "text-primary-950 font-black")}>
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {msg.content}
                   </ReactMarkdown>
@@ -168,7 +168,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/60 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950/80 placeholder:font-black placeholder:text-sm focus:ring-primary/40 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary/60 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950 placeholder:font-black placeholder:text-sm focus:ring-primary/40 transition-all flex-1"
               disabled={loading}
             />
             <Button 

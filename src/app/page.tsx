@@ -64,16 +64,16 @@ export default function HomePage() {
 
               <div className="relative z-10 space-y-4">
                 <div className="space-y-1">
-                  <h3 className="text-2xl font-headline font-bold leading-tight">L'Expert en Mission</h3>
-                  <p className="text-[10px] font-black uppercase tracking-widest opacity-90">Révélateur de Vérité</p>
+                  <h3 className="text-2xl font-headline font-bold leading-tight text-primary-950">L'Expert en Mission</h3>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-primary-950/80">Révélateur de Vérité</p>
                 </div>
                 
                 <div className="w-full rounded-2xl bg-white/95 text-primary-950 shadow-xl border border-white/60 p-3 flex flex-col items-center justify-center gap-1">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                    <span className="text-[9px] font-black uppercase tracking-[0.15em] leading-none">Intelligence Active</span>
+                    <span className="text-[9px] font-black uppercase tracking-[0.15em] leading-none text-primary-950">Intelligence Active</span>
                   </div>
-                  <p className="text-[8px] opacity-70 font-black uppercase tracking-tight text-center leading-none">Prêt pour l'expédition moléculaire</p>
+                  <p className="text-[8px] text-primary-950 font-black uppercase tracking-tight text-center leading-none">Prêt pour l'expédition moléculaire</p>
                 </div>
               </div>
             </div>

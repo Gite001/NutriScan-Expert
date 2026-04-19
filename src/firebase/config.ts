@@ -3,12 +3,12 @@ import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCorrectKeyShouldBeHere", // Remplacer par la clé réelle de la console Firebase
+  apiKey: "AIzaSyAHbx1MNr32KKZcFQxa_YGv2BhHDtalYuM",
   authDomain: "estateflow-54561.firebaseapp.com",
   projectId: "estateflow-54561",
   storageBucket: "estateflow-54561.firebasestorage.app",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:dummy"
+  messagingSenderId: "1010028490601",
+  appId: "1:1010028490601:web:1b27e89ddd3a82945057f8"
 };
 
 export function getFirebaseApp(): FirebaseApp {
