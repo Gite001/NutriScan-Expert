@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -30,7 +31,7 @@
     }
   },
   "auth": {
-    "providers": ["google.com"]
+    "providers": ["google.com", "password"]
   },
   "firestore": {
     "/profiles/{userId}": {

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -168,7 +169,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/60 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950 placeholder:font-black placeholder:text-sm focus:ring-primary/40 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary/60 shadow-inner px-8 text-base md:text-lg text-primary-950 font-black placeholder:text-primary-950/40 placeholder:font-black placeholder:text-sm focus:ring-primary/40 transition-all flex-1"
               disabled={loading}
             />
             <Button 
