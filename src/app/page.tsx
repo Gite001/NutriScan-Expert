@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useAuth } from '@/context/auth-context';
@@ -113,7 +112,7 @@ export default function HomePage() {
         <div className="relative group animate-in zoom-in duration-700">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2.6rem] blur opacity-30 group-hover:opacity-80 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
           
-          <Link href={user ? "/scan" : "/login"} className="relative">
+          <Link href="/scan" className="relative">
             <Button size="lg" className="h-20 px-12 rounded-[2.5rem] text-xl font-headline font-bold gap-4 bg-primary text-white hover:bg-primary/90 shadow-2xl transition-all hover:scale-105 active:scale-95 border-none">
               <Scan className="w-8 h-8 group-hover:rotate-12 transition-transform" />
               ACTIVER LE RADAR

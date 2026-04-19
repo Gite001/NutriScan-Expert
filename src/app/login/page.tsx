@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -33,12 +32,12 @@ export default function LoginPage() {
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] -z-10" />
 
-      {/* Bouton de retour à l'accueil */}
+      {/* Bouton de retour à l'accueil pour la courtoisie ergonomique */}
       <div className="absolute top-8 left-8 z-50">
         <Button 
           variant="ghost" 
           onClick={() => router.push('/')}
-          className="rounded-full gap-2 border border-primary-950/20 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all"
+          className="rounded-full gap-2 border border-primary-950/20 text-primary-950 font-black uppercase text-[10px] tracking-widest px-6 hover:bg-primary/10 transition-all bg-white/40 backdrop-blur-md"
         >
           <ArrowLeft size={16} />
           Retour à la base
@@ -77,7 +76,7 @@ export default function LoginPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
@@ -91,7 +90,7 @@ export default function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
@@ -117,7 +116,7 @@ export default function LoginPage() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
@@ -131,7 +130,7 @@ export default function LoginPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
@@ -145,7 +144,7 @@ export default function LoginPage() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        className="h-14 pl-12 rounded-2xl border-primary/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/30"
+                        className="h-14 pl-12 rounded-2xl border-primary-950/30 bg-white/80 text-primary-950 font-bold focus:ring-primary/40 placeholder:text-primary-950/40"
                       />
                     </div>
                   </div>
@@ -163,14 +162,14 @@ export default function LoginPage() {
 
             <div className="relative my-10">
               <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-primary/30"></span></div>
-              <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.5em]"><span className="bg-white/40 px-4 text-primary-950">OU</span></div>
+              <div className="relative flex justify-center text-[8px] font-black uppercase tracking-[0.5em]"><span className="bg-white/40 px-4 text-primary-950 font-black">OU</span></div>
             </div>
 
             <Button 
               onClick={loginWithGoogle} 
               disabled={loading}
               variant="outline"
-              className="w-full h-14 rounded-2xl border-primary-950/20 text-primary-950 font-black uppercase tracking-widest gap-3 hover:bg-white/60 transition-all shadow-sm"
+              className="w-full h-14 rounded-2xl border-primary-950/40 text-primary-950 font-black uppercase tracking-widest gap-3 hover:bg-white/60 transition-all shadow-sm"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <LogIn className="w-5 h-5" />}
               Continuer avec Google

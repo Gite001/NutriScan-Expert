@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -36,7 +35,7 @@ export default function ScanPage() {
   const { toast } = useToast();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const isGuest = user?.uid === 'guest-user-123';
+  const isGuest = !user || user.uid === 'guest-user-123';
 
   const profileRef = useMemo(() => !isGuest && user && db ? doc(db, 'profiles', user.uid) : null, [db, user, isGuest]);
   const { data: firestoreProfile } = useDoc(profileRef);
@@ -148,7 +147,7 @@ export default function ScanPage() {
       toast({
         variant: "destructive",
         title: isQuotaError ? "L'Expert est très sollicité !" : "Analyse interrompue",
-        description: isQuotaError ? "Réessayez dans quelques secondes." : "La photo est illisible. Merci de stabiliser l'appareil."
+        description: isQuotaError ? "Réessayez dans quelques secondes." : "La photo est illisible ou la connexion est instable."
       });
     } finally {
       setLoading(false);
@@ -171,7 +170,7 @@ export default function ScanPage() {
       toast({
         variant: "destructive",
         title: isQuotaError ? "Système saturé" : "Produit non identifié",
-        description: "Veuillez patienter ou préciser le nom du produit."
+        description: "Veuillez patienter ou vérifier votre connexion radar."
       });
     } finally {
       setLoading(false);
@@ -187,7 +186,6 @@ export default function ScanPage() {
       const context = canvas.getContext('2d');
       if (context) {
         context.save();
-        // Appliquer les mêmes filtres sur le canvas que sur la prévisualisation pour "capturer" la vision augmentée
         if (filterMode === 'infrared') {
           context.filter = 'invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.5) saturate(2)';
         } else if (filterMode === 'lowlight') {
@@ -220,7 +218,6 @@ export default function ScanPage() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col relative overflow-hidden">
-      {/* HEADER: Titre et Status */}
       <div className="absolute top-0 left-0 right-0 p-6 z-[60] flex justify-between items-start pointer-events-none">
         <div className="space-y-1 pointer-events-auto">
           <h1 className="text-white text-xl font-headline font-bold tracking-tight uppercase flex items-center gap-2">
@@ -235,14 +232,13 @@ export default function ScanPage() {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="text-white glass rounded-full w-10 h-10 pointer-events-auto border-white/10 hover:bg-white/20 transition-all"
+          className="text-white glass rounded-full w-10 h-10 pointer-events-auto border-white/10 hover:bg-white/20 transition-all bg-white/10"
           onClick={() => router.push('/')}
         >
           <X className="w-5 h-5" />
         </Button>
       </div>
 
-      {/* SÉLECTEUR DE MODE DISCRET */}
       <div className="absolute top-28 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
          <div className="bg-black/40 backdrop-blur-md border border-white/10 p-1 rounded-2xl flex gap-1">
             <button 
@@ -266,7 +262,6 @@ export default function ScanPage() {
          </div>
       </div>
 
-      {/* ZONE DE CONTENU PRINCIPAL */}
       <div className="flex-1 relative">
         {activeTab === 'camera' ? (
           <div className="absolute inset-0">
@@ -279,7 +274,6 @@ export default function ScanPage() {
             />
             <canvas ref={canvasRef} className="hidden" />
             
-            {/* HUD OVERLAY POUR LE RADAR */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               <div className="scan-line" />
               <div className="radar-sweep" />
@@ -291,7 +285,6 @@ export default function ScanPage() {
               </div>
             </div>
 
-            {/* FILTRES DE VISION SPÉCIFIQUES */}
             <div className="absolute left-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3">
               {[
                 { id: 'normal', icon: Eye, label: 'STND' },
@@ -348,7 +341,6 @@ export default function ScanPage() {
         )}
       </div>
 
-      {/* ÉCRAN DE CHARGEMENT TECHNIQUE */}
       {loading && (
         <div className="absolute inset-0 bg-black/90 backdrop-blur-3xl flex flex-col items-center justify-center text-white z-[70]">
           <div className="relative mb-8">
@@ -362,7 +354,6 @@ export default function ScanPage() {
         </div>
       )}
 
-      {/* CONTRÔLES INFÉRIEURS CONTEXTUELS */}
       <div className={cn(
         "bg-black/90 backdrop-blur-[40px] border-t border-white/5 p-8 pb-12 relative z-[55] transition-all duration-500",
         activeTab === 'search' ? "translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
