@@ -49,16 +49,16 @@ export default function HomePage() {
       {/* Bento Grid Features */}
       <section className="px-6 pb-24 max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* IA Analysis Card */}
-          <Link href="/scan" className="md:col-span-8 group">
-            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
-              <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10 group-hover:opacity-20 transition-all duration-700 group-hover:rotate-12">
+          {/* IA Analysis Card - MAINTENANT STATIQUE */}
+          <div className="md:col-span-8">
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500">
+              <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10">
                 <Scan size={120} />
               </div>
               <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight">Analyse Moléculaire par IA</h3>
               <p className="text-muted-foreground max-w-md text-sm md:text-base">Détectez les additifs, les sucres cachés et les micro-plastiques instantanément grâce à notre moteur de vision artificielle.</p>
             </div>
-          </Link>
+          </div>
           
           {/* Scientist Persona Card - Statique & Publicitaire */}
           <div className="md:col-span-4">
