@@ -31,6 +31,12 @@ export const HealthyAlternativeSchema = z.object({
   benefit: z.string(),
 });
 
+export const MolecularTreasureSchema = z.object({
+  name: z.string().describe("Nom de la pépite ou molécule précieuse dénichée"),
+  description: z.string().describe("Pourquoi ce composant est un trésor pour le corps"),
+  rarity: z.enum(['Commun', 'Rare', 'Légendaire']).describe("Niveau de rareté de ce bénéfice dans ce type de produit"),
+});
+
 export const NutriScanExpertOutputSchema = z.object({
   nutriScore: z.enum(['A', 'B', 'C', 'D', 'E']),
   globalScore: z.number().int().min(0).max(100),
@@ -44,6 +50,7 @@ export const NutriScanExpertOutputSchema = z.object({
     qualityVerdict: z.enum(['Nutritives', 'Vides', 'Mixte']).describe("Qualité des calories"),
     expertAdvice: z.string().describe("Conseil sur comment intégrer ces calories dans la journée"),
   }),
+  molecularTreasures: z.array(MolecularTreasureSchema).max(3).describe("Les pépites nutritionnelles cachées dénichées par l'expert"),
   mainAlert: z.string().optional(),
   scientificAlerts: z.array(ScientificAlertSchema).optional().describe("Alertes basées sur les controverses scientifiques 2025-2026"),
   quickLook: z.array(QuickLookItemSchema).min(4).max(4),

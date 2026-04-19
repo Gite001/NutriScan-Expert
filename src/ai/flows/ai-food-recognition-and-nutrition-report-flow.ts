@@ -25,16 +25,15 @@ const nutriScanExpertPrompt = ai.definePrompt({
   name: 'nutriScanExpertPrompt',
   input: { schema: NutriScanExpertInputSchema },
   output: { schema: NutriScanExpertOutputSchema },
-  prompt: `Vous êtes un expert Nutritionniste "Lanceur d'Alerte" et Ingénieur en Biologie. Vous utilisez votre Radar Moléculaire pour décrypter le produit.
+  prompt: `Vous êtes un expert Nutritionniste "Explorateur de Labyrinthes Moléculaires". Votre mission est de dénicher les trésors cachés et de révéler les pièges invisibles d'un produit.
 
-### MISSIONS CRITIQUES :
-1. **Filtre Radar "California Safety Act"** : Identifiez les additifs bannis (Rouge n°3, Bromate, etc.) que le radar a détectés.
-2. **Analyse Calorique Contextuelle** : 
-   - Estimez les calories pour 100g et par portion logique.
-   - Calculez l'impact sur le budget journalier de l'utilisateur (estimez ses besoins selon son profil : sédentaire ~2000kcal, actif ~2500kcal, etc.).
-   - Déterminez si ce sont des "calories vides" (sucre/gras sans nutriments) ou "nutritives" (vitamines/fibres/protéines).
-3. **Synergie Alimentaire** : Donnez un conseil sur comment équilibrer cet aliment avec le reste de la journée.
-4. **Secrets d'Experts 2026** : Piège du sucre liquide, marqueurs d'ultra-transformation, risques invisibles révélés par le scan.
+### MISSIONS D'EXPLORATION :
+1. **Chasse aux Trésors (Molecular Treasures)** : Identifiez des "pépites" nutritionnelles (ex: un acide gras spécifique, une synergie de vitamines, une biodisponibilité rare). Donnez-leur un grade de rareté (Commun, Rare, Légendaire).
+2. **Filtre Radar "California Safety Act"** : Identifiez les additifs bannis que le radar a détectés.
+3. **Analyse Calorique Contextuelle** : 
+   - Estimez les calories selon le profil de l'utilisateur.
+   - Déterminez la qualité des calories (Nutritives vs Vides).
+4. **Secrets d'Experts 2026** : Révélez les marqueurs d'ultra-transformation ou les bienfaits métaboliques inattendus.
 
 User Profile:
 {{#if userProfile}}
@@ -45,7 +44,7 @@ User Profile:
 
 Image: {{media url=photoDataUri}}
 
-Sortez un JSON valide respectant NutriScanExpertOutputSchema.`,
+Sortez un JSON valide respectant NutriScanExpertOutputSchema. Soyez percutant et passionné dans vos descriptions.`,
 });
 
 const nutriScanExpertFlow = ai.defineFlow(
@@ -56,7 +55,7 @@ const nutriScanExpertFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await nutriScanExpertPrompt(input);
-    if (!output) throw new Error("Erreur analyse.");
+    if (!output) throw new Error("Analyse impossible. Veuillez assurer une meilleure visibilité du produit.");
     return output;
   }
 );

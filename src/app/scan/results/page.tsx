@@ -1,9 +1,8 @@
-
 "use client";
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { NutriScanExpertOutput } from '@/ai/flows/ai-food-recognition-and-nutrition-report-flow';
+import { NutriScanExpertOutput } from '@/ai/schemas';
 import { Button } from '@/components/ui/button';
 import { 
   ArrowLeft, 
@@ -20,7 +19,10 @@ import {
   Scale,
   TrendingUp,
   Zap,
-  Dna
+  Dna,
+  Gem,
+  Sparkles,
+  Trophy
 } from 'lucide-react';
 import {
   Accordion,
@@ -68,6 +70,12 @@ export default function ResultsPage() {
     'pesticide': AlertTriangle,
   };
 
+  const rarityColors = {
+    'Commun': 'text-muted-foreground bg-muted/20',
+    'Rare': 'text-primary bg-primary/20',
+    'Légendaire': 'text-accent bg-accent/20 animate-pulse',
+  };
+
   return (
     <div className="min-h-screen pb-24 animate-in fade-in duration-1000">
       {/* Background Decor */}
@@ -82,8 +90,8 @@ export default function ResultsPage() {
             <ArrowLeft className="w-6 h-6" />
           </Button>
           <div className="text-right">
-            <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase mb-1">Rapport de Bio-Hacking</p>
-            <h1 className="text-2xl font-headline font-bold text-primary tracking-tighter">ANALYSE MOLÉCULAIRE</h1>
+            <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase mb-1">Radar d'Exploration</p>
+            <h1 className="text-2xl font-headline font-bold text-primary tracking-tighter">TRÉSORS MOLÉCULAIRES</h1>
           </div>
         </header>
 
@@ -105,7 +113,7 @@ export default function ResultsPage() {
               <div className="flex gap-6">
                 <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20 shadow-inner">
                   <span className="text-3xl font-bold tracking-tighter text-primary">{data.globalScore}</span>
-                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Indice Santé</span>
+                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Bio-Score</span>
                 </div>
                 <Badge className={cn("text-6xl w-24 h-24 rounded-[2.5rem] flex items-center justify-center font-bold text-white border-4 border-white/20 shadow-2xl", scoreColors[data.nutriScore])}>
                   {data.nutriScore}
@@ -121,7 +129,7 @@ export default function ResultsPage() {
               <div className="flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-2 text-primary">
                   <Zap className="w-4 h-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Bio-Hacking Métabolique</span>
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Énergie Cellulaire</span>
                 </div>
               </div>
               
@@ -133,7 +141,7 @@ export default function ResultsPage() {
                 
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-[9px] font-bold uppercase tracking-tight">
-                    <span>Impact Journalier</span>
+                    <span>Impact Métabolique</span>
                     <span>{data.caloricAnalysis.dailyBudgetContribution}%</span>
                   </div>
                   <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-2 bg-white/50" />
@@ -148,7 +156,7 @@ export default function ResultsPage() {
                     CALORIES {data.caloricAnalysis.qualityVerdict.toUpperCase()}
                   </Badge>
                   <Badge className="bg-primary/20 text-primary border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
-                    SYNERGIE CELLULAIRE
+                    SYNERGIE BIO
                   </Badge>
                 </div>
               </div>
@@ -163,21 +171,51 @@ export default function ResultsPage() {
           </div>
         </section>
 
+        {/* Molecular Treasures Section - THE "TREASURES" */}
+        <section className="space-y-6">
+          <div className="flex items-center gap-3 px-2">
+            <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shadow-lg shadow-accent/20">
+              <Gem className="text-white w-5 h-5" />
+            </div>
+            <h3 className="text-2xl font-headline font-bold tracking-tighter">PÉPITES DÉNICHER</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {data.molecularTreasures && data.molecularTreasures.length > 0 ? (
+              data.molecularTreasures.map((treasure, idx) => (
+                <div key={idx} className="glass border-primary/10 p-6 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all">
+                  <div className="absolute top-4 right-4 text-primary/10 group-hover:text-primary/20 transition-colors">
+                    <Sparkles size={32} />
+                  </div>
+                  <Badge className={cn("mb-4 border-none text-[8px] font-black uppercase tracking-widest", rarityColors[treasure.rarity])}>
+                    {treasure.rarity}
+                  </Badge>
+                  <h4 className="font-bold text-sm mb-2 group-hover:text-primary transition-colors">{treasure.name}</h4>
+                  <p className="text-[10px] text-muted-foreground leading-relaxed">{treasure.description}</p>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-3 glass p-8 rounded-[2.5rem] text-center border-dashed border-primary/20">
+                <p className="text-sm text-muted-foreground italic">Aucun trésor moléculaire spécifique détecté dans ce labyrinthe... Continuez l'exploration !</p>
+              </div>
+            )}
+          </div>
+        </section>
+
         {/* Scientific Alerts */}
         {data.scientificAlerts && data.scientificAlerts.length > 0 && (
           <section className="space-y-6">
             <div className="flex items-center gap-3 px-2">
-              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center shadow-lg shadow-accent/20">
-                <ShieldAlert className="text-white w-6 h-6" />
+              <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center shadow-lg shadow-red-500/20">
+                <ShieldAlert className="text-white w-5 h-5" />
               </div>
-              <h3 className="text-2xl font-headline font-bold tracking-tighter">RADAR SCIENTIFIQUE 2026</h3>
+              <h3 className="text-2xl font-headline font-bold tracking-tighter">PIÈGES DU LABYRINTHE</h3>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               {data.scientificAlerts.map((alert, idx) => {
                 const Icon = (alertIcons as any)[alert.category] || Info;
                 return (
-                  <div key={idx} className="glass border-accent/20 p-6 rounded-[2.5rem] space-y-4 hover:shadow-xl transition-all hover:-translate-y-1">
-                    <div className="bg-accent/10 p-3 rounded-2xl text-accent w-fit">
+                  <div key={idx} className="glass border-red-500/10 p-6 rounded-[2.5rem] space-y-4 hover:shadow-xl transition-all">
+                    <div className="bg-red-500/10 p-3 rounded-2xl text-red-500 w-fit">
                       <Icon size={24} />
                     </div>
                     <div>
@@ -199,7 +237,7 @@ export default function ResultsPage() {
               <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
                 <Microscope size={16} className="text-primary" />
               </div>
-              <h3 className="text-[9px] font-bold uppercase tracking-[0.3em] text-accent">VERDICT SCIENTIFIQUE</h3>
+              <h3 className="text-[9px] font-bold uppercase tracking-[0.3em] text-accent">RAPPORT D'EXPLORATION</h3>
             </div>
             <p className="text-xl md:text-3xl italic font-headline font-bold leading-[1.2] tracking-tighter">
               "{data.expertVerdict}"
@@ -210,12 +248,12 @@ export default function ResultsPage() {
         {/* Alternatives and Tips */}
         <section className="grid md:grid-cols-2 gap-8">
           <div className="space-y-6">
-             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">OPTIMISATION MÉTABOLIQUE</h3>
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">CHEMINS ALTERNATIFS</h3>
              <div className="space-y-4">
                 {data.healthyAlternatives.map((alt, idx) => (
                   <div key={idx} className="glass border-emerald-500/20 p-6 rounded-[2.5rem] flex items-center gap-5 group hover:bg-emerald-500/5 transition-all">
                     <div className="bg-emerald-500 p-3 rounded-2xl text-white group-hover:rotate-12 transition-transform">
-                      <CheckCircle2 size={20} />
+                      <Trophy size={20} />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-bold text-base tracking-tight">{alt.productName}</h4>
@@ -227,10 +265,10 @@ export default function ResultsPage() {
           </div>
 
           <div className="space-y-6">
-             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">MODE D'EMPLOI BIOLOGIQUE</h3>
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">GUIDE DE SURVIE</h3>
              <Accordion type="single" collapsible className="w-full glass rounded-[2.5rem] overflow-hidden border-none px-6">
                 <AccordionItem value="tips" className="border-b border-white/10">
-                  <AccordionTrigger className="font-bold hover:no-underline py-6 text-base">Bio-Hacking Tips</AccordionTrigger>
+                  <AccordionTrigger className="font-bold hover:no-underline py-6 text-base">Bio-Secrets</AccordionTrigger>
                   <AccordionContent className="pb-6">
                     <ul className="space-y-3 text-xs text-muted-foreground py-1">
                       {data.bonusTips.practicalTips.map((tip, i) => (
@@ -243,7 +281,7 @@ export default function ResultsPage() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="recipe" className="border-none">
-                  <AccordionTrigger className="font-bold hover:no-underline py-6 text-base">Recette Équilibrante</AccordionTrigger>
+                  <AccordionTrigger className="font-bold hover:no-underline py-6 text-base">Alchimie Culinaire</AccordionTrigger>
                   <AccordionContent className="space-y-4 pb-6">
                     <h4 className="font-bold text-primary text-lg tracking-tight">{data.bonusTips.expressRecipe.name}</h4>
                     <div className="flex flex-wrap gap-2">
@@ -260,7 +298,7 @@ export default function ResultsPage() {
         <div className="pt-8 flex justify-center">
           <Button onClick={() => router.push('/scan')} className="h-16 px-10 rounded-[2rem] text-xl font-headline font-bold gap-3 bg-primary hover:bg-primary/90 shadow-xl transition-all active:scale-95">
             <RotateCcw className="w-6 h-6" />
-            NOUVELLE ANALYSE
+            NOUVELLE EXPÉDITION
           </Button>
         </div>
       </div>
