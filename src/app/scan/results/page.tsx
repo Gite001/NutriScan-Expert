@@ -208,13 +208,13 @@ export default function ResultsPage() {
                       </p>
                    </div>
                    
-                   <div className="grid grid-cols-2 gap-4">
+                   <div className="flex flex-col gap-4"> {/* Changé en colonne unique */}
                       {(data.bonusTips?.healthBenefits || []).map((benefit, i) => (
-                        <div key={i} className="glass p-6 rounded-[2.5rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col items-center text-center gap-4 hover:scale-105 h-full justify-start pt-10">
-                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
-                              <HeartPulse size={20} />
+                        <div key={i} className="glass p-8 rounded-[2.5rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col items-center text-center gap-6 hover:scale-[1.02] card-shine">
+                           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0 shadow-sm">
+                              <HeartPulse size={24} />
                            </div>
-                           <p className="text-[10px] font-bold leading-relaxed uppercase tracking-tight">{benefit}</p>
+                           <p className="text-xs md:text-sm font-bold leading-relaxed uppercase tracking-widest max-w-[80%] mx-auto">{benefit}</p>
                         </div>
                       ))}
                    </div>
