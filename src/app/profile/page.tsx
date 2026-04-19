@@ -116,21 +116,23 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-12 animate-in fade-in slide-in-from-bottom-4">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-8 rounded-[2.5rem] border shadow-sm">
-        <div className="flex items-center gap-6">
-          <Avatar className="w-24 h-24 border-4 border-primary/10">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 md:p-8 rounded-[2.5rem] border shadow-sm">
+        <div className="flex items-center gap-4 md:gap-6 min-w-0">
+          <Avatar className="w-20 h-20 md:w-24 md:h-24 border-4 border-primary/10 shrink-0">
             <AvatarImage src={user?.photoURL || ''} />
-            <AvatarFallback className="bg-primary text-white text-3xl">{user?.displayName?.[0]}</AvatarFallback>
+            <AvatarFallback className="bg-primary text-white text-2xl md:text-3xl">{user?.displayName?.[0]}</AvatarFallback>
           </Avatar>
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-headline font-bold text-primary">{user?.displayName}</h1>
-              {isGuest && <Badge variant="secondary" className="bg-accent/20 text-accent-foreground">Mode Démo</Badge>}
+          <div className="space-y-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-2xl md:text-3xl font-headline font-bold text-primary truncate max-w-full">
+                {user?.displayName}
+              </h1>
+              {isGuest && <Badge variant="secondary" className="bg-accent/20 text-accent-foreground text-[10px]">Démo</Badge>}
             </div>
-            <p className="text-muted-foreground">{user?.email}</p>
+            <p className="text-muted-foreground text-sm truncate">{user?.email}</p>
           </div>
         </div>
-        <Button variant="outline" onClick={logout} className="rounded-full gap-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700">
+        <Button variant="outline" onClick={logout} className="rounded-full gap-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 w-fit">
           <LogOut className="w-4 h-4" />
           Déconnexion
         </Button>
@@ -138,8 +140,8 @@ export default function ProfilePage() {
 
       {isGuest && (
         <div className="bg-primary/5 border border-primary/10 p-4 rounded-2xl flex items-center gap-3 text-primary text-sm">
-          <Database className="w-5 h-5" />
-          En mode démo, vos données sont enregistrées uniquement sur votre navigateur.
+          <Database className="w-5 h-5 shrink-0" />
+          <p className="leading-tight">En mode démo, vos données sont enregistrées uniquement sur votre navigateur.</p>
         </div>
       )}
 
@@ -244,9 +246,9 @@ export default function ProfilePage() {
                     window.location.href = '/scan/results';
                   }}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 min-w-0">
                     <Badge className={cn(
-                      "w-10 h-10 rounded-xl text-lg flex items-center justify-center font-bold text-white",
+                      "w-10 h-10 rounded-xl text-lg flex items-center justify-center font-bold text-white shrink-0",
                       scan.nutriScore === 'A' ? "bg-emerald-500" :
                       scan.nutriScore === 'B' ? "bg-green-500" :
                       scan.nutriScore === 'C' ? "bg-yellow-500" :
@@ -254,15 +256,15 @@ export default function ProfilePage() {
                     )}>
                       {scan.nutriScore}
                     </Badge>
-                    <div>
-                      <h4 className="font-bold text-sm leading-none group-hover:text-primary transition-colors">{scan.productName}</h4>
+                    <div className="min-w-0">
+                      <h4 className="font-bold text-sm leading-none group-hover:text-primary transition-colors truncate">{scan.productName}</h4>
                       <p className="text-[10px] text-muted-foreground mt-1">
                         {scan.scannedAt && !isGuest ? format(scan.scannedAt.toDate(), 'dd MMM yyyy', { locale: fr }) : 
                          scan.scannedAt ? format(new Date(scan.scannedAt), 'dd MMM yyyy', { locale: fr }) : 'Date inconnue'}
                       </p>
                     </div>
                   </div>
-                  <ChevronRight className="text-muted w-4 h-4 group-hover:text-primary transition-colors" />
+                  <ChevronRight className="text-muted w-4 h-4 group-hover:text-primary transition-colors shrink-0" />
                 </div>
               ))
             )}
