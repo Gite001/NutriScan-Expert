@@ -83,11 +83,11 @@ export default function ChatPage() {
       {/* Header */}
       <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50">
         <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-5 h-5 text-primary" />
         </Button>
         <div className="text-center px-2">
            <h1 className="text-lg md:text-xl font-headline font-bold text-primary tracking-tighter uppercase">IA EXPERT NUTRITION</h1>
-           <div className="flex items-center justify-center gap-1.5 text-[8px] font-bold text-accent uppercase tracking-widest">
+           <div className="flex items-center justify-center gap-1.5 text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full">
               <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Intelligence Active 2026
            </div>
@@ -104,16 +104,16 @@ export default function ChatPage() {
               msg.role === 'user' ? "items-end" : "items-start"
             )}>
               <div className={cn(
-                "flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest mb-1",
-                msg.role === 'user' ? "text-primary flex-row-reverse" : "text-accent"
+                "flex items-center gap-2 text-[10px] font-black uppercase tracking-widest mb-1",
+                msg.role === 'user' ? "text-primary flex-row-reverse" : "text-primary"
               )}>
                 {msg.role === 'assistant' ? (
-                  <div className="flex items-center gap-1.5 bg-accent/10 px-2 py-1 rounded-full border border-accent/20">
-                    <UserRound size={12} className="text-accent" />
-                    <span className="text-accent">L'IA Expert Scientifique</span>
+                  <div className="flex items-center gap-1.5 bg-accent/20 px-3 py-1.5 rounded-full border border-accent/40 shadow-sm">
+                    <UserRound size={12} className="text-primary" />
+                    <span className="text-primary font-bold">L'IA Expert Scientifique</span>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 bg-primary/10 px-2 py-1 rounded-full border border-primary/20">
+                  <div className="flex items-center gap-1.5 bg-primary/20 px-3 py-1.5 rounded-full border border-primary/40">
                     <User size={12} className="text-primary" />
                     <span>Vous</span>
                   </div>
@@ -124,10 +124,10 @@ export default function ChatPage() {
                 "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
-                  : "glass border-primary/10 rounded-tl-sm text-foreground/90 prose prose-sm dark:prose-invert max-w-none chat-prose"
+                  : "glass border-primary/10 rounded-tl-sm text-foreground prose prose-sm dark:prose-invert max-w-none chat-prose"
               )}>
                 {msg.role === 'assistant' && (
-                  <div className="absolute -left-3 -top-3 bg-white border border-accent/20 rounded-full p-1.5 shadow-sm text-accent group-hover:scale-110 transition-transform">
+                  <div className="absolute -left-3 -top-3 bg-white border border-primary/20 rounded-full p-1.5 shadow-md text-primary group-hover:scale-110 transition-transform">
                     <Microscope size={14} />
                   </div>
                 )}
@@ -136,18 +136,18 @@ export default function ChatPage() {
                     {msg.content}
                   </ReactMarkdown>
                 ) : (
-                  <p className="leading-relaxed whitespace-normal break-words">{msg.content}</p>
+                  <p className="leading-relaxed whitespace-normal break-words font-medium">{msg.content}</p>
                 )}
               </Card>
 
               {msg.keyTakeaways && msg.keyTakeaways.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mt-2">
                   {msg.keyTakeaways.map((point, i) => (
-                    <div key={i} className="glass p-4 rounded-2xl border-accent/20 flex items-center gap-3 hover:border-accent/40 hover:scale-105 transition-all cursor-default card-shine">
-                       <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                          <Zap size={12} className="text-accent" />
+                    <div key={i} className="glass p-4 rounded-2xl border-primary/20 flex items-center gap-3 hover:border-primary/40 hover:scale-105 transition-all cursor-default card-shine shadow-sm">
+                       <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <Zap size={12} className="text-primary" />
                        </div>
-                       <span className="text-[10px] font-bold text-foreground/70 leading-tight">{point}</span>
+                       <span className="text-[10px] font-black text-primary leading-tight uppercase tracking-tight">{point}</span>
                     </div>
                   ))}
                 </div>
@@ -155,26 +155,26 @@ export default function ChatPage() {
             </div>
           ))}
           {loading && (
-            <div className="flex items-center gap-3 text-accent animate-pulse pl-4">
+            <div className="flex items-center gap-3 text-primary animate-pulse pl-4">
                <div className="relative">
                   <Loader2 className="w-6 h-6 animate-spin" />
                   <Microscope size={10} className="absolute inset-0 m-auto" />
                </div>
-               <span className="text-[10px] font-bold uppercase tracking-widest italic">L'IA analyse les séquences moléculaires...</span>
+               <span className="text-[10px] font-black uppercase tracking-widest italic">Analyse moléculaire en cours...</span>
             </div>
           )}
         </div>
       </ScrollArea>
 
-      {/* Input Area - Adjusted for perfect alignment */}
+      {/* Input Area */}
       <div className="p-6 border-t glass bg-white/80 backdrop-blur-3xl pb-10 md:pb-6">
         <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-4">
           <div className="relative flex items-center gap-3">
             <Input 
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Posez votre question à l'IA..."
-              className="h-16 rounded-[2rem] bg-white border-primary/10 shadow-inner px-8 text-base md:text-lg placeholder:text-muted-foreground/50 placeholder:text-sm md:placeholder:text-base focus:ring-primary/20 transition-all flex-1"
+              placeholder="Posez votre question..."
+              className="h-16 rounded-[2rem] bg-white border-primary/20 shadow-inner px-8 text-base md:text-lg placeholder:text-primary/70 placeholder:font-bold placeholder:text-sm md:placeholder:text-base focus:ring-primary/20 transition-all flex-1"
               disabled={loading}
             />
             <Button 
@@ -186,8 +186,8 @@ export default function ChatPage() {
               <Send className="w-8 h-8" />
             </Button>
           </div>
-          <p className="text-center text-[8px] text-muted-foreground font-black uppercase tracking-[0.4em] opacity-40">
-             Analyse Moléculaire & Bio-Intelligence 2026
+          <p className="text-center text-[8px] text-primary/60 font-black uppercase tracking-[0.4em]">
+             Bio-Intelligence Active & Transparence 2026
           </p>
         </form>
       </div>
