@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound } from 'lucide-react';
+import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Biohazard, Microscope, UserRound, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -60,22 +60,33 @@ export default function HomePage() {
             </div>
           </Link>
           
-          {/* Scientist Persona Card - NOW STATIC (Promotional only) */}
+          {/* Scientist Persona Card - Promotional Only */}
           <div className="md:col-span-4 group/expert">
-            <div className="h-full bg-accent text-accent-foreground p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px]">
-              <div className="absolute -right-4 -top-4 opacity-10">
-                <UserRound size={200} />
+            <div className="h-full bg-accent text-accent-foreground p-8 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px]">
+              {/* Background Icon */}
+              <div className="absolute -right-6 -top-6 opacity-10 rotate-12">
+                <UserRound size={220} />
               </div>
-              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30">
+
+              {/* Icon Badge */}
+              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30 shadow-inner">
                 <Microscope size={32} className="text-accent-foreground" />
               </div>
-              <div className="relative z-10 space-y-4">
-                <div>
-                  <h3 className="text-2xl font-headline font-bold mb-1 leading-tight">Expert Scientifique</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">Conseils & Bio-Intelligence</p>
+
+              {/* Content */}
+              <div className="relative z-10 space-y-6">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-headline font-bold leading-tight">Expert Scientifique</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-80">Conseils & Bio-Intelligence</p>
                 </div>
-                <div className="w-full rounded-2xl font-bold h-12 bg-white/90 text-accent-foreground shadow-xl flex items-center justify-center border border-white/40">
-                  DISPONIBLE SUR VOTRE BARRE
+                
+                {/* Status Indicator Fix */}
+                <div className="w-full rounded-2xl bg-white/95 text-accent-foreground shadow-xl border border-white/40 p-4 flex flex-col items-center justify-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">ACTIF SUR VOTRE BARRE</span>
+                  </div>
+                  <p className="text-[8px] opacity-60 font-bold uppercase tracking-tighter text-center leading-none">Cliquez sur l'icône en bas</p>
                 </div>
               </div>
             </div>
