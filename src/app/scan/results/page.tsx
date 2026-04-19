@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -8,22 +9,18 @@ import {
   ArrowLeft, 
   RotateCcw, 
   AlertTriangle, 
-  ChevronRight, 
   CheckCircle2, 
   Quote,
   Flame,
-  Zap,
-  Droplets,
-  Bean,
   ShieldAlert,
   Microscope,
   Droplet,
   Info,
-  Sparkles,
   Target,
   Scale,
-  ZapOff,
-  TrendingUp
+  TrendingUp,
+  Zap,
+  Dna
 } from 'lucide-react';
 import {
   Accordion,
@@ -63,13 +60,6 @@ export default function ResultsPage() {
     E: "bg-red-500 shadow-red-500/50",
   };
 
-  const aspectIcons = {
-    'Protéines': Zap,
-    'Énergie': Flame,
-    'Matières grasses': Droplets,
-    'Sucres': Bean,
-  };
-
   const alertIcons = {
     'additif': ShieldAlert,
     'glycemie': Flame,
@@ -97,14 +87,14 @@ export default function ResultsPage() {
           </div>
         </header>
 
-        {/* Score Card */}
+        {/* Score Card & Bio-Hacking Metrics */}
         <section className="glass rounded-[3rem] p-8 md:p-12 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8">
             <Target size={100} className="text-primary/5 group-hover:text-primary/10 transition-colors" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="flex flex-col items-center md:items-start space-y-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="flex flex-col items-center md:items-start space-y-8">
               <div className="space-y-2 text-center md:text-left">
                 <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold tracking-widest uppercase py-1 px-4 mb-2">
                   {data.personalizationIndicator}
@@ -112,47 +102,60 @@ export default function ResultsPage() {
                 <h2 className="text-4xl md:text-5xl font-headline font-bold leading-[1] tracking-tighter">{data.productName}</h2>
               </div>
               
-              <div className="flex gap-4">
-                <div className="glass p-5 rounded-[2rem] flex flex-col items-center min-w-[90px] border-primary/20">
-                  <span className="text-2xl font-bold tracking-tighter">{data.globalScore}</span>
+              <div className="flex gap-6">
+                <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20 shadow-inner">
+                  <span className="text-3xl font-bold tracking-tighter text-primary">{data.globalScore}</span>
                   <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Indice Santé</span>
                 </div>
-                <Badge className={cn("text-5xl w-20 h-20 rounded-[2rem] flex items-center justify-center font-bold text-white border-4 border-white/20 shadow-xl", scoreColors[data.nutriScore])}>
+                <Badge className={cn("text-6xl w-24 h-24 rounded-[2.5rem] flex items-center justify-center font-bold text-white border-4 border-white/20 shadow-2xl", scoreColors[data.nutriScore])}>
                   {data.nutriScore}
                 </Badge>
               </div>
             </div>
 
-            {/* NEW Caloric Impact Section */}
-            <div className="glass bg-white/40 p-6 rounded-[2.5rem] space-y-4 border-primary/10">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Scale className="w-4 h-4 text-primary" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest">Impact Énergétique</span>
+            {/* BIO-HACKING CONTENT BLOCK */}
+            <div className="glass bg-primary/5 p-8 rounded-[3rem] space-y-6 border-primary/10 relative overflow-hidden">
+               <div className="absolute -bottom-6 -right-6 opacity-5">
+                  <Dna size={120} />
+               </div>
+              <div className="flex items-center justify-between relative z-10">
+                <div className="flex items-center gap-2 text-primary">
+                  <Zap className="w-4 h-4" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Bio-Hacking Métabolique</span>
                 </div>
-                <Badge variant="outline" className={cn(
-                  "text-[9px] font-bold uppercase py-0.5",
-                  data.caloricAnalysis.qualityVerdict === 'Nutritives' ? "bg-emerald-500/10 text-emerald-600 border-emerald-200" :
-                  data.caloricAnalysis.qualityVerdict === 'Vides' ? "bg-red-500/10 text-red-600 border-red-200" : "bg-orange-500/10 text-orange-600 border-orange-200"
-                )}>
-                  Calories {data.caloricAnalysis.qualityVerdict}
-                </Badge>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-4 relative z-10">
                 <div className="flex justify-between items-end">
-                  <span className="text-3xl font-headline font-bold">{data.caloricAnalysis.caloriesPerPortion} <span className="text-sm font-normal text-muted-foreground">kcal</span></span>
+                  <span className="text-4xl font-headline font-bold">{data.caloricAnalysis.caloriesPerPortion} <span className="text-sm font-normal text-muted-foreground">kcal</span></span>
                   <span className="text-[10px] font-bold text-muted-foreground">/ {data.caloricAnalysis.estimatedPortion}</span>
                 </div>
-                <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-2 bg-primary/5" />
-                <p className="text-[9px] font-medium text-muted-foreground text-right">
-                  {data.caloricAnalysis.dailyBudgetContribution}% de votre budget journalier idéal
-                </p>
+                
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[9px] font-bold uppercase tracking-tight">
+                    <span>Impact Journalier</span>
+                    <span>{data.caloricAnalysis.dailyBudgetContribution}%</span>
+                  </div>
+                  <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-2 bg-white/50" />
+                </div>
+                
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <Badge className={cn(
+                    "border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full shadow-sm",
+                    data.caloricAnalysis.qualityVerdict === 'Nutritives' ? "bg-accent text-accent-foreground" :
+                    data.caloricAnalysis.qualityVerdict === 'Vides' ? "bg-red-500 text-white" : "bg-orange-500 text-white"
+                  )}>
+                    CALORIES {data.caloricAnalysis.qualityVerdict.toUpperCase()}
+                  </Badge>
+                  <Badge className="bg-primary/20 text-primary border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
+                    SYNERGIE CELLULAIRE
+                  </Badge>
+                </div>
               </div>
 
-              <div className="bg-primary/5 p-3 rounded-2xl">
-                <p className="text-[10px] leading-relaxed italic text-primary/80">
-                   <TrendingUp className="inline w-3 h-3 mr-1" />
+              <div className="bg-white/60 backdrop-blur-md p-4 rounded-2xl border border-white/40 relative z-10">
+                <p className="text-[10px] leading-relaxed italic text-primary/80 font-medium">
+                   <TrendingUp className="inline w-3 h-3 mr-1.5" />
                    {data.caloricAnalysis.expertAdvice}
                 </p>
               </div>
@@ -207,7 +210,7 @@ export default function ResultsPage() {
         {/* Alternatives and Tips */}
         <section className="grid md:grid-cols-2 gap-8">
           <div className="space-y-6">
-             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">SYNERGIES & OPTIMISATION</h3>
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">OPTIMISATION MÉTABOLIQUE</h3>
              <div className="space-y-4">
                 {data.healthyAlternatives.map((alt, idx) => (
                   <div key={idx} className="glass border-emerald-500/20 p-6 rounded-[2.5rem] flex items-center gap-5 group hover:bg-emerald-500/5 transition-all">
