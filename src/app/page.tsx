@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
-import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Microscope, UserRound, Globe, Leaf } from 'lucide-react';
+import { Scan, ShieldAlert, Sparkles, ArrowRight, Apple, Heart, Microscope, UserRound, Globe, Leaf, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -45,8 +45,8 @@ export default function HomePage() {
               <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight group-hover:text-primary transition-colors text-foreground">Bio-Hacking Nutritionnel</h3>
               <p className="text-foreground/80 font-medium max-w-md text-sm md:text-base leading-relaxed">Décryptez la densité en nutriments et évitez les calories vides. Identifiez instantanément les molécules qui optimisent votre biologie.</p>
               <div className="flex gap-2 mt-2">
-                 <Badge className="bg-primary text-primary-foreground border-none text-[8px] font-black tracking-widest px-3">CALORIES NUTRITIVES</Badge>
-                 <Badge className="bg-accent text-accent-foreground border-none text-[8px] font-black tracking-widest px-3">SYNERGIE CELLULAIRE</Badge>
+                 <Badge className="bg-primary text-white border-none text-[8px] font-black tracking-widest px-3 py-1 rounded-full uppercase">CALORIES NUTRITIVES</Badge>
+                 <Badge className="bg-accent text-primary-950 border-none text-[8px] font-black tracking-widest px-3 py-1 rounded-full uppercase">SYNERGIE CELLULAIRE</Badge>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@ export default function HomePage() {
 
           {/* Alert Card */}
           <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px] transition-all duration-500 border-primary/10 hover:border-destructive/40 hover:shadow-xl select-none">
-            <div className="w-16 h-16 rounded-2xl bg-destructive text-destructive-foreground flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-destructive/20">
+            <div className="w-16 h-16 rounded-2xl bg-destructive text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-destructive/20">
               <ShieldAlert size={32} />
             </div>
             <div>
@@ -103,10 +103,10 @@ export default function HomePage() {
                 Parce que manger propre exige un environnement propre. Découvrez comment vos choix protègent la terre qui fabrique vos cellules.
               </p>
               <div className="flex flex-wrap items-start gap-2.5 mt-2">
-                <Badge className="bg-emerald-600 text-white border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
+                <Badge className="bg-emerald-600 text-white border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full uppercase">
                   ÉCO-INTELLIGENCE
                 </Badge>
-                <Badge className="bg-primary text-white border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full">
+                <Badge className="bg-primary text-white border-none text-[9px] font-bold tracking-widest px-4 py-1.5 rounded-full uppercase">
                   SANTÉ CIRCULAIRE
                 </Badge>
               </div>
@@ -120,15 +120,25 @@ export default function HomePage() {
         <div className="relative group animate-in zoom-in duration-700">
           <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-[2.6rem] blur opacity-30 group-hover:opacity-80 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
           
-          <Link href="/scan" className="relative">
-            <Button size="lg" className="h-20 px-12 rounded-[2.5rem] text-xl font-headline font-bold gap-4 bg-primary text-primary-foreground hover:bg-primary/90 shadow-2xl transition-all hover:scale-105 active:scale-95">
-              <Scan className="w-8 h-8 group-hover:rotate-12 transition-transform" />
-              ACTIVER LE RADAR
-              <ArrowRight className="w-6 h-6 ml-2" />
+          <Link href={user ? "/scan" : "/login"} className="relative">
+            <Button size="lg" className="h-20 px-12 rounded-[2.5rem] text-xl font-headline font-bold gap-4 bg-primary text-white hover:bg-primary/90 shadow-2xl transition-all hover:scale-105 active:scale-95 border-none">
+              {user ? (
+                <>
+                  <Scan className="w-8 h-8 group-hover:rotate-12 transition-transform" />
+                  ACTIVER LE RADAR
+                  <ArrowRight className="w-6 h-6 ml-2" />
+                </>
+              ) : (
+                <>
+                  <LogIn className="w-8 h-8 group-hover:rotate-12 transition-transform" />
+                  S'IDENTIFIER POUR SCANNER
+                  <ArrowRight className="w-6 h-6 ml-2" />
+                </>
+              )}
             </Button>
           </Link>
         </div>
-        <p className="text-[10px] font-black text-foreground/50 uppercase tracking-[0.4em] opacity-80">L'aventure commence ici</p>
+        <p className="text-[10px] font-black text-primary/60 uppercase tracking-[0.4em] opacity-80">L'aventure commence ici</p>
       </section>
 
       <footer className="w-full py-12 px-6 border-t glass mt-auto border-primary/10">
@@ -139,7 +149,7 @@ export default function HomePage() {
             </div>
             <span className="font-headline font-bold text-2xl tracking-tight text-primary">NutriScan <span className="text-accent">Expert</span></span>
           </div>
-          <p className="text-sm text-foreground/60 font-bold">© 2025 – La science pour tous. Propulsé par GenAI.</p>
+          <p className="text-sm text-primary/90 font-bold uppercase tracking-tight">© 2025 – La science pour tous. Propulsé par GenAI.</p>
           <div className="flex gap-6">
             <Heart className="w-5 h-5 text-primary/60 hover:text-primary transition-colors cursor-pointer" />
             <Leaf className="w-5 h-5 text-accent/60 hover:text-accent transition-colors cursor-pointer" />
@@ -152,7 +162,7 @@ export default function HomePage() {
 
 function Badge({ children, className }: { children: React.ReactNode, className?: string }) {
   return (
-    <span className={cn("px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold border", className)}>
+    <span className={cn("px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-black border", className)}>
       {children}
     </span>
   );
