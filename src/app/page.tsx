@@ -49,33 +49,37 @@ export default function HomePage() {
       {/* Bento Grid Features */}
       <section className="px-6 pb-24 max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Main Feature: IA Analysis */}
-          <div className="md:col-span-8 glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 group overflow-hidden relative min-h-[300px]">
-            <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Scan size={120} />
-            </div>
-            <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight">Analyse Moléculaire par IA</h3>
-            <p className="text-muted-foreground max-w-md text-sm md:text-base">Détectez les additifs, les sucres cachés et les micro-plastiques instantanément grâce à notre moteur de vision artificielle.</p>
-          </div>
-          
-          {/* Scientist Persona Card */}
-          <div className="md:col-span-4 bg-accent text-accent-foreground p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative group overflow-hidden min-h-[300px]">
-            <div className="absolute -right-4 -top-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
-              <UserRound size={200} />
-            </div>
-            <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30">
-              <Microscope size={32} className="text-accent-foreground" />
-            </div>
-            <div className="relative z-10 space-y-4">
-              <div>
-                <h3 className="text-2xl font-headline font-bold mb-1 leading-tight">Expert Scientifique</h3>
-                <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">Conseils & Bio-Intelligence</p>
+          {/* IA Analysis Card */}
+          <Link href="/scan" className="md:col-span-8 group">
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-end space-y-4 overflow-hidden relative min-h-[300px] h-full transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+              <div className="absolute top-8 right-8 md:top-12 md:right-12 opacity-10 group-hover:opacity-20 transition-all duration-700 group-hover:rotate-12">
+                <Scan size={120} />
               </div>
-              <Button asChild variant="secondary" size="lg" className="w-full rounded-2xl font-bold h-12 bg-white/90 hover:bg-white text-accent-foreground shadow-xl">
-                <Link href="/chat">CONSULTER L'EXPERT</Link>
-              </Button>
+              <h3 className="text-3xl md:text-4xl font-headline font-bold leading-tight">Analyse Moléculaire par IA</h3>
+              <p className="text-muted-foreground max-w-md text-sm md:text-base">Détectez les additifs, les sucres cachés et les micro-plastiques instantanément grâce à notre moteur de vision artificielle.</p>
             </div>
-          </div>
+          </Link>
+          
+          {/* Scientist Persona Card - NOW FULLY DYNAMIC */}
+          <Link href="/chat" className="md:col-span-4 group/expert">
+            <div className="h-full bg-accent text-accent-foreground p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between shadow-2xl shadow-accent/20 relative overflow-hidden min-h-[300px] transition-all duration-500 hover:shadow-accent/40 hover:-translate-y-2">
+              <div className="absolute -right-4 -top-4 opacity-10 group-hover/expert:scale-110 group-hover/expert:rotate-3 transition-transform duration-700">
+                <UserRound size={200} />
+              </div>
+              <div className="relative z-10 bg-white/20 p-4 rounded-2xl w-fit backdrop-blur-md border border-white/30 group-hover/expert:scale-110 transition-transform">
+                <Microscope size={32} className="text-accent-foreground" />
+              </div>
+              <div className="relative z-10 space-y-4">
+                <div>
+                  <h3 className="text-2xl font-headline font-bold mb-1 leading-tight">Expert Scientifique</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">Conseils & Bio-Intelligence</p>
+                </div>
+                <div className="w-full rounded-2xl font-bold h-12 bg-white/90 group-hover/expert:bg-white text-accent-foreground shadow-xl flex items-center justify-center transition-colors">
+                  CONSULTER L'EXPERT
+                </div>
+              </div>
+            </div>
+          </Link>
 
           {/* Alert Card */}
           <div className="md:col-span-5 glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] flex flex-col justify-between group min-h-[260px]">
