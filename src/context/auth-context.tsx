@@ -1,19 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useUser } from '@/firebase';
+import { useAuth as useFirebaseAuth } from '@/firebase';
+import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
-// Mock user for bypass mode
-const MOCK_USER = {
-  uid: 'guest-user-123',
-  displayName: 'Explorateur Invité',
-  email: 'invite@nutriscan.expert',
-  photoURL: 'https://picsum.photos/seed/guest/200/200',
-};
-
 interface AuthContextType {
-  user: any;
+  user: User | null;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
@@ -22,29 +15,42 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user: firebaseUser, loading: firebaseLoading } = useUser();
-  const [user, setUser] = useState<any>(null);
+  const auth = useFirebaseAuth();
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    // Logic: If firebase is still loading, we wait. 
-    // If firebase finishes and there is no user, we inject our Mock User to bypass login.
-    if (!firebaseLoading) {
-      setUser(firebaseUser || MOCK_USER);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
       setLoading(false);
-    }
-  }, [firebaseUser, firebaseLoading]);
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
   const login = async () => {
-    // Login disabled for now as per user request
-    setUser(MOCK_USER);
-    router.push('/');
+    setLoading(true);
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      router.push('/');
+    } catch (error) {
+      console.error("Erreur de connexion:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = async () => {
-    setUser(null);
-    router.push('/login');
+    setLoading(true);
+    try {
+      await signOut(auth);
+      router.push('/login');
+    } catch (error) {
+      console.error("Erreur de déconnexion:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
