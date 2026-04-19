@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
@@ -70,8 +69,8 @@ export default function ChatPage() {
         id: 'error',
         role: 'assistant',
         content: isQuotaError 
-          ? "Je reçois énormément de questions en ce moment ! Laissez-moi souffler quelques secondes et reposez-moi votre question, je serai ravi de vous répondre."
-          : "J'ai eu un petit souci technique pour traiter cette information. Pouvez-vous reformuler ou retenter dans un instant ?"
+          ? "Je reçois énormément de questions en ce moment ! Laissez-moi souffler quelques secondes et reposez-moi votre question."
+          : "J'ai eu un petit souci technique. Pouvez-vous reformuler ?"
       }]);
     } finally {
       setLoading(false);
@@ -80,14 +79,13 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen bg-background overflow-hidden animate-in fade-in duration-700">
-      {/* Header */}
       <header className="px-6 py-6 border-b glass flex items-center justify-between sticky top-0 z-50">
         <Button variant="ghost" size="icon" onClick={() => router.back()} className="rounded-full">
           <ArrowLeft className="w-5 h-5 text-primary" />
         </Button>
         <div className="text-center px-2">
            <h1 className="text-lg md:text-xl font-headline font-bold text-primary tracking-tighter uppercase">IA EXPERT NUTRITION</h1>
-           <div className="flex items-center justify-center gap-1.5 text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full">
+           <div className="flex items-center justify-center gap-1.5 text-[8px] font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
               <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               Intelligence Active 2026
            </div>
@@ -95,7 +93,6 @@ export default function ChatPage() {
         <div className="w-10" />
       </header>
 
-      {/* Chat Area */}
       <ScrollArea className="flex-1 p-6" ref={scrollRef}>
         <div className="max-w-3xl mx-auto space-y-12 pb-24">
           {messages.map((msg) => (
@@ -108,9 +105,9 @@ export default function ChatPage() {
                 msg.role === 'user' ? "text-primary flex-row-reverse" : "text-primary"
               )}>
                 {msg.role === 'assistant' ? (
-                  <div className="flex items-center gap-1.5 bg-accent/20 px-3 py-1.5 rounded-full border border-accent/40 shadow-sm">
+                  <div className="flex items-center gap-1.5 bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
                     <UserRound size={12} className="text-primary" />
-                    <span className="text-primary font-bold">L'IA Expert Scientifique</span>
+                    <span className="text-primary font-bold uppercase">Expert Scientifique</span>
                   </div>
                 ) : (
                   <div className="flex items-center gap-1.5 bg-primary/20 px-3 py-1.5 rounded-full border border-primary/40">
@@ -124,10 +121,10 @@ export default function ChatPage() {
                 "p-6 rounded-[2.5rem] shadow-sm max-w-[95%] transition-all relative group card-shine",
                 msg.role === 'user' 
                   ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
-                  : "glass border-primary/10 rounded-tl-sm text-foreground prose prose-sm dark:prose-invert max-w-none chat-prose"
+                  : "glass border-primary/10 rounded-tl-sm text-primary-950 chat-prose"
               )}>
                 {msg.role === 'assistant' && (
-                  <div className="absolute -left-3 -top-3 bg-white border border-primary/20 rounded-full p-1.5 shadow-md text-primary group-hover:scale-110 transition-transform">
+                  <div className="absolute -left-3 -top-3 bg-white border border-primary/20 rounded-full p-1.5 shadow-md text-primary">
                     <Microscope size={14} />
                   </div>
                 )}
@@ -143,11 +140,11 @@ export default function ChatPage() {
               {msg.keyTakeaways && msg.keyTakeaways.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full mt-2">
                   {msg.keyTakeaways.map((point, i) => (
-                    <div key={i} className="glass p-4 rounded-2xl border-primary/20 flex items-center gap-3 hover:border-primary/40 hover:scale-105 transition-all cursor-default card-shine shadow-sm">
+                    <div key={i} className="glass p-4 rounded-2xl border-primary/20 flex items-center gap-3 hover:border-primary/40 hover:scale-105 transition-all card-shine shadow-sm">
                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                           <Zap size={12} className="text-primary" />
                        </div>
-                       <span className="text-[10px] font-black text-primary leading-tight uppercase tracking-tight">{point}</span>
+                       <span className="text-[10px] font-black text-primary-950 leading-tight uppercase tracking-tight">{point}</span>
                     </div>
                   ))}
                 </div>
@@ -166,7 +163,6 @@ export default function ChatPage() {
         </div>
       </ScrollArea>
 
-      {/* Input Area */}
       <div className="p-6 border-t glass bg-white/80 backdrop-blur-3xl pb-10 md:pb-6">
         <form onSubmit={handleSend} className="max-w-3xl mx-auto flex flex-col gap-4">
           <div className="relative flex items-center gap-3">
@@ -174,7 +170,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Posez votre question..."
-              className="h-16 rounded-[2rem] bg-white border-primary/20 shadow-inner px-8 text-base md:text-lg placeholder:text-primary/70 placeholder:font-bold placeholder:text-sm md:placeholder:text-base focus:ring-primary/20 transition-all flex-1"
+              className="h-16 rounded-[2rem] bg-white border-primary/20 shadow-inner px-8 text-base md:text-lg placeholder:text-primary/70 placeholder:font-bold placeholder:text-xs md:placeholder:text-base focus:ring-primary/20 transition-all flex-1"
               disabled={loading}
             />
             <Button 
@@ -187,7 +183,7 @@ export default function ChatPage() {
             </Button>
           </div>
           <p className="text-center text-[8px] text-primary/60 font-black uppercase tracking-[0.4em]">
-             Bio-Intelligence Active & Transparence 2026
+             Bio-Intelligence Active 2026
           </p>
         </form>
       </div>
