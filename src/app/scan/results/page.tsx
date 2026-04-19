@@ -75,7 +75,7 @@ export default function ResultsPage() {
         <Icon size={32} />
       </div>
       <div className="space-y-3 w-full">
-        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-950 opacity-80">Diagnostic Sensor-X</h4>
+        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-950">Diagnostic Sensor-X</h4>
         <p className="text-xl md:text-2xl font-headline font-bold text-primary-950">{title}</p>
         <div className="flex items-center gap-2 text-[10px] font-black text-primary-950 uppercase tracking-widest bg-primary/20 px-5 py-2.5 rounded-full border border-primary/40 w-fit">
           <WifiOff size={14} className="text-primary-950" />
@@ -130,7 +130,7 @@ export default function ResultsPage() {
                 {(data.quickLook || []).map((item, i) => (
                    <div key={i} className="glass p-6 rounded-3xl border-primary/30 flex flex-col items-start gap-4 bg-white/70 w-full shadow-sm">
                       <div className="flex flex-col">
-                        <p className="text-[10px] font-black text-primary-950 uppercase tracking-widest opacity-80">{item.name}</p>
+                        <p className="text-[10px] font-black text-primary-950 uppercase tracking-widest">{item.name}</p>
                         <span className="text-2xl font-black text-primary-950">{item.level}</span>
                       </div>
                       <Badge variant="outline" className="text-xs border-primary/50 px-4 py-2 font-black rounded-xl bg-primary/20 text-primary-950 w-full text-left leading-relaxed shadow-inner">
