@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -114,12 +115,16 @@ export default function ScanPage() {
         } : undefined
       });
       saveScanResult(result);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const isQuotaError = error?.message?.includes('quota') || error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED');
+      
       toast({
         variant: "destructive",
-        title: "Défaut de vision",
-        description: "L'IA n'a pas pu décrypter l'image. Stabilisez l'appareil et réessayez."
+        title: isQuotaError ? "L'expert est très sollicité !" : "Oups, je n'ai pas bien vu...",
+        description: isQuotaError 
+          ? "Trop de scans en même temps. Patientez quelques secondes et relancez le radar."
+          : "La photo semble floue ou le produit est mal cadré. Essayez de stabiliser l'appareil et de reprendre la photo."
       });
     } finally {
       setLoading(false);
@@ -137,12 +142,16 @@ export default function ScanPage() {
         userProfile: profile
       });
       saveScanResult(result);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      const isQuotaError = error?.message?.includes('quota') || error?.message?.includes('429') || error?.message?.includes('RESOURCE_EXHAUSTED');
+
       toast({
         variant: "destructive",
-        title: "Recherche infructueuse",
-        description: "L'IA n'a pas trouvé d'informations fiables pour ce produit."
+        title: isQuotaError ? "L'expert prend une pause..." : "Produit introuvable",
+        description: isQuotaError 
+          ? "Le système est temporairement saturé. Attendez un court instant avant de retenter."
+          : "L'IA n'a pas trouvé d'informations pour ce nom. Vérifiez l'orthographe ou essayez un nom plus connu."
       });
     } finally {
       setLoading(false);
