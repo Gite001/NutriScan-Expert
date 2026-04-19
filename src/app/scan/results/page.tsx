@@ -20,8 +20,10 @@ import {
   Droplet,
   Info,
   Sparkles,
-  ExternalLink,
-  Target
+  Target,
+  Scale,
+  ZapOff,
+  TrendingUp
 } from 'lucide-react';
 import {
   Accordion,
@@ -30,6 +32,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 
 export default function ResultsPage() {
@@ -39,7 +42,12 @@ export default function ResultsPage() {
   useEffect(() => {
     const raw = localStorage.getItem('lastScanResult');
     if (raw) {
-      setData(JSON.parse(raw));
+      try {
+        setData(JSON.parse(raw));
+      } catch (e) {
+        console.error("Failed to parse scan result", e);
+        router.push('/scan');
+      }
     } else {
       router.push('/scan');
     }
@@ -84,57 +92,75 @@ export default function ResultsPage() {
             <ArrowLeft className="w-6 h-6" />
           </Button>
           <div className="text-right">
-            <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase mb-1">Analyse Terminée</p>
-            <h1 className="text-2xl font-headline font-bold text-primary tracking-tighter">RAPPORT D'EXPERTISE</h1>
+            <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase mb-1">Rapport de Bio-Hacking</p>
+            <h1 className="text-2xl font-headline font-bold text-primary tracking-tighter">ANALYSE MOLÉCULAIRE</h1>
           </div>
         </header>
 
-        {/* Artful Score Card */}
-        <section className="glass rounded-[4rem] p-10 md:p-16 relative overflow-hidden group">
+        {/* Score Card */}
+        <section className="glass rounded-[3rem] p-8 md:p-12 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8">
-            <Target size={120} className="text-primary/5 group-hover:text-primary/10 transition-colors" />
+            <Target size={100} className="text-primary/5 group-hover:text-primary/10 transition-colors" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="flex flex-col items-center md:items-start space-y-8">
-              <div className="space-y-2">
-                <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold tracking-widest uppercase py-1 px-4 mb-4">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="flex flex-col items-center md:items-start space-y-6">
+              <div className="space-y-2 text-center md:text-left">
+                <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold tracking-widest uppercase py-1 px-4 mb-2">
                   {data.personalizationIndicator}
                 </Badge>
-                <h2 className="text-4xl md:text-6xl font-headline font-bold leading-[0.9] tracking-tighter">{data.productName}</h2>
+                <h2 className="text-4xl md:text-5xl font-headline font-bold leading-[1] tracking-tighter">{data.productName}</h2>
               </div>
               
               <div className="flex gap-4">
-                <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20">
-                  <span className="text-3xl font-bold tracking-tighter">{data.globalScore}</span>
-                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Score Global</span>
+                <div className="glass p-5 rounded-[2rem] flex flex-col items-center min-w-[90px] border-primary/20">
+                  <span className="text-2xl font-bold tracking-tighter">{data.globalScore}</span>
+                  <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Indice Santé</span>
                 </div>
-                <Badge className={cn("text-6xl w-24 h-24 rounded-[2.5rem] flex items-center justify-center font-bold text-white border-8 border-white/20 shadow-2xl transition-transform hover:scale-110", scoreColors[data.nutriScore])}>
+                <Badge className={cn("text-5xl w-20 h-20 rounded-[2rem] flex items-center justify-center font-bold text-white border-4 border-white/20 shadow-xl", scoreColors[data.nutriScore])}>
                   {data.nutriScore}
                 </Badge>
               </div>
             </div>
 
-            <div className="relative flex items-center justify-center">
-              <svg className="w-64 h-64 transform -rotate-90">
-                <circle cx="128" cy="128" r="110" fill="transparent" stroke="currentColor" strokeWidth="2" className="text-primary/10" />
-                <circle
-                  cx="128" cy="128" r="110" fill="transparent" stroke="currentColor" strokeWidth="12"
-                  strokeDasharray={691}
-                  strokeDashoffset={691 - (691 * data.globalScore) / 100}
-                  strokeLinecap="round"
-                  className="text-primary transition-all duration-1000 ease-out drop-shadow-[0_0_10px_rgba(34,197,94,0.3)]"
-                />
-              </svg>
-              <div className="absolute flex flex-col items-center">
-                <Sparkles className="text-accent w-8 h-8 mb-2 animate-pulse" />
-                <span className="text-sm font-bold tracking-widest uppercase">Pureté</span>
+            {/* NEW Caloric Impact Section */}
+            <div className="glass bg-white/40 p-6 rounded-[2.5rem] space-y-4 border-primary/10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Scale className="w-4 h-4 text-primary" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest">Impact Énergétique</span>
+                </div>
+                <Badge variant="outline" className={cn(
+                  "text-[9px] font-bold uppercase py-0.5",
+                  data.caloricAnalysis.qualityVerdict === 'Nutritives' ? "bg-emerald-500/10 text-emerald-600 border-emerald-200" :
+                  data.caloricAnalysis.qualityVerdict === 'Vides' ? "bg-red-500/10 text-red-600 border-red-200" : "bg-orange-500/10 text-orange-600 border-orange-200"
+                )}>
+                  Calories {data.caloricAnalysis.qualityVerdict}
+                </Badge>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex justify-between items-end">
+                  <span className="text-3xl font-headline font-bold">{data.caloricAnalysis.caloriesPerPortion} <span className="text-sm font-normal text-muted-foreground">kcal</span></span>
+                  <span className="text-[10px] font-bold text-muted-foreground">/ {data.caloricAnalysis.estimatedPortion}</span>
+                </div>
+                <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-2 bg-primary/5" />
+                <p className="text-[9px] font-medium text-muted-foreground text-right">
+                  {data.caloricAnalysis.dailyBudgetContribution}% de votre budget journalier idéal
+                </p>
+              </div>
+
+              <div className="bg-primary/5 p-3 rounded-2xl">
+                <p className="text-[10px] leading-relaxed italic text-primary/80">
+                   <TrendingUp className="inline w-3 h-3 mr-1" />
+                   {data.caloricAnalysis.expertAdvice}
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Scientific Whistleblower Alerts */}
+        {/* Scientific Alerts */}
         {data.scientificAlerts && data.scientificAlerts.length > 0 && (
           <section className="space-y-6">
             <div className="flex items-center gap-3 px-2">
@@ -147,13 +173,13 @@ export default function ResultsPage() {
               {data.scientificAlerts.map((alert, idx) => {
                 const Icon = (alertIcons as any)[alert.category] || Info;
                 return (
-                  <div key={idx} className="glass border-accent/20 p-8 rounded-[3rem] space-y-4 hover:shadow-2xl transition-all hover:-translate-y-1">
-                    <div className="bg-accent/10 p-4 rounded-3xl text-accent w-fit">
-                      <Icon size={28} />
+                  <div key={idx} className="glass border-accent/20 p-6 rounded-[2.5rem] space-y-4 hover:shadow-xl transition-all hover:-translate-y-1">
+                    <div className="bg-accent/10 p-3 rounded-2xl text-accent w-fit">
+                      <Icon size={24} />
                     </div>
                     <div>
                       <h4 className="font-bold text-lg leading-tight mb-2">{alert.title}</h4>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{alert.message}</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{alert.message}</p>
                     </div>
                   </div>
                 );
@@ -162,65 +188,35 @@ export default function ResultsPage() {
           </section>
         )}
 
-        {/* Quick Look Section */}
-        <section className="space-y-6">
-          <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">ANALYSE MOLÉCULAIRE</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {data.quickLook.map((item, idx) => {
-              const Icon = (aspectIcons as any)[item.name] || Zap;
-              return (
-                <div key={idx} className="glass p-8 rounded-[3rem] space-y-4 hover:border-primary/50 transition-colors">
-                  <div className="flex items-center justify-between">
-                    <div className="bg-primary/10 p-3 rounded-2xl text-primary">
-                      <Icon size={24} />
-                    </div>
-                  </div>
-                  <div>
-                    <Badge variant="outline" className={cn(
-                      "text-[9px] font-bold uppercase tracking-tighter px-2 mb-2 border-none",
-                      item.level === 'Beaucoup' ? "text-red-500 bg-red-500/10" :
-                      item.level === 'Peu' ? "text-emerald-500 bg-emerald-500/10" : "text-muted-foreground bg-muted/20"
-                    )}>
-                      {item.level}
-                    </Badge>
-                    <h4 className="font-bold text-sm mb-1">{item.name}</h4>
-                    <p className="text-[10px] text-muted-foreground leading-tight">{item.benefit}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
         {/* Expert Verdict */}
-        <section className="bg-primary text-white p-12 md:p-20 rounded-[4rem] relative overflow-hidden shadow-2xl shadow-primary/30">
-          <Quote className="absolute -top-10 -right-10 w-48 h-48 text-white/10" />
+        <section className="bg-primary text-white p-10 md:p-16 rounded-[3.5rem] relative overflow-hidden shadow-2xl shadow-primary/30">
+          <Quote className="absolute -top-10 -right-10 w-40 h-40 text-white/10" />
           <div className="relative z-10 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                <Microscope size={20} className="text-primary" />
+              <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+                <Microscope size={16} className="text-primary" />
               </div>
-              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-accent">VERDICT EXPERT</h3>
+              <h3 className="text-[9px] font-bold uppercase tracking-[0.3em] text-accent">VERDICT SCIENTIFIQUE</h3>
             </div>
-            <p className="text-2xl md:text-4xl italic font-headline font-bold leading-[1.1] tracking-tighter">
+            <p className="text-xl md:text-3xl italic font-headline font-bold leading-[1.2] tracking-tighter">
               "{data.expertVerdict}"
             </p>
           </div>
         </section>
 
-        {/* Optimisation Section */}
+        {/* Alternatives and Tips */}
         <section className="grid md:grid-cols-2 gap-8">
           <div className="space-y-6">
-             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">OPTIMISATION SANTÉ</h3>
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">SYNERGIES & OPTIMISATION</h3>
              <div className="space-y-4">
                 {data.healthyAlternatives.map((alt, idx) => (
-                  <div key={idx} className="glass border-emerald-500/20 p-8 rounded-[3rem] flex items-center gap-6 group hover:bg-emerald-500/5 transition-all">
-                    <div className="bg-emerald-500 p-4 rounded-3xl text-white group-hover:rotate-12 transition-transform shadow-lg shadow-emerald-500/30">
-                      <CheckCircle2 size={24} />
+                  <div key={idx} className="glass border-emerald-500/20 p-6 rounded-[2.5rem] flex items-center gap-5 group hover:bg-emerald-500/5 transition-all">
+                    <div className="bg-emerald-500 p-3 rounded-2xl text-white group-hover:rotate-12 transition-transform">
+                      <CheckCircle2 size={20} />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-bold text-lg tracking-tight">{alt.productName}</h4>
-                      <p className="text-xs text-muted-foreground">{alt.benefit}</p>
+                      <h4 className="font-bold text-base tracking-tight">{alt.productName}</h4>
+                      <p className="text-[10px] text-muted-foreground leading-tight">{alt.benefit}</p>
                     </div>
                   </div>
                 ))}
@@ -228,14 +224,14 @@ export default function ResultsPage() {
           </div>
 
           <div className="space-y-6">
-             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">GUIDE PRATIQUE</h3>
-             <Accordion type="single" collapsible className="w-full glass rounded-[3rem] overflow-hidden border-none px-6">
+             <h3 className="text-2xl font-headline font-bold tracking-tighter px-2">MODE D'EMPLOI BIOLOGIQUE</h3>
+             <Accordion type="single" collapsible className="w-full glass rounded-[2.5rem] overflow-hidden border-none px-6">
                 <AccordionItem value="tips" className="border-b border-white/10">
-                  <AccordionTrigger className="font-bold hover:no-underline py-8 text-lg">Bio-Hacking Tips</AccordionTrigger>
-                  <AccordionContent className="pb-8">
-                    <ul className="space-y-4 text-sm text-muted-foreground py-2">
+                  <AccordionTrigger className="font-bold hover:no-underline py-6 text-base">Bio-Hacking Tips</AccordionTrigger>
+                  <AccordionContent className="pb-6">
+                    <ul className="space-y-3 text-xs text-muted-foreground py-1">
                       {data.bonusTips.practicalTips.map((tip, i) => (
-                        <li key={i} className="flex gap-4">
+                        <li key={i} className="flex gap-3">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
                           {tip}
                         </li>
@@ -244,12 +240,12 @@ export default function ResultsPage() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="recipe" className="border-none">
-                  <AccordionTrigger className="font-bold hover:no-underline py-8 text-lg">Recette Express 120s</AccordionTrigger>
-                  <AccordionContent className="space-y-6 pb-8">
-                    <h4 className="font-bold text-primary text-xl tracking-tight">{data.bonusTips.expressRecipe.name}</h4>
+                  <AccordionTrigger className="font-bold hover:no-underline py-6 text-base">Recette Équilibrante</AccordionTrigger>
+                  <AccordionContent className="space-y-4 pb-6">
+                    <h4 className="font-bold text-primary text-lg tracking-tight">{data.bonusTips.expressRecipe.name}</h4>
                     <div className="flex flex-wrap gap-2">
                       {data.bonusTips.expressRecipe.ingredients.map((ing, i) => (
-                        <Badge key={i} className="rounded-2xl px-5 py-2 glass bg-primary/5 text-primary border-none text-xs font-bold">{ing}</Badge>
+                        <Badge key={i} className="rounded-xl px-3 py-1 glass bg-primary/5 text-primary border-none text-[10px] font-bold">{ing}</Badge>
                       ))}
                     </div>
                   </AccordionContent>
@@ -258,9 +254,9 @@ export default function ResultsPage() {
           </div>
         </section>
 
-        <div className="pt-12 flex justify-center">
-          <Button onClick={() => router.push('/scan')} className="h-20 px-12 rounded-[2.5rem] text-2xl font-headline font-bold gap-4 bg-primary hover:bg-primary/90 shadow-[0_25px_50px_-12px_rgba(34,197,94,0.4)] transition-all active:scale-95">
-            <RotateCcw className="w-8 h-8" />
+        <div className="pt-8 flex justify-center">
+          <Button onClick={() => router.push('/scan')} className="h-16 px-10 rounded-[2rem] text-xl font-headline font-bold gap-3 bg-primary hover:bg-primary/90 shadow-xl transition-all active:scale-95">
+            <RotateCcw className="w-6 h-6" />
             NOUVELLE ANALYSE
           </Button>
         </div>

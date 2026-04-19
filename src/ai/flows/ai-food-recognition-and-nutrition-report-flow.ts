@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview A Genkit flow for "NutriScan Expert" that recognizes food and generates a whistleblower-style nutritional analysis.
+ * @fileOverview A Genkit flow for "NutriScan Expert" that recognizes food and generates a whistleblower-style nutritional analysis with caloric balance.
  */
 
 import {ai} from '@/ai/genkit';
@@ -49,6 +49,14 @@ const NutriScanExpertOutputSchema = z.object({
   globalScore: z.number().int().min(0).max(100),
   productName: z.string(),
   personalizationIndicator: z.string(),
+  caloricAnalysis: z.object({
+    caloriesPer100g: z.number().describe("Calories pour 100g"),
+    estimatedPortion: z.string().describe("Taille de portion estimée (ex: 200g, 1 unité)"),
+    caloriesPerPortion: z.number().describe("Calories pour la portion estimée"),
+    dailyBudgetContribution: z.number().describe("Pourcentage du budget journalier estimé pour cet utilisateur"),
+    qualityVerdict: z.enum(['Nutritives', 'Vides', 'Mixte']).describe("Qualité des calories"),
+    expertAdvice: z.string().describe("Conseil sur comment intégrer ces calories dans la journée"),
+  }),
   mainAlert: z.string().optional(),
   scientificAlerts: z.array(ScientificAlertSchema).optional().describe("Alertes basées sur les controverses scientifiques 2025-2026"),
   quickLook: z.array(QuickLookItemSchema).min(4).max(4),
@@ -73,28 +81,22 @@ const nutriScanExpertPrompt = ai.definePrompt({
   name: 'nutriScanExpertPrompt',
   input: {schema: NutriScanExpertInputSchema},
   output: {schema: NutriScanExpertOutputSchema},
-  prompt: `Vous êtes un expert Nutritionniste "Lanceur d'Alerte" et Product Manager. Analysez le produit en image avec une rigueur scientifique basée sur les dernières controverses de 2025-2026.
+  prompt: `Vous êtes un expert Nutritionniste "Lanceur d'Alerte" et Ingénieur en Biologie. Analysez le produit en image.
 
-### MISSIONS CRITIQUES (Secrets d'Experts) :
-1. **Filtre "California Safety Act"** : Identifiez les additifs bannis en Californie (Colorant Rouge n°3, Huile Végétale Bromée, Bromate de Potassium, etc.). Si présents, générez une alerte "ALERTE SCIENTIFIQUE".
-2. **Piège du "Sucre Liquide"** : Pour les laits végétaux (avoine, amande), analysez le pic glycémique potentiel lié à la transformation de l'amidon en maltose, même si non écrit explicitement.
-3. **Marqueurs d'Ultra-Transformation** : Traquez les gommes (xanthane, guar) et carraghénanes masquant des textures médiocres.
-4. **Détection des Risques Invisibles** : 
-   - Micro-plastiques pour les eaux en bouteille.
-   - Métaux lourds pour les gros poissons (Thon/Espadon) ou chocolat noir (cadmium).
-5. **Guide "Dirty Dozen" (Pesticides)** : Pour les fruits/légumes frais conventionnels de la liste noire (fraises, épinards, etc.), donnez une astuce de lavage optimale.
-
-### STRUCTURE DU RAPPORT (En Français) :
-- **productName** : Nom du produit.
-- **scientificAlerts** : Liste des alertes basées sur les missions ci-dessus.
-- **nutriScore** & **globalScore** : Évaluation honnête.
-- **expertVerdict** : Un résumé percutant, comme un "quote" d'un expert engagé.
+### MISSIONS CRITIQUES :
+1. **Filtre "California Safety Act"** : Identifiez les additifs bannis (Rouge n°3, Bromate, etc.).
+2. **Analyse Calorique Contextuelle** : 
+   - Estimez les calories pour 100g et par portion logique.
+   - Calculez l'impact sur le budget journalier de l'utilisateur (estimez ses besoins selon son profil : sédentaire ~2000kcal, actif ~2500kcal, etc.).
+   - Déterminez si ce sont des "calories vides" (sucre/gras sans nutriments) ou "nutritives" (vitamines/fibres/protéines).
+3. **Synergie Alimentaire** : Donnez un conseil sur comment équilibrer cet aliment avec le reste de la journée (ex: "ajoutez des fibres pour compenser l'index glycémique").
+4. **Secrets d'Experts 2026** : Piège du sucre liquide, marqueurs d'ultra-transformation, risques invisibles.
 
 User Profile:
 {{#if userProfile}}
-  Age: {{userProfile.age}}, Sex: {{userProfile.sex}}, Goals: {{userProfile.healthGoals}}
+  Âge: {{userProfile.age}}, Sexe: {{userProfile.sex}}, Niveau activité: {{userProfile.activityLevel}}, Objectifs: {{userProfile.healthGoals}}
 {{else}}
-  Analyse générale.
+  Utilisez un profil standard (Adulte, activité moyenne).
 {{/if}}
 
 Image: {{media url=photoDataUri}}
