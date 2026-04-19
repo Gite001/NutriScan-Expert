@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useFirestore, useDoc, useCollection } from '@/firebase';
 import { doc, setDoc, collection, query, where, orderBy } from 'firebase/firestore';
@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LogOut, Save, History, Settings, Loader2, ChevronRight, Apple } from 'lucide-react';
+import { LogOut, Save, History, Settings, Loader2, ChevronRight, Apple, Database } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -26,30 +26,43 @@ export default function ProfilePage() {
   const { toast } = useToast();
   const db = useFirestore();
   const [saving, setSaving] = useState(false);
+  const isGuest = user?.uid === 'guest-user-123';
 
-  const profileRef = useMemo(() => user && db ? doc(db, 'profiles', user.uid) : null, [db, user]);
+  // Firestore sync - only for non-guest users
+  const profileRef = useMemo(() => !isGuest && user && db ? doc(db, 'profiles', user.uid) : null, [db, user, isGuest]);
   const { data: profileData, loading: profileLoading } = useDoc(profileRef);
 
   const historyQuery = useMemo(() => {
-    if (!db || !user) return null;
+    if (isGuest || !db || !user) return null;
     return query(
       collection(db, 'scans'),
       where('userId', '==', user.uid),
       orderBy('scannedAt', 'desc')
     );
-  }, [db, user]);
-  const { data: history, loading: historyLoading } = useCollection(historyQuery);
+  }, [db, user, isGuest]);
+  const { data: firestoreHistory, loading: historyLoading } = useCollection(historyQuery);
 
+  // Local state for guest mode or form management
   const [formState, setFormState] = useState({
     age: '',
     sex: 'male',
     activityLevel: 'sédentaire',
     healthGoals: [] as string[],
   });
+  const [localHistory, setLocalHistory] = useState<any[]>([]);
 
-  // Update form state when profile data is loaded
-  useState(() => {
-    if (profileData) {
+  // Initialize data from LocalStorage (Guest) or Firestore
+  useEffect(() => {
+    if (isGuest) {
+      const savedProfile = localStorage.getItem('guestProfile');
+      if (savedProfile) {
+        setFormState(JSON.parse(savedProfile));
+      }
+      const savedHistory = localStorage.getItem('guestScans');
+      if (savedHistory) {
+        setLocalHistory(JSON.parse(savedHistory).reverse()); // Show newest first
+      }
+    } else if (profileData) {
       setFormState({
         age: profileData.age?.toString() || '',
         sex: profileData.sex || 'male',
@@ -57,11 +70,12 @@ export default function ProfilePage() {
         healthGoals: profileData.healthGoals || [],
       });
     }
-  });
+  }, [profileData, isGuest]);
+
+  const history = isGuest ? localHistory : firestoreHistory;
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !db || !profileRef) return;
     setSaving(true);
 
     const data = {
@@ -69,6 +83,16 @@ export default function ProfilePage() {
       age: parseInt(formState.age) || 0,
     };
 
+    if (isGuest) {
+      localStorage.setItem('guestProfile', JSON.stringify(data));
+      setTimeout(() => {
+        setSaving(false);
+        toast({ title: "Profil (Local) mis à jour", description: "Vos informations ont été enregistrées localement." });
+      }, 500);
+      return;
+    }
+
+    if (!profileRef) return;
     setDoc(profileRef, data, { merge: true })
       .then(() => {
         toast({ title: "Profil mis à jour", description: "Vos informations ont été enregistrées avec succès." });
@@ -84,7 +108,7 @@ export default function ProfilePage() {
       .finally(() => setSaving(false));
   };
 
-  if (profileLoading || historyLoading) return (
+  if ((!isGuest && profileLoading) || (!isGuest && historyLoading)) return (
     <div className="flex items-center justify-center min-h-[50vh]">
       <Loader2 className="w-10 h-10 animate-spin text-primary" />
     </div>
@@ -99,7 +123,10 @@ export default function ProfilePage() {
             <AvatarFallback className="bg-primary text-white text-3xl">{user?.displayName?.[0]}</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-            <h1 className="text-3xl font-headline font-bold text-primary">{user?.displayName}</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-headline font-bold text-primary">{user?.displayName}</h1>
+              {isGuest && <Badge variant="secondary" className="bg-accent/20 text-accent-foreground">Mode Démo</Badge>}
+            </div>
             <p className="text-muted-foreground">{user?.email}</p>
           </div>
         </div>
@@ -108,6 +135,13 @@ export default function ProfilePage() {
           Déconnexion
         </Button>
       </header>
+
+      {isGuest && (
+        <div className="bg-primary/5 border border-primary/10 p-4 rounded-2xl flex items-center gap-3 text-primary text-sm">
+          <Database className="w-5 h-5" />
+          En mode démo, vos données sont enregistrées uniquement sur votre navigateur.
+        </div>
+      )}
 
       <div className="grid md:grid-cols-2 gap-8">
         <section className="space-y-6">
@@ -201,9 +235,9 @@ export default function ProfilePage() {
                 <p className="text-muted-foreground">Aucun scan récent.</p>
               </div>
             ) : (
-              history.map((scan) => (
+              history.map((scan, idx) => (
                 <div 
-                  key={scan.id} 
+                  key={scan.id || idx} 
                   className="bg-white p-4 rounded-2xl border shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer group"
                   onClick={() => {
                     localStorage.setItem('lastScanResult', scan.result);
@@ -223,7 +257,8 @@ export default function ProfilePage() {
                     <div>
                       <h4 className="font-bold text-sm leading-none group-hover:text-primary transition-colors">{scan.productName}</h4>
                       <p className="text-[10px] text-muted-foreground mt-1">
-                        {scan.scannedAt ? format(scan.scannedAt.toDate(), 'dd MMM yyyy', { locale: fr }) : 'Date inconnue'}
+                        {scan.scannedAt && !isGuest ? format(scan.scannedAt.toDate(), 'dd MMM yyyy', { locale: fr }) : 
+                         scan.scannedAt ? format(new Date(scan.scannedAt), 'dd MMM yyyy', { locale: fr }) : 'Date inconnue'}
                       </p>
                     </div>
                   </div>

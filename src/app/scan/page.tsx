@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect, useMemo } from 'react';
@@ -24,9 +25,22 @@ export default function ScanPage() {
   const { toast } = useToast();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const isGuest = user?.uid === 'guest-user-123';
 
-  const profileRef = useMemo(() => user && db ? doc(db, 'profiles', user.uid) : null, [db, user]);
-  const { data: profile } = useDoc(profileRef);
+  // Firestore sync - only for non-guest users
+  const profileRef = useMemo(() => !isGuest && user && db ? doc(db, 'profiles', user.uid) : null, [db, user, isGuest]);
+  const { data: firestoreProfile } = useDoc(profileRef);
+
+  // Local sync for guest
+  const [localProfile, setLocalProfile] = useState<any>(null);
+  useEffect(() => {
+    if (isGuest) {
+      const saved = localStorage.getItem('guestProfile');
+      if (saved) setLocalProfile(JSON.parse(saved));
+    }
+  }, [isGuest]);
+
+  const profile = isGuest ? localProfile : firestoreProfile;
 
   useEffect(() => {
     const getCameraPermission = async () => {
@@ -53,8 +67,6 @@ export default function ScanPage() {
   }, []);
 
   const handleAnalysis = async (dataUri: string) => {
-    // Si on "oublie la connexion", on peut simuler un utilisateur si user est null
-    const userId = user?.uid || 'guest-user';
     setLoading(true);
     try {
       const result = await nutriScanExpert({
@@ -70,15 +82,19 @@ export default function ScanPage() {
       });
 
       const scanData = {
-        userId: userId,
+        userId: user?.uid || 'guest-user-123',
         productName: result.productName,
         nutriScore: result.nutriScore,
         globalScore: result.globalScore,
-        scannedAt: serverTimestamp(),
+        scannedAt: isGuest ? new Date().toISOString() : serverTimestamp(),
         result: JSON.stringify(result)
       };
 
-      if (db) {
+      if (isGuest) {
+        const existing = JSON.parse(localStorage.getItem('guestScans') || '[]');
+        existing.push({ ...scanData, id: Date.now().toString() });
+        localStorage.setItem('guestScans', JSON.stringify(existing));
+      } else if (db) {
         addDoc(collection(db, 'scans'), scanData)
           .catch(async (error) => {
             const permissionError = new FirestorePermissionError({
@@ -198,7 +214,7 @@ export default function ScanPage() {
       <div className="bg-accent/10 p-6 rounded-2xl space-y-3">
         <div className="flex items-center gap-2 text-primary font-bold font-headline">
           <Info className="w-5 h-5" />
-          Scan Expert
+          Scan Expert {isGuest && "(Mode Démo)"}
         </div>
         <p className="text-xs text-primary/80 leading-relaxed">
           Pour une précision optimale, assurez-vous que la liste des ingrédients et les valeurs nutritionnelles sont bien lisibles dans le cadre.
