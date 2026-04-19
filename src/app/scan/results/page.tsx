@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -24,16 +25,22 @@ import {
   Globe,
   Utensils,
   Lightbulb,
-  HeartPulse
+  HeartPulse,
+  Activity,
+  Layers,
+  ChevronRight,
+  Fingerprint
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function ResultsPage() {
   const router = useRouter();
   const [data, setData] = useState<NutriScanExpertOutput | null>(null);
+  const [activeTab, setActiveTab] = useState("vitality");
 
   useEffect(() => {
     const raw = localStorage.getItem('lastScanResult');
@@ -51,220 +58,324 @@ export default function ResultsPage() {
   if (!data) return null;
 
   const scoreColors = {
-    A: "bg-emerald-500", B: "bg-green-500", C: "bg-yellow-500", D: "bg-orange-500", E: "bg-red-500",
+    A: "bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]", 
+    B: "bg-green-500 shadow-[0_0_20px_rgba(34,197,94,0.4)]", 
+    C: "bg-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.4)]", 
+    D: "bg-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.4)]", 
+    E: "bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.4)]",
   };
 
   const rarityStyles = {
     'Commun': 'bg-muted text-muted-foreground',
-    'Rare': 'bg-primary/20 text-primary',
-    'Légendaire': 'bg-accent/20 text-accent animate-pulse border border-accent/40',
+    'Rare': 'bg-primary/20 text-primary border border-primary/30',
+    'Légendaire': 'bg-accent/20 text-accent animate-pulse border border-accent/50 shadow-[0_0_15px_rgba(163,230,53,0.3)]',
   };
 
   return (
-    <div className="min-h-screen pb-24 bg-background">
-      <div className="max-w-4xl mx-auto p-4 md:p-10 space-y-12">
-        <header className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full glass">
+    <div className="min-h-screen pb-24 bg-background selection:bg-accent/30">
+      <div className="max-w-5xl mx-auto p-4 md:p-10 space-y-10">
+        
+        {/* HEADER TACTIQUE */}
+        <header className="flex items-center justify-between animate-in fade-in slide-in-from-top-4 duration-700">
+          <Button variant="ghost" size="icon" onClick={() => router.push('/scan')} className="rounded-full glass hover:bg-white/40 transition-all active:scale-90">
             <ArrowLeft className="w-6 h-6" />
           </Button>
           <div className="text-right">
-            <p className="text-[10px] font-bold text-primary tracking-[0.3em] uppercase">Rapport SENSOR-X</p>
-            <h1 className="text-xl font-headline font-bold text-primary">ANALYSE SANS LIMITES</h1>
+            <div className="flex items-center justify-end gap-2 text-[9px] font-black text-primary tracking-[0.4em] uppercase">
+              <Fingerprint size={12} className="animate-pulse" />
+              Signature Sensor-X 2.6
+            </div>
+            <h1 className="text-2xl font-headline font-bold text-primary tracking-tighter">ANALYSE SANS LIMITES</h1>
           </div>
         </header>
 
-        {/* HERO CARD: Bio-Hacking Metrics */}
-        <section className="glass rounded-[3rem] p-8 md:p-12 relative overflow-hidden border-primary/10">
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold uppercase py-1 px-4">
-                  {data.personalizationIndicator}
-                </Badge>
-                <h2 className="text-4xl font-headline font-bold tracking-tighter">{data.productName}</h2>
-              </div>
-              <div className="flex gap-4">
-                <div className="glass p-5 rounded-[2rem] flex flex-col items-center min-w-[80px]">
-                  <span className="text-2xl font-bold text-primary">{data.globalScore}</span>
-                  <span className="text-[8px] font-bold opacity-50 uppercase">Bio-Score</span>
-                </div>
-                <div className={cn("w-20 h-20 rounded-[2rem] flex items-center justify-center text-5xl font-bold text-white shadow-xl", scoreColors[data.nutriScore])}>
-                  {data.nutriScore}
-                </div>
-              </div>
-            </div>
-
-            <div className="glass bg-primary/5 p-8 rounded-[2.5rem] space-y-6 relative border-primary/10">
-              <div className="absolute -bottom-4 -right-4 opacity-5"><Dna size={100} /></div>
-              <div className="flex justify-between items-end relative z-10">
-                <span className="text-3xl font-headline font-bold">{data.caloricAnalysis.caloriesPerPortion} <span className="text-xs font-normal opacity-50">kcal</span></span>
-                <span className="text-[10px] font-bold opacity-50 uppercase">Portion: {data.caloricAnalysis.estimatedPortion}</span>
-              </div>
-              <div className="space-y-2 relative z-10">
-                <div className="flex justify-between text-[9px] font-bold uppercase">
-                  <span>Impact Métabolique</span>
-                  <span>{data.caloricAnalysis.dailyBudgetContribution}%</span>
-                </div>
-                <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-2" />
-              </div>
-              <div className="flex flex-wrap gap-2 relative z-10">
-                <Badge className={cn(
-                  "border-none text-[9px] font-bold px-3 py-1 rounded-full",
-                  data.caloricAnalysis.qualityVerdict === 'Nutritives' ? "bg-accent text-accent-foreground" : "bg-red-500 text-white"
-                )}>
-                  CALORIES {data.caloricAnalysis.qualityVerdict.toUpperCase()}
-                </Badge>
-                <Badge className="bg-primary/20 text-primary border-none text-[9px] font-bold px-3 py-1 rounded-full">
-                  SYNERGIE CELLULAIRE
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SYMBIOSE PLANÉTAIRE */}
-        <section className="glass border-accent/20 rounded-[3rem] p-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <Globe size={80} className="text-accent" />
-          </div>
-          <div className="flex items-center gap-3 mb-6">
-            <Leaf className="text-accent w-6 h-6" />
-            <h3 className="text-2xl font-headline font-bold tracking-tight">Symbiose Planétaire</h3>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                 <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center text-accent text-3xl font-bold border border-accent/20">
-                    {data.ecoIntelligence.ecoScore}
-                 </div>
-                 <div className="space-y-1">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-accent">Indice Eco-Vision</p>
-                    <p className="text-sm font-medium leading-tight">{data.ecoIntelligence.planetaryVerdict}</p>
-                 </div>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {data.ecoIntelligence.footprintTags.map((tag, i) => (
-                  <Badge key={i} variant="outline" className="text-[8px] font-bold border-accent/30 text-accent/80">
-                    {tag.toUpperCase()}
+        {/* HERO INTERACTIF: Identité du Produit */}
+        <section className="relative group animate-in zoom-in-95 duration-1000">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-[3rem] blur-xl opacity-50 group-hover:opacity-100 transition duration-1000" />
+          <Card className="glass rounded-[3rem] p-8 md:p-12 relative overflow-hidden border-primary/10 transition-all duration-500 hover:shadow-2xl">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <Badge className="bg-primary/10 text-primary border-none text-[10px] font-bold uppercase py-1.5 px-5 rounded-full tracking-widest animate-pulse">
+                    {data.personalizationIndicator}
                   </Badge>
+                  <h2 className="text-4xl md:text-6xl font-headline font-bold tracking-tighter leading-none group-hover:text-primary transition-colors">
+                    {data.productName}
+                  </h2>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="glass p-6 rounded-[2.5rem] flex flex-col items-center min-w-[100px] border-primary/20 hover:scale-110 transition-transform">
+                    <span className="text-4xl font-black text-primary leading-none">{data.globalScore}</span>
+                    <span className="text-[9px] font-black opacity-50 uppercase tracking-widest mt-1">Bio-Score</span>
+                  </div>
+                  <div className={cn(
+                    "w-24 h-24 rounded-[2.5rem] flex items-center justify-center text-6xl font-black text-white transition-all duration-500 hover:rotate-6", 
+                    scoreColors[data.nutriScore]
+                  )}>
+                    {data.nutriScore}
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Summary Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                {data.quickLook.map((item, i) => (
+                   <div key={i} className="glass p-4 rounded-3xl border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-1">
+                      <p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest mb-1">{item.name}</p>
+                      <div className="flex items-end justify-between">
+                         <span className="text-lg font-bold">{item.level}</span>
+                         <Badge variant="outline" className="text-[7px] border-primary/20 px-1.5">{item.benefit.split(' ')[0]}</Badge>
+                      </div>
+                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-white/50 p-6 rounded-2xl border border-accent/10">
-               <div className="flex justify-between items-center mb-2">
-                  <span className="text-[9px] font-bold uppercase opacity-60">Durabilité Moléculaire</span>
-                  <span className="text-[9px] font-black text-accent">{data.ecoIntelligence.ecoScore}%</span>
-               </div>
-               <Progress value={data.ecoIntelligence.ecoScore} className="h-1.5 bg-accent/10" />
-            </div>
-          </div>
+          </Card>
         </section>
 
-        {/* MOLECULAR TREASURES */}
-        <section className="space-y-4">
-          <div className="flex items-center gap-2 px-2">
-            <Gem className="text-accent w-5 h-5" />
-            <h3 className="text-xl font-headline font-bold tracking-tight">PÉPITES DÉNICHER</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {data.molecularTreasures.map((treasure, idx) => (
-              <div key={idx} className="glass p-6 rounded-[2rem] hover:-translate-y-1 transition-all border-primary/5">
-                <Badge className={cn("mb-3 border-none text-[7px] font-black uppercase", rarityStyles[treasure.rarity])}>
-                  {treasure.rarity}
-                </Badge>
-                <h4 className="font-bold text-sm mb-1">{treasure.name}</h4>
-                <p className="text-[10px] text-muted-foreground leading-relaxed">{treasure.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* NAVIGATION PAR SPHÈRES D'INTELLIGENCE */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full space-y-8">
+          <TabsList className="grid w-full grid-cols-4 h-16 rounded-[2rem] glass p-2 gap-2 border-primary/10">
+            <TabsTrigger value="vitality" className="rounded-[1.5rem] data-[state=active]:bg-primary data-[state=active]:text-white transition-all gap-2">
+              <Activity size={16} />
+              <span className="hidden md:inline text-[10px] font-bold uppercase tracking-widest">Vitalité</span>
+            </TabsTrigger>
+            <TabsTrigger value="molecular" className="rounded-[1.5rem] data-[state=active]:bg-accent data-[state=active]:text-accent-foreground transition-all gap-2">
+              <Layers size={16} />
+              <span className="hidden md:inline text-[10px] font-bold uppercase tracking-widest">Moléculaire</span>
+            </TabsTrigger>
+            <TabsTrigger value="symbiosis" className="rounded-[1.5rem] data-[state=active]:bg-emerald-600 data-[state=active]:text-white transition-all gap-2">
+              <Globe size={16} />
+              <span className="hidden md:inline text-[10px] font-bold uppercase tracking-widest">Symbiose</span>
+            </TabsTrigger>
+            <TabsTrigger value="alchemy" className="rounded-[1.5rem] data-[state=active]:bg-amber-500 data-[state=active]:text-white transition-all gap-2">
+              <Sparkles size={16} />
+              <span className="hidden md:inline text-[10px] font-bold uppercase tracking-widest">Alchimie</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* ALCHIMIE & BIO-HACKING (THE UNLIMITED SECTION) */}
-        <div className="grid md:grid-cols-2 gap-8">
-           {/* Recette Alchimique */}
-           <section className="space-y-4">
-              <div className="flex items-center gap-2 px-2">
-                <Utensils className="text-primary w-5 h-5" />
-                <h3 className="text-xl font-headline font-bold tracking-tight">ALCHIMIE EXPRESS</h3>
-              </div>
-              <Card className="rounded-[2.5rem] bg-primary text-white border-none shadow-xl relative overflow-hidden group">
-                 <Sparkles size={120} className="absolute -right-8 -bottom-8 opacity-10 group-hover:scale-125 transition-transform duration-1000" />
-                 <CardContent className="p-8 space-y-4">
-                    <h4 className="text-2xl font-headline font-bold leading-tight">{data.bonusTips.expressRecipe.name}</h4>
-                    <div className="space-y-2">
-                       <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">Synergistes requis :</p>
-                       <ul className="flex flex-wrap gap-2">
-                          {data.bonusTips.expressRecipe.ingredients.map((ing, i) => (
-                            <li key={i} className="bg-white/10 px-3 py-1 rounded-full text-[10px] font-bold">{ing}</li>
-                          ))}
-                       </ul>
-                    </div>
-                 </CardContent>
-              </Card>
-           </section>
+          {/* CONTENU DES SPHÈRES */}
+          <div className="min-h-[500px] animate-in slide-in-from-bottom-8 duration-700">
+            
+            {/* SPHÈRE 1: VITALITÉ MÉTABOLIQUE */}
+            <TabsContent value="vitality" className="space-y-8">
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="glass rounded-[3rem] p-10 border-primary/10 hover:border-primary/30 transition-all group overflow-hidden relative">
+                   <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:scale-150 transition-transform duration-1000"><Flame size={120} /></div>
+                   <h3 className="text-2xl font-headline font-bold mb-8 flex items-center gap-3">
+                      <Target className="text-primary" /> Budget Énergétique
+                   </h3>
+                   <div className="space-y-8">
+                      <div className="flex justify-between items-end">
+                        <span className="text-5xl font-black text-primary">{data.caloricAnalysis.caloriesPerPortion} <span className="text-sm font-normal text-muted-foreground uppercase tracking-widest">kcal</span></span>
+                        <div className="text-right">
+                           <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Portion estimée</p>
+                           <p className="font-bold">{data.caloricAnalysis.estimatedPortion}</p>
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+                            <span>Contribution au budget journalier</span>
+                            <span className="text-primary">{data.caloricAnalysis.dailyBudgetContribution}%</span>
+                         </div>
+                         <Progress value={data.caloricAnalysis.dailyBudgetContribution} className="h-3 bg-primary/10" />
+                      </div>
+                      <div className="p-6 rounded-3xl bg-primary/5 border border-primary/10">
+                         <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Verdict de Qualité</p>
+                         <div className="flex items-center gap-3">
+                            <Badge className={cn(
+                              "text-[10px] font-bold px-4 py-1.5 rounded-full border-none",
+                              data.caloricAnalysis.qualityVerdict === 'Nutritives' ? "bg-accent text-accent-foreground" : "bg-red-500 text-white"
+                            )}>
+                              CALORIES {data.caloricAnalysis.qualityVerdict.toUpperCase()}
+                            </Badge>
+                            <p className="text-xs font-medium leading-relaxed italic">"{data.caloricAnalysis.expertAdvice}"</p>
+                         </div>
+                      </div>
+                   </div>
+                </Card>
 
-           {/* Bio-Hacking Tips */}
-           <section className="space-y-4">
-              <div className="flex items-center gap-2 px-2">
-                <Lightbulb className="text-accent w-5 h-5" />
-                <h3 className="text-xl font-headline font-bold tracking-tight">RITUELS DE BIO-HACKING</h3>
+                <div className="space-y-6">
+                   <div className="glass p-8 rounded-[2.5rem] border-primary/10 relative group overflow-hidden">
+                      <Quote className="absolute -top-6 -right-6 w-32 h-32 opacity-5" />
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
+                        <Microscope size={14} /> Le Mot de l'Expert
+                      </h4>
+                      <p className="text-xl font-headline font-bold leading-tight italic">
+                        "{data.expertVerdict}"
+                      </p>
+                   </div>
+                   
+                   <div className="grid grid-cols-2 gap-4">
+                      {data.bonusTips.healthBenefits.map((benefit, i) => (
+                        <div key={i} className="glass p-6 rounded-[2rem] border-primary/5 hover:border-primary/20 transition-all flex flex-col justify-center items-center text-center gap-2">
+                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"><HeartPulse size={20} /></div>
+                           <p className="text-[10px] font-bold leading-tight uppercase tracking-tight">{benefit}</p>
+                        </div>
+                      ))}
+                   </div>
+                </div>
               </div>
-              <div className="space-y-3">
-                 {data.bonusTips.practicalTips.map((tip, i) => (
-                    <div key={i} className="glass p-4 rounded-2xl flex items-center gap-4 hover:border-accent/40 transition-colors">
-                       <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center text-accent shrink-0">
-                          <HeartPulse size={16} />
-                       </div>
-                       <p className="text-[11px] font-medium leading-tight">{tip}</p>
-                    </div>
-                 ))}
-              </div>
-           </section>
-        </div>
+            </TabsContent>
 
-        {/* PIÈGES DU LABYRINTHE */}
-        {data.scientificAlerts && data.scientificAlerts.length > 0 && (
-          <section className="space-y-4">
-            <div className="flex items-center gap-2 px-2">
-              <ShieldAlert className="text-red-500 w-5 h-5" />
-              <h3 className="text-xl font-headline font-bold tracking-tight text-red-600">PIÈGES DU LABYRINTHE</h3>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              {data.scientificAlerts.map((alert, idx) => (
-                <div key={idx} className="glass border-red-500/10 p-6 rounded-[2rem] flex gap-4">
-                  <div className="bg-red-500/10 p-3 rounded-xl text-red-500 h-fit"><AlertTriangle size={20} /></div>
-                  <div>
-                    <h4 className="font-bold text-sm mb-1 uppercase tracking-tight">{alert.title}</h4>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed">{alert.message}</p>
+            {/* SPHÈRE 2: ARCHITECTURE MOLÉCULAIRE */}
+            <TabsContent value="molecular" className="space-y-10">
+              <div className="space-y-6">
+                <div className="flex items-center gap-3 px-2">
+                  <Gem className="text-accent w-6 h-6 animate-pulse" />
+                  <h3 className="text-2xl font-headline font-bold tracking-tight">Trésors Débusqués</h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {data.molecularTreasures.map((treasure, idx) => (
+                    <Card key={idx} className="glass group rounded-[2.5rem] p-8 border-primary/5 hover:border-accent/40 transition-all duration-500 hover:-translate-y-2 relative overflow-hidden">
+                      <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition-opacity"><Gem size={100} /></div>
+                      <Badge className={cn("mb-6 border-none text-[8px] font-black uppercase tracking-widest py-1 px-3", rarityStyles[treasure.rarity])}>
+                        {treasure.rarity}
+                      </Badge>
+                      <h4 className="text-xl font-bold mb-3 group-hover:text-accent transition-colors">{treasure.name}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{treasure.description}</p>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+
+              {data.scientificAlerts && data.scientificAlerts.length > 0 && (
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 px-2">
+                    <ShieldAlert className="text-red-500 w-6 h-6" />
+                    <h3 className="text-2xl font-headline font-bold tracking-tight text-red-600 uppercase italic">Pièges du Labyrinthe</h3>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {data.scientificAlerts.map((alert, idx) => (
+                      <div key={idx} className="glass border-red-500/20 bg-red-500/5 p-8 rounded-[2.5rem] flex gap-6 hover:bg-red-500/10 transition-colors group">
+                        <div className="bg-red-500 text-white p-4 rounded-2xl h-fit group-hover:rotate-12 transition-transform shadow-lg shadow-red-500/20">
+                          <AlertTriangle size={24} />
+                        </div>
+                        <div>
+                          <Badge variant="outline" className="text-[8px] border-red-500/30 text-red-500 font-black tracking-widest mb-3">
+                            {alert.category.toUpperCase()}
+                          </Badge>
+                          <h4 className="text-lg font-bold mb-2 uppercase tracking-tight text-red-900">{alert.title}</h4>
+                          <p className="text-[11px] text-red-900/70 font-medium leading-relaxed">{alert.message}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+              )}
+            </TabsContent>
 
-        {/* EXPERT VERDICT */}
-        <section className="bg-primary text-white p-10 rounded-[3rem] relative overflow-hidden shadow-2xl">
-          <Quote className="absolute -top-10 -right-10 w-40 h-40 opacity-10" />
-          <div className="relative z-10 space-y-4">
-            <div className="flex items-center gap-2">
-              <Microscope size={16} className="text-accent" />
-              <span className="text-[8px] font-bold uppercase tracking-widest text-accent">L'Expert Scientifique</span>
-            </div>
-            <p className="text-xl italic font-headline font-bold leading-tight tracking-tight">
-              "{data.expertVerdict}"
-            </p>
+            {/* SPHÈRE 3: SYMBIOSE PLANÉTAIRE */}
+            <TabsContent value="symbiosis" className="space-y-8">
+               <Card className="glass border-emerald-500/20 rounded-[4rem] p-12 relative overflow-hidden group">
+                  <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:scale-110 transition-transform duration-1000"><Globe size={300} className="text-emerald-500" /></div>
+                  <div className="grid md:grid-cols-2 gap-16 items-center">
+                     <div className="space-y-8">
+                        <div className="flex items-center gap-4">
+                           <div className="w-24 h-24 rounded-[2.5rem] bg-emerald-500/10 flex items-center justify-center text-emerald-600 text-4xl font-black border border-emerald-500/20 shadow-inner">
+                              {data.ecoIntelligence.ecoScore}
+                           </div>
+                           <div className="space-y-1">
+                              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-600">Eco-Vision Rating</p>
+                              <h3 className="text-3xl font-headline font-bold text-emerald-950">Impact Planétaire</h3>
+                           </div>
+                        </div>
+                        <p className="text-lg font-medium leading-relaxed text-emerald-950/80">
+                           "{data.ecoIntelligence.planetaryVerdict}"
+                        </p>
+                        <div className="flex flex-wrap gap-3">
+                           {data.ecoIntelligence.footprintTags.map((tag, i) => (
+                              <Badge key={i} className="bg-emerald-500/10 text-emerald-700 border-emerald-500/20 text-[9px] font-black tracking-widest px-4 py-2 rounded-full">
+                                 {tag.toUpperCase()}
+                              </Badge>
+                           ))}
+                        </div>
+                     </div>
+                     <div className="space-y-10 bg-emerald-500/5 p-10 rounded-[3rem] border border-emerald-500/10">
+                        <div className="space-y-4">
+                           <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-emerald-700">
+                              <span>Indice de Durabilité</span>
+                              <span>{data.ecoIntelligence.ecoScore}%</span>
+                           </div>
+                           <Progress value={data.ecoIntelligence.ecoScore} className="h-4 bg-emerald-500/10" />
+                        </div>
+                        <div className="flex items-start gap-4">
+                           <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 flex items-center justify-center text-emerald-600 shrink-0">
+                              <Leaf size={20} />
+                           </div>
+                           <p className="text-xs font-medium text-emerald-900/70 italic leading-relaxed">
+                              "N'oubliez pas : un environnement sain est le laboratoire nécessaire à la fabrication de vos nutriments les plus purs."
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </Card>
+            </TabsContent>
+
+            {/* SPHÈRE 4: ALCHIMIE ET BIO-HACKING */}
+            <TabsContent value="alchemy" className="space-y-8">
+               <div className="grid md:grid-cols-2 gap-8">
+                  <Card className="rounded-[3.5rem] bg-gradient-to-br from-primary to-primary/80 text-white border-none shadow-2xl relative overflow-hidden group p-12 transition-all hover:scale-[1.02]">
+                     <div className="absolute -right-10 -top-10 opacity-10 group-hover:rotate-12 transition-transform duration-1000"><Utensils size={240} /></div>
+                     <div className="relative z-10 space-y-8">
+                        <div className="space-y-2">
+                           <Badge className="bg-white/20 text-white border-none text-[10px] font-bold tracking-widest px-4 py-1.5 rounded-full">SYNERGIE CULINAIRE</Badge>
+                           <h3 className="text-4xl font-headline font-bold leading-none">{data.bonusTips.expressRecipe.name}</h3>
+                        </div>
+                        <div className="space-y-4">
+                           <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60">Ingrédients Synergiques :</p>
+                           <div className="flex flex-wrap gap-2">
+                              {data.bonusTips.expressRecipe.ingredients.map((ing, i) => (
+                                <div key={i} className="bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-2xl text-[11px] font-black border border-white/20 hover:bg-white/20 transition-all cursor-default">
+                                   {ing}
+                                </div>
+                              ))}
+                           </div>
+                        </div>
+                        <div className="flex items-center gap-3 text-xs font-bold bg-black/10 p-4 rounded-2xl border border-white/10">
+                           <Zap size={16} className="text-accent" />
+                           Optimisation moléculaire prête en moins de 10 min.
+                        </div>
+                     </div>
+                  </Card>
+
+                  <div className="space-y-6">
+                     <div className="flex items-center gap-3 px-4">
+                        <Lightbulb className="text-amber-500 w-6 h-6 animate-pulse" />
+                        <h3 className="text-2xl font-headline font-bold tracking-tight">Rituels de Bio-Hacking</h3>
+                     </div>
+                     <div className="space-y-4">
+                        {data.bonusTips.practicalTips.map((tip, i) => (
+                           <div key={i} className="glass p-6 rounded-3xl flex items-center gap-6 hover:border-accent/40 hover:translate-x-2 transition-all group">
+                              <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent shrink-0 group-hover:bg-accent group-hover:text-white transition-all shadow-lg shadow-accent/5">
+                                 <Activity size={20} />
+                              </div>
+                              <p className="text-[13px] font-bold leading-snug tracking-tight text-foreground/80">{tip}</p>
+                              <ChevronRight className="ml-auto text-muted-foreground group-hover:text-accent transition-colors" />
+                           </div>
+                        ))}
+                     </div>
+                  </div>
+               </div>
+            </TabsContent>
+
           </div>
-        </section>
+        </Tabs>
 
-        {/* FINAL BUTTON */}
-        <div className="pt-8 flex justify-center">
-          <Button onClick={() => router.push('/scan')} className="h-16 px-10 rounded-full text-xl font-headline font-bold gap-3 bg-primary shadow-xl hover:scale-105 transition-all">
-            <RotateCcw className="w-6 h-6" />
-            NOUVELLE EXPÉDITION
-          </Button>
+        {/* ACTIONS FINALES */}
+        <div className="pt-12 flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-accent rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
+            <Button onClick={() => router.push('/scan')} className="relative h-20 px-12 rounded-full text-2xl font-headline font-bold gap-4 bg-primary shadow-2xl transition-all hover:scale-105 active:scale-95 group">
+              <RotateCcw className="w-8 h-8 group-hover:rotate-180 transition-transform duration-700" />
+              NOUVELLE EXPÉDITION
+            </Button>
+          </div>
+          <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.4em] opacity-40">Science & Vérité - NutriScan 2026</p>
         </div>
+
       </div>
     </div>
   );
 }
+
