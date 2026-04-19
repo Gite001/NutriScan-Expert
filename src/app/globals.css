@@ -62,26 +62,6 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-headline;
   }
-
-  /* Chat Markdown Styling */
-  .prose h1, .prose h2, .prose h3 {
-    @apply text-primary font-bold tracking-tight mb-2 mt-4;
-  }
-  .prose h3 {
-    @apply text-base;
-  }
-  .prose p {
-    @apply mb-3 last:mb-0;
-  }
-  .prose ul, .prose ol {
-    @apply mb-3 pl-5;
-  }
-  .prose li {
-    @apply mb-1;
-  }
-  .prose strong {
-    @apply text-primary font-bold;
-  }
 }
 
 .glass {
@@ -90,6 +70,11 @@
 
 .dark .glass {
   @apply bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+}
+
+/* Markdown Styles for Chat bubbles */
+.chat-prose {
+  @apply prose prose-sm max-w-none prose-p:leading-relaxed prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-primary prose-a:text-primary prose-strong:text-primary prose-strong:font-bold prose-ul:my-2 prose-li:my-0.5 prose-p:my-2;
 }
 
 @keyframes float {

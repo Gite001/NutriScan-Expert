@@ -1,6 +1,8 @@
+
 'use server';
 /**
  * @fileOverview Flux Genkit pour discuter avec l'expert nutritionnel.
+ * Optimisé pour des réponses concises et structurées.
  */
 
 import {ai} from '@/ai/genkit';
@@ -12,8 +14,8 @@ const NutritionChatInputSchema = z.object({
 });
 
 const NutritionChatOutputSchema = z.object({
-  answer: z.string().describe("La réponse de l'expert au format Markdown"),
-  keyTakeaways: z.array(z.string()).describe("3 points clés à retenir"),
+  answer: z.string().describe("La réponse de l'expert au format Markdown (concise et structurée)"),
+  keyTakeaways: z.array(z.string()).describe("Exactement 3 points clés ultra-courts"),
 });
 export type NutritionChatOutput = z.infer<typeof NutritionChatOutputSchema>;
 
@@ -25,14 +27,19 @@ const nutritionChatPrompt = ai.definePrompt({
   name: 'nutritionChatPrompt',
   input: {schema: NutritionChatInputSchema},
   output: {schema: NutritionChatOutputSchema},
-  prompt: `Vous êtes l'Expert Nutritionniste de NutriScan Expert. Votre ton est scientifique, pédagogique et engageant.
+  prompt: `Vous êtes l'Expert Nutritionniste "Lanceur d'Alerte" de NutriScan Expert. 
+
+### RÈGLES DE RÉPONSE CRITIQUES :
+1. **CONCISION ABSOLUE** : Ne dépassez jamais 3 paragraphes courts. Allez droit au but.
+2. **STRUCTURE VISUELLE** : Utilisez des listes à puces pour les faits. Pas de longs blocs de texte.
+3. **TON** : Direct, scientifique et révélateur. Pas de formules de politesse inutiles.
+4. **MARKDOWN** : Utilisez du gras pour les termes techniques et les alertes.
+5. **CONTEXTE** : Si le contexte est fourni, liez votre réponse à l'aliment spécifique.
 
 Question : {{{question}}}
 Contexte : {{#if context}}{{{context}}}{{else}}Général{{/if}}
 
-Répondez de manière structurée. Utilisez le Markdown pour la clarté.
-Si la question est hors sujet (pas de nutrition, pas de santé, pas d'aliments), refusez poliment de répondre.
-Intégrez toujours une perspective de "lanceur d'alerte" si pertinent.`,
+Sortez un JSON valide respectant NutritionChatOutputSchema.`,
 });
 
 const aiNutritionChatFlow = ai.defineFlow(

@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Send, Loader2, Sparkles, ArrowLeft, Bot, User, Zap } from 'lucide-react';
+import { Send, Loader2, ArrowLeft, Bot, User, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -28,7 +28,7 @@ export default function ChatPage() {
     {
       id: 'welcome',
       role: 'assistant',
-      content: "Bonjour ! Je suis votre Expert Nutritionniste IA. Posez-moi vos questions sur un aliment, une allergie ou vos objectifs de santé. Je suis là pour vous révéler la vérité scientifique."
+      content: "Bonjour ! Je suis votre **Expert Nutritionniste IA**. Posez-moi vos questions sur un aliment, une allergie ou vos objectifs de santé. Je vais droit au but pour vous révéler la vérité scientifique."
     }
   ]);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -105,17 +105,17 @@ export default function ChatPage() {
               </div>
               
               <Card className={cn(
-                "p-6 rounded-[2rem] text-sm leading-relaxed shadow-sm max-w-[95%]",
+                "p-6 rounded-[2rem] shadow-sm max-w-[95%] transition-all",
                 msg.role === 'user' 
-                  ? "bg-primary text-white border-none rounded-tr-sm" 
-                  : "glass border-accent/10 rounded-tl-sm text-foreground/80 prose prose-sm dark:prose-invert max-w-none"
+                  ? "bg-primary text-white border-none rounded-tr-sm text-sm" 
+                  : "glass border-primary/10 rounded-tl-sm text-foreground/90 prose prose-sm dark:prose-invert max-w-none chat-prose"
               )}>
                 {msg.role === 'assistant' ? (
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {msg.content}
                   </ReactMarkdown>
                 ) : (
-                  msg.content
+                  <p className="leading-relaxed">{msg.content}</p>
                 )}
               </Card>
 
@@ -136,7 +136,7 @@ export default function ChatPage() {
           {loading && (
             <div className="flex items-center gap-3 text-accent animate-pulse">
                <Loader2 className="w-5 h-5 animate-spin" />
-               <span className="text-[10px] font-bold uppercase tracking-widest">L'IA déchiffre la vérité...</span>
+               <span className="text-[10px] font-bold uppercase tracking-widest">L'IA synthétise la vérité...</span>
             </div>
           )}
         </div>
