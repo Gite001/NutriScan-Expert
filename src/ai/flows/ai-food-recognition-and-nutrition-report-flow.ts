@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview Flux Genkit "NutriScan Expert" - L'Explorateur de Labyrinthes Moléculaires & Symbiose Planétaire.
@@ -30,6 +29,12 @@ L'image peut avoir été traitée par des capteurs HEAT (Infra-rouge) ou DARK (B
 2. **DÉJOUER LES PIÈGES** : Identifiez les alertes (additifs masqués, pics glycémiques potentiels, résidus de pesticides).
 3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental (origine, emballage, durabilité). Rappelez que manger propre nécessite un environnement propre.
 4. **BONUS ALCHIMIE** : Proposez une "Recette Alchimique Express" et des astuces de Bio-Hacking (ex: "Consommez à 18°C pour préserver les enzymes").
+
+### EXIGENCE ABSOLUE DE DONNÉES :
+Vous DEVEZ remplir chaque champ du schéma NutriScanExpertOutputSchema, sans exception. 
+- Calculez l'analyse calorique (caloricAnalysis) avec précision : calories pour 100g, portion estimée et calories par portion.
+- Déterminez le verdict de qualité (Nutritives, Vides ou Mixte).
+- Fournissez l'ecoIntelligence complète avec le score et le verdict planétaire.
 
 User Profile:
 {{#if userProfile}}
