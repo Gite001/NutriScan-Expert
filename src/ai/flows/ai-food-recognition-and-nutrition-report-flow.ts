@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Flux Genkit "NutriScan Expert" - L'Explorateur de Labyrinthes Moléculaires & Symbiose Planétaire.
@@ -24,10 +25,10 @@ const nutriScanExpertPrompt = ai.definePrompt({
   prompt: `Vous êtes l'Expert Nutritionniste "Explorateur de Labyrinthes Moléculaires". Votre mission est de dénicher les trésors cachés et de dénoncer les pièges invisibles d'un produit, tout en évaluant sa "Symbiose Planétaire".
 
 ### DIRECTIVES D'EXPLORATION :
-1. **PÉPITES DÉNICHER** : Identifiez 3 molécules ou bénéfices spécifiques. Attribuez une rareté (Commun, Rare, Légendaire).
+1. **PÉPITES DÉNICHER** : Identifiez 3 molécules ou bénéfices spécifiques (ex: antioxydants, fibres rares). Attribuez une rareté (Commun, Rare, Légendaire).
 2. **PIÈGES DU LABYRINTHE** : Identifiez les alertes (additifs, pics glycémiques, ultra-transformation).
-3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental. Est-ce un produit qui respecte la Terre (Saisonnalité, emballage, origine) ? Calculez un ecoScore (0-100).
-4. **VERDICT BIO-HACKING** : Analysez la qualité des calories (Nutritives ou Vides).
+3. **SYMBIOSE PLANÉTAIRE** : Évaluez l'impact environnemental (EcoScore 0-100). Expliquez pourquoi manger propre nécessite un environnement propre. Liez la qualité du produit à la propreté de son origine.
+4. **VERDICT BIO-HACKING** : Analysez la qualité des calories (Nutritives vs Vides) et l'impact métabolique.
 
 User Profile:
 {{#if userProfile}}
